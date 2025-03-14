@@ -3,8 +3,34 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Product extends Model
 {
-    //
+    protected $fillable = [
+        'name',
+        'characteristics',
+        'benefits',
+        'compatibility',
+        'price',
+        'stock',
+        'pdf_id',
+    ];
+
+    public function pdf(): BelongsTo
+    {
+        return $this->belongsTo(Pdf::class, 'pdf_id');
+    }
+
+    public function image(): MorphOne
+    {
+        return $this->morphOne(Image::class, 'imageble');
+    }
+
+    public function subCategory(): BelongsToMany
+    {
+        return $this->belongsToMany(Subcategory::class, 'product_subcategory');
+    }
 }

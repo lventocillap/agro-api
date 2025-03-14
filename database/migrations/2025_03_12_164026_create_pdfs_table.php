@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pdfs', function (Blueprint $table) {
             $table->id();
             $table->dateTime('dateTime');
-            $table->string('url');
+            $table->string('url')->nullable();
             $table->timestamps();
         });
     }
