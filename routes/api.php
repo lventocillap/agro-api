@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Incluir múltiples archivos de rutas API
+require __DIR__.'/apiAboutUs.php';
+require __DIR__.'/apiInfoContact.php';
