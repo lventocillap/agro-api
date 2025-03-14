@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->foreignId('id_feature')->constrained('features');
+            $table->json('features');
             $table->timestamps();
         });
     }
