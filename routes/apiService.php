@@ -12,5 +12,5 @@ Route::put('/services/{id}', [ServiceController::class, 'updateServiceById']);
 Route::delete('/services/{id}', [ServiceController::class, 'deleteService']);
 
 Route::post('/services/{id}/features', [ServiceController::class, 'addFeature']);
-Route::put('/services/{id}/features/{index}', [ServiceController::class, 'updateFeature']);
-Route::delete('/services/{id}/features/{index}', [ServiceController::class, 'deleteFeature']);
+Route::put('/services/features/{id}/{index}', [ServiceController::class, 'updateFeature']);
+Route::delete('/services/features/{id}/{index}', [ServiceController::class, 'deleteFeature']);

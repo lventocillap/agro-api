@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Service extends Model
 {
@@ -17,5 +18,10 @@ class Service extends Model
     protected $casts = [
         'features' => 'array',
     ];
+
+    public function image(): MorphOne
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 
 }

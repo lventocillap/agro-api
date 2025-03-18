@@ -2,39 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Feature;
+use App\Exceptions\Servics\NotFoundFeature;
+use App\Exceptions\Servics\NotFoundService;
+use App\Http\Requests\Servics\ValidateServiceStore;
+use App\Http\Service\Image\SaveImageService;
 use App\Models\Service;
-use Illuminate\Contracts\Support\ValidatedData;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class ServiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function getServices()
+    use SaveImageService, ValidateServiceStore;
+
+    public function getServices() : JsonResponse
     {
-        $services = Service::all();
-        if($services->isEmpty()){
-            return response()->json(['message' => 'No services found'], 404);
+        try{
+            $services = Service::all();
+            return new JsonResponse($services, 200);
+        } catch (\Exception $e) {
+            throw NotFoundService::serviceLoadError(); 
         }
-        return response()->json($services, 200);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function createService(Request $request)
+    public function createService(Request $request) : JsonResponse
     {
-        $validatedData = $request->validate([
-            'title' => 'required|string|min:3',
-            'description' => 'required|string|min:5'
-        ]);
+        $validatedData = $this->validateServiceStore($request);
     
         $service = Service::create($validatedData);
-    
-        return response()->json([
+
+        // Guardar la imagen y asociarla al servicio
+        $image = $this->saveImageBase64($request->image, 'services');
+            $service->image()->create([
+                'url' => $image
+            ]);
+
+        return new JsonResponse([
             'message' => 'Service created successfully',
             'service' => $service
         ], 201);
@@ -43,35 +49,37 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function getServiceById($id)
+    public function getServiceById($id) : JsonResponse
     {
-        $service = Service::find($id);
+        $service = Service::with('image')->find($id);
     
         if (!$service) {
-            return response()->json(['message' => 'Service not found'], 404);
+            throw new NotFoundService();
         }
 
-        return response()->json($service, 200);
+        return new JsonResponse($service, 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function updateServiceById(Request $request, $id)
+    public function updateServiceById(Request $request, $id) : JsonResponse
     {
         $service = Service::find($id);
         if (!$service) {
-            return response()->json(['message' => 'Service not found'], 404);
+            throw new NotFoundService();
         }
 
-        $validatedData = $request->validate([
-            'title' => 'sometimes|string|min:3',
-            'description' => 'sometimes|string|min:5'
-        ]);
+        $validatedData = $this->validateServiceStore($request);
 
+        $image = $this->saveImageBase64($request->image, 'services');
         $service->update($validatedData);
 
-        return response()->json([
+        $service->image()->update([
+            'url' => $image
+        ]);
+
+        return new JsonResponse([
             'message' => 'Service updated successfully',
             'service' => $service
         ], 200);
@@ -80,26 +88,26 @@ class ServiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function deleteService($id)
+    public function deleteService($id) : JsonResponse
     {
         $service = Service::find($id);
 
         if (!$service) {
-            return response()->json(['message' => 'Service not found'], 404);
+            throw new NotFoundService();
         }
 
         $service->delete();
 
-        return response()->json(['message' => 'Service deleted successfully'], 200);
+        return new JsonResponse(['message' => 'Service deleted successfully'], 200);
     }
 
     // Métodos para manejar los features de un servicio
 
-    public function addFeature(Request $request, $id)
+    public function addFeature(Request $request, $id) : JsonResponse
     {
         $service = Service::find($id);
         if (!$service) {
-            return response()->json(['message' => 'Service not found'], 404);
+            throw new NotFoundService();
         }
 
         $request->validate([
@@ -116,17 +124,18 @@ class ServiceController extends Controller
         $service->features = $features;
         $service->save();
 
-        return response()->json([
+        return new JsonResponse([
             'message' => 'Feature added successfully',
             'service' => $service
-        ], 200);
+        ], 201);
     }
 
-    public function updateFeature(Request $request, $service_id, $feature_id)
+    public function updateFeature(Request $request, $id, $index) : JsonResponse
     {
-        $service = Service::find($service_id);
+        // Obtener el servicio que contiene la característica a actualizar
+        $service = Service::find($id);
         if (!$service) {
-            return response()->json(['message' => 'Service not found'], 404);
+            throw new NotFoundService();
         }
 
         $request->validate([
@@ -135,34 +144,35 @@ class ServiceController extends Controller
 
         $features = $service->features ?? [];
 
-        if (!isset($features[$feature_id])) {
-            return response()->json(['message' => 'Feature not found'], 404);
+        if (!isset($features[$index])) {
+            throw new NotFoundFeature();
         }
 
         // Actualizar el feature en la posición indicada
-        $features[$feature_id] = $request->input('name');
+        $features[$index] = $request->input('name');
 
         // Guardar los cambios
         $service->features = $features;
         $service->save();
 
-        return response()->json([
+        return new JsonResponse([
             'message' => 'Feature updated successfully',
             'service' => $service
         ], 200);
     }
 
-    public function deleteFeature($id, $index)
+    public function deleteFeature($id,$index) : JsonResponse
     {
+        // Obtener el servicio que contiene la característica a eliminar
         $service = Service::find($id);
         if (!$service) {
-            return response()->json(['message' => 'Service not found'], 404);
+            throw new NotFoundService();
         }
 
         $features = $service->features ?? [];
 
         if (!isset($features[$index])) {
-            return response()->json(['message' => 'Feature not found'], 404);
+            throw new NotFoundFeature();
         }
 
         // Eliminar el feature de la lista
@@ -172,7 +182,7 @@ class ServiceController extends Controller
         $service->features = $features;
         $service->save();
 
-        return response()->json([
+        return new JsonResponse([
             'message' => 'Feature deleted successfully',
             'service' => $service
         ], 200);
