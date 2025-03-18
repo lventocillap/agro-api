@@ -12,6 +12,7 @@ class Image extends Model
         'imageble_id',
         'url'
     ];
+    protected $hidden = ['imageble_id'];
     
     public function imageble(): MorphTo
     {
