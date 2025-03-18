@@ -17,6 +17,10 @@ class Product extends Model
         'price',
         'stock',
         'pdf_id',
+        'status'
+    ];
+    protected $hidden = [
+        'pdf_id'
     ];
 
     public function pdf(): BelongsTo
@@ -29,7 +33,7 @@ class Product extends Model
         return $this->morphOne(Image::class, 'imageble');
     }
 
-    public function subCategory(): BelongsToMany
+    public function subCategories(): BelongsToMany
     {
         return $this->belongsToMany(Subcategory::class, 'product_subcategory');
     }
