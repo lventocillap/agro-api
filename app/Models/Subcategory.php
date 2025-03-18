@@ -12,6 +12,7 @@ class Subcategory extends Model
         'name',
         'category_id'
     ];
+    protected $hidden = ['pivot'];
 
     public function category(): BelongsTo
     {
