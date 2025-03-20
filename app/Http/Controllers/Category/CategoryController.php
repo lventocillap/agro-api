@@ -9,9 +9,35 @@ use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Info(
+ *     title="Laravel 11 API Documentation",
+ *     version="1.0.0",
+ *     description="Documentación de la API de autenticación con Swagger en Laravel 11",
+ *     @OA\Contact(
+ *         email="soporte@tuempresa.com"
+ *     )
+ * )
+ * 
+ * @OA\Server(
+ *     url="http://localhost:8000",
+ *     description="API Server"
+ * )
+ */
 class CategoryController extends Controller
 {
     use ValidateCategoryRequest;
+    /**
+ * @OA\Get(
+ *     path="/api/usuarios",
+ *     summary="Obtener la lista de usuarios",
+ *     tags={"Usuarios"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Lista de usuarios"
+ *     )
+ * )
+ */
     public function storeCatetgory(Request $request): JsonResponse
     {
         $this->validateCategoryRequest($request);
