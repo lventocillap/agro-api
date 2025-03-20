@@ -8,8 +8,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Service\PDF\StorePDF;
 use App\Http\Service\PDF\UpdatePDF;
+use App\Http\Service\PDF\DeletePDF;
 use App\Http\Controllers\Controller;
 use App\Http\Service\Image\SaveImage;
+use App\Http\Service\Image\DeleteImage;
 use App\Exceptions\Product\ProductExists;
 use App\Exceptions\Product\NotFoundProduct;
 use App\Http\utils\Product\FindProductExists;
@@ -17,11 +19,17 @@ use App\Http\Requests\Product\ValidateProductRequest;
 
 class ProductController extends Controller
 {
-    use SaveImage, StorePDF, ValidateProductRequest, FindProductExists, UpdatePDF;
+    use 
+    StorePDF, 
+    UpdatePDF, 
+    DeletePDF,
+    SaveImage, 
+    DeleteImage, 
+    FindProductExists, 
+    ValidateProductRequest;
 
     public function storeProduct(Request $request): JsonResponse
     {
-
         $productExists = $this->findProductExists($request->name);
         if ($productExists) {
             throw new ProductExists;
@@ -62,13 +70,15 @@ class ProductController extends Controller
         $this->validateProducRequest($request);
 
         $benefits = implode('益', $request->benefits);
-        $image = $this->saveImageBase64($request->image, 'products');
-
+        
         $status = true;
         if ($request->stock === 0) {
             $status = false;
         }
-
+        
+        $this->deleteImage($product->image->url); 
+        $this->deletePDF($product->pdf->url);
+        
         $product->update([
             'name' => $request->name,
             'characteristics' => $request->characteristics,
@@ -78,9 +88,10 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'status' => $status
         ]);
-
+        
         $this->updatePDF($product, $request->pdf);
-
+        $image = $this->saveImageBase64($request->image, 'products');
+        
         $product->subCategories()->sync($request->subcategory_id);
         $product->image()->update([
             'url' => $image
@@ -95,7 +106,11 @@ class ProductController extends Controller
         if (!$product) {
             throw new NotFoundProduct;
         }
+        $this->deleteImage($product->image->url);
+        $this->deletePDF($product->pdf->url);
         $product->delete();
+        $product->image()->delete();
+        $product->pdf()->delete();
         return new JsonResponse(['data' => 'Producto eliminado']);
     }
 
@@ -103,6 +118,7 @@ class ProductController extends Controller
     {
         $nameProduct = $request->query('product');
         $subcategory = $request->query('category');
+        $limit = $request->query('limit');
 
         $products = Product::select('id', 'name', 'price', 'status')
             ->with([
@@ -118,7 +134,8 @@ class ProductController extends Controller
             })
             ->where('status', true)
             //->get(); 
-            ->paginate(2);
+            ->paginate($limit);
+            
         return new JsonResponse([
             'data' => $products->items(),
             'current_page' => $products->currentPage(),
