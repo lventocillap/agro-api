@@ -21,6 +21,6 @@ trait ValidateProductRequest
             'subcategory_id.*' => 'integer|exists:subcategories,id',
             'pdf' => 'string|nullable',
             'image' => 'string|nullable'
-        ], );
+        ],);
     }
 }

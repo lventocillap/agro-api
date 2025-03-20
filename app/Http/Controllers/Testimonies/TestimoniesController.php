@@ -61,7 +61,14 @@ class TestimoniesController extends Controller
             'description', 
             'qualification')
         ->where('name_customer', 'like', "%{$nameClient}%")
-        ->get();
-        return new JsonResponse(['data' => $testimonies]);
+        ->paginate();
+        return new JsonResponse([
+            'data' => $testimonies->items(),
+            'current_page' => $testimonies->currentPage(),
+            'total' => $testimonies->total(),
+            'last_page' => $testimonies->lastPage(),
+            'next_page' => $testimonies->nextPageUrl(),
+            'prev_page' => $testimonies->previousPageUrl()
+        ]);
     }
 }

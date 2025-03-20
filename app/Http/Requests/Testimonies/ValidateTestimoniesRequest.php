@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 trait ValidateTestimoniesRequest
 {
-    public function validateTestimoniesRequest(Request $request)
+    public function validateTestimoniesRequest(Request $request): void
     {
         $request->validate([
             'name_customer' => 'required|string|max:256',
