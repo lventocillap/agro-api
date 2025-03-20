@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('product_subcategory', function (Blueprint $table){
             $table->id();
-            $table->foreignId('product_id')->constrained('products');
-            $table->foreignId('subcategory_id')->constrained('subcategories');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('subcategory_id')->constrained('subcategories')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('product_subcategory');
     }
 };

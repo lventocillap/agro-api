@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AboutUs extends Model
+class AboutUsHome extends Model
 {
     use HasFactory;
 
+    protected $table = 'about_us_home';
+
     protected $fillable = [
-        'mission', 
-        'vision', 
-        'about_values', 
-        'name_yt', 
-        'url_yt'
+        'text_section_one',
+        'text_section_two',
     ];
 
     public function images()
@@ -22,10 +21,6 @@ class AboutUs extends Model
         return $this->morphOne(Image::class, 'imageble');
     }
 
-    protected $casts = [
-        'about_values' => 'array',
-    ];
-    
     protected $hidden = [
         'created_at',
         'updated_at',
