@@ -13,10 +13,38 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+
 class ServiceController extends Controller
 {
+
     use SaveImageService, ValidateServiceStore;
 
+    /**
+     * @OA\Get(
+     *     path="/api/services",
+     *     summary="Obtener todos los servicios",
+     *     tags={"Services"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de servicios obtenida correctamente",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Service")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No hay servicios para mostrar",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="There are no services to display")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor"
+     *     )
+     * )
+     */
     public function getServices() : JsonResponse
     {
         try{
@@ -36,7 +64,41 @@ class ServiceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/services",
+     *     summary="Crear un nuevo servicio",
+     *     tags={"Services"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"title", "description"},
+     *             @OA\Property(property="title", type="string", example="Corte de Cabello"),
+     *             @OA\Property(property="description", type="string", example="Corte de cabello personalizado"),
+     *             @OA\Property(property="features", type="array", @OA\Items(type="string"), example={"Rapido", "Económico"}),
+     *             @OA\Property(property="image", type="string", format="base64", example="data:image/png;base64,iVBORw0KGgoAAAANS...")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Servicio creado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Service created successfully"),
+     *             @OA\Property(property="service", ref="#/components/schemas/Service")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The title field is required."),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor"
+     *     )
+     * )
      */
     public function createService(Request $request) : JsonResponse
     {
@@ -69,7 +131,38 @@ class ServiceController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/services/{id}",
+     *     summary="Obtener un servicio por ID",
+     *     tags={"Services"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del servicio a obtener",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalles del servicio obtenido",
+     *         @OA\JsonContent(ref="#/components/schemas/Service")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Servicio no encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Service not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="An error occurred"),
+     *             @OA\Property(property="error", type="string", example="Exception message")
+     *         )
+     *     )
+     * )
      */
     public function getServiceById($id) : JsonResponse
     {
@@ -88,7 +181,52 @@ class ServiceController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/services/{id}",
+     *     summary="Actualizar un servicio por ID",
+     *     tags={"Services"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del servicio a actualizar",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"title", "description"},
+     *             @OA\Property(property="title", type="string", example="Nuevo título"),
+     *             @OA\Property(property="description", type="string", example="Nueva descripción"),
+     *             @OA\Property(
+     *                 property="features",
+     *                 type="array",
+     *                 @OA\Items(type="string", example="Feature 1")
+     *             ),
+     *             @OA\Property(property="image", type="string", format="byte", example="base64_encoded_string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Servicio actualizado correctamente",
+     *         @OA\JsonContent(ref="#/components/schemas/Service")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Servicio no encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Service not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="An error occurred"),
+     *             @OA\Property(property="error", type="string", example="Exception message")
+     *         )
+     *     )
+     * )
      */
     public function updateServiceById(Request $request, $id) : JsonResponse
     {
@@ -153,7 +291,40 @@ class ServiceController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/services/{id}",
+     *     summary="Eliminar un servicio por ID",
+     *     tags={"Services"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del servicio a eliminar",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Servicio eliminado correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Service deleted successfully")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Servicio no encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Service not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="An error occurred"),
+     *             @OA\Property(property="error", type="string", example="Exception message")
+     *         )
+     *     )
+     * )
      */
     public function deleteService($id) : JsonResponse
     {
