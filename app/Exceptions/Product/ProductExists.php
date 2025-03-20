@@ -8,6 +8,6 @@ class ProductExists extends Exception
 {
     public function __construct()
     {
-        parent::__construct('El producto ya existe', 422);
+        parent::__construct('El producto ya existe', 409);
     }
 }

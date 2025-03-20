@@ -8,13 +8,13 @@ use App\Http\Controllers\Testimonies\TestimoniesController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
-    'prefix' => 'product',
+    'prefix' => 'products',
     'controller' => ProductController::class,
 ], static function (){
     Route::post('/','storeProduct');
     Route::put('/{nameProduct}','updateProduct');
     Route::delete('/{nameProduct}','deleteProduct');
-    Route::get('/all', 'getAllProducts');
+    Route::get('/', 'getAllProducts');
     Route::get('/{namePordroct}','getProduct');
 });
 
@@ -25,24 +25,24 @@ Route::group([
     Route::post('/', 'storeTestimonies');
     Route::put('/{testimonieId}', 'updateTestimonies');
     Route::delete('/{testimonieId}', 'deleteTestimonie');
-    Route::get('/all', 'getAllTestimonies');
+    Route::get('/', 'getAllTestimonies');
 });
 
 Route::group([
-    'prefix' => 'category'
+    'prefix' => 'categories'
 ], function () {
     Route::post('/', [CategoryController::class, 'storeCategory']);
     Route::put('/{id}', [CategoryController::class, 'updateCategory']);
     Route::delete('/{id}', [CategoryController::class, 'deleteCategory']);
     Route::get('/', [CategoryController::class, 'getAllCategories']);
     
-    Route::post('/{idCategory}/subcategory', [SubcategoryController::class, 'storeSubcategory']);
-    Route::get('/{nameCategory}/subcategory', [SubcategoryController::class, 'getAllSubcategories']);
-    Route::delete('/subcategory/{nameSubcategory}', [SubcategoryController::class, 'deleteSubcategory']);
+    Route::post('/{idCategory}/subcategories', [SubcategoryController::class, 'storeSubcategory']);
+    Route::get('/{nameCategory}/subcategories', [SubcategoryController::class, 'getAllSubcategories']);
+    Route::delete('/subcategory/{nameSubcategories}', [SubcategoryController::class, 'deleteSubcategory']);
 });
 
 Route::group([
-    'prefix' => 'blog',
+    'prefix' => 'blogs',
     'controller' => BlogController::class
 ],static function () {
     Route::post('/', 'storeBlog');
