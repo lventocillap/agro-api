@@ -11,8 +11,12 @@ class Category extends Model
         'name'
     ];
 
-    public function subcategory(): HasMany
+    public function subcategories(): HasMany
     {
         return $this->hasMany(Subcategory::class, 'category_id');
+    }
+    public function blog(): HasMany
+    {
+        return $this->hasMany(Blog::class, 'category_id');
     }
 }
