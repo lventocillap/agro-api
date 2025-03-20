@@ -13,6 +13,42 @@ class TestimoniesController extends Controller
 {
     use ValidateTestimoniesRequest;
 
+    /**
+ * @OA\Post(
+ *     path="/api/testimonies",
+ *     summary="Registrar un testimonio",
+ *     tags={"Testimonies"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"name_customer", "description", "date", "qualification"},
+ *             @OA\Property(property="name_customer", type="string", example="Juan Pérez"),
+ *             @OA\Property(property="description", type="string", example="Excelente servicio y atención."),
+ *             @OA\Property(property="date", type="string", format="date", example="2024-03-20"),
+ *             @OA\Property(property="qualification", type="integer", example=5)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="Testimonio registrado correctamente",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Testimonio registrado")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Error de validación",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Error de validación"),
+ *             @OA\Property(
+ *                 property="errors",
+ *                 type="object",
+ *                 example={"name_customer": {"El nombre del cliente es obligatorio"}}
+ *             )
+ *         )
+ *     )
+ * )
+ */
     public function storeTestimonies(Request $request): JsonResponse
     {
         $this->validateTestimoniesRequest($request);
@@ -27,6 +63,56 @@ class TestimoniesController extends Controller
         return new JsonResponse(['data' => 'Testimonio registrado']);
     }
 
+    /**
+ * @OA\Put(
+ *     path="/api/testimonies/{testimonieId}",
+ *     summary="Actualizar un testimonio",
+ *     tags={"Testimonies"},
+ *     @OA\Parameter(
+ *         name="testimonieId",
+ *         in="path",
+ *         required=true,
+ *         description="ID del testimonio a actualizar",
+ *         @OA\Schema(type="integer", example=1)
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"name_customer", "description", "date", "qualification"},
+ *             @OA\Property(property="name_customer", type="string", example="Juan Pérez"),
+ *             @OA\Property(property="description", type="string", example="Servicio mejorado y excelente atención."),
+ *             @OA\Property(property="date", type="string", format="date", example="2024-03-20"),
+ *             @OA\Property(property="qualification", type="integer", example=4)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Testimonio actualizado correctamente",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Testimonio actualizado")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Testimonio no encontrado",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Testimonio no encontrado")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Error de validación",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Error de validación"),
+ *             @OA\Property(
+ *                 property="errors",
+ *                 type="object",
+ *                 example={"name_customer": {"El nombre del cliente es obligatorio"}}
+ *             )
+ *         )
+ *     )
+ * )
+ */
     public function updateTestimonies(int $testimonieId, Request $request): JsonResponse
     {
         $testimonie = Testimonie::find($testimonieId);
@@ -42,6 +128,34 @@ class TestimoniesController extends Controller
         return new JsonResponse(['data' => 'Testimonio actulizado']);
     }
 
+    /**
+ * @OA\Delete(
+ *     path="/api/testimonies/{testimonieId}",
+ *     summary="Eliminar un testimonio",
+ *     tags={"Testimonies"},
+ *     @OA\Parameter(
+ *         name="testimonieId",
+ *         in="path",
+ *         required=true,
+ *         description="ID del testimonio a eliminar",
+ *         @OA\Schema(type="integer", example=1)
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Testimonio eliminado correctamente",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Testimonio eliminado")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Testimonio no encontrado",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Testimonio no encontrado")
+ *         )
+ *     )
+ * )
+ */
     public function deleteTestimonie(int $testimonieId): JsonResponse
     {   
         $testimonie = Testimonie::find($testimonieId);
@@ -52,16 +166,66 @@ class TestimoniesController extends Controller
         return new JsonResponse(['data' => 'Testiminio eliminado']);
     }
 
+/**
+ * @OA\Get(
+ *     path="/testimonies",
+ *     summary="Obtiene todos los testimonios",
+ *     description="Devuelve una lista paginada de testimonios con la posibilidad de filtrar por cliente.",
+ *     tags={"Testimonies"},
+ *     @OA\Parameter(
+ *         name="customer",
+ *         in="query",
+ *         required=false,
+ *         description="Filtrar testimonios por nombre del cliente",
+ *         @OA\Schema(type="string", example="Juan Perez")
+ *     ),
+ *     @OA\Parameter(
+ *         name="limit",
+ *         in="query",
+ *         required=false,
+ *         description="Cantidad de testimonios por página",
+ *         @OA\Schema(type="integer", example=10)
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Lista paginada de testimonios",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="data", type="array",
+ *                 @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="name_customer", type="string", example="Juan Perez"),
+ *                     @OA\Property(property="description", type="string", example="Excelente servicio"),
+ *                     @OA\Property(property="qualification", type="integer", example=5)
+ *                 )
+ *             ),
+ *             @OA\Property(property="current_page", type="integer", example=1),
+ *             @OA\Property(property="total", type="integer", example=50),
+ *             @OA\Property(property="last_page", type="integer", example=5),
+ *             @OA\Property(property="next_page", type="string", nullable=true, example="http://api.com/testimonies?page=2"),
+ *             @OA\Property(property="prev_page", type="string", nullable=true, example=null)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Solicitud incorrecta"
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error interno del servidor"
+ *     )
+ * )
+ */
     public function getAllTestimonies(Request $request): JsonResponse
     {
         $nameClient = $request->query('customer');
+        $limit = $request->query('limit');
         $testimonies = Testimonie::select(
             'id', 
             'name_customer', 
             'description', 
             'qualification')
         ->where('name_customer', 'like', "%{$nameClient}%")
-        ->paginate();
+        ->paginate($limit);
         return new JsonResponse([
             'data' => $testimonies->items(),
             'current_page' => $testimonies->currentPage(),
