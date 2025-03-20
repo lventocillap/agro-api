@@ -9,19 +9,11 @@ class Service extends Model
 {
     protected $fillable = ['title', 'description','features'];
 
-    protected $attributes = [
-        'features' => '[]', // Guarda un array vacío como string JSON
-    ];    
-
     protected $hidden = ['created_at', 'updated_at'];
-
-    protected $casts = [
-        'features' => 'array',
-    ];
 
     public function image(): MorphOne
     {
-        return $this->morphOne(Image::class, 'imageable');
+        return $this->morphOne(Image::class, 'imageble');
     }
 
 }

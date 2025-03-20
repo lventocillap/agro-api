@@ -39,4 +39,16 @@ trait SaveImageService
 
         return asset('storage/'.$path);
     }
+
+    public function deleteImage(string $path): bool
+    {
+        // Convertir la URL absoluta en una ruta relativa dentro de storage
+        $relativePath = str_replace(asset('storage/') . '/', '', $path);
+
+        if (Storage::disk('public')->exists($relativePath)) {
+            return Storage::disk('public')->delete($relativePath);
+        }
+
+        return false;
+    }
 }

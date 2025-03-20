@@ -7,3 +7,4 @@ use Illuminate\Support\Facades\Route;
 // Incluir varios archivos de rutas API
 require __DIR__ . '/apiService.php';
 require __DIR__.'/apiProduct.php';
+require __DIR__.'/apiPolicy.php';

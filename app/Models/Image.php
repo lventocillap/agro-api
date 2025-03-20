@@ -12,6 +12,8 @@ class Image extends Model
         'imageble_id',
         'url'
     ];
+
+    protected $hidden = ['created_at', 'updated_at'];
     
     public function imageble(): MorphTo
     {
