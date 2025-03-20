@@ -20,7 +20,7 @@ trait SaveImage
         $filename = Str::uuid() . $fileExtension;
         $path = $folder . '/' . $filename;
         Storage::disk('public')->put($path, $image);
-        return 'http://127.0.0.1:8000/storage/'.$path;
+        return url('storage/'.$path);
     }
     public function getFileExtension(string $base64Image): string
     {

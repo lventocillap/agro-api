@@ -17,7 +17,21 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (Exception $e){
-            return new JsonResponse(['message' => $e->getMessage(),
-                                    'code' => $e->getCode()] , $e->getCode());
+
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+                return response()->json([
+                    'message' => 'Error de validación',
+                    'errors' => $e->errors(),
+                ], 422);
+            }
+            $errorCode = $e->getCode();
+            if(!is_int($errorCode) || $errorCode < 100 || $errorCode > 599){
+                $errorCode = 500;
+            }
+            return new JsonResponse([
+                'message' => $e->getMessage(),
+                'code' => $e->getCode()
+            ],$errorCode
+            );
         });
     })->create();

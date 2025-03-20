@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('compatibility');
             $table->decimal('price');
             $table->integer('stock');
+            $table->boolean('status')->default(true);
             $table->foreignId('pdf_id')->constrained('pdfs');
             $table->timestamps();
         });
