@@ -9,14 +9,6 @@ use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-<<<<<<< HEAD
-
-class CategoryController extends Controller
-{
-    use ValidateCategoryRequest;
-    
-    public function storeCatetgory(Request $request): JsonResponse
-=======
 class CategoryController extends Controller
 {
     use ValidateCategoryRequest;
@@ -64,7 +56,6 @@ class CategoryController extends Controller
  * )
  */
     public function storeCategory(Request $request): JsonResponse
->>>>>>> main
     {
         $this->validateCategoryRequest($request);
         Category::create([
