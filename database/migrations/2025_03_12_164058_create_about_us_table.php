@@ -15,11 +15,25 @@ return new class extends Migration
             $table->id();
             $table->text('mission');
             $table->text('vision');
-            $table->text('values');
+            $table->json('about_values');
             $table->string('name_yt');
             $table->string('url_yt');
             $table->timestamps();
         });
+
+        /**
+         * INSERT INTO about_us (mission, vision, about_values, name_yt, url_yt, created_at, updated_at) 
+            VALUES (
+                'Nuestra misión es innovar constantemente.',
+                'Nuestra visión es liderar el sector tecnológico.',
+                '["Innovación", "Compromiso", "Integridad", "Calidad"]',
+                'Canal Oficial',
+                'https://www.youtube.com/channel/ejemplo',
+                NOW(),
+                NOW()
+            );
+
+         */
     }
 
     /**

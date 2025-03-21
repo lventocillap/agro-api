@@ -22,7 +22,6 @@ trait SaveImage
         Storage::disk('public')->put($path, $image);
         return url('storage/'.$path);
     }
-    
     public function getFileExtension(string $base64Image): string
     {
         $matches = [];

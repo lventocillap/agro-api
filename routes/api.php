@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\ServiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -7,6 +8,11 @@ use L5Swagger\Http\Controllers\SwaggerController;
 
 // Incluir varios archivos de rutas API
 require __DIR__ . '/apiService.php';
+// Incluir múltiples archivos de rutas API
+require __DIR__.'/apiAboutUs.php';
+require __DIR__.'/apiUser.php';
+require __DIR__.'/apiAboutUsHome.php';
+require __DIR__.'/apiInfoContact.php';
 require __DIR__.'/apiProduct.php';
 require __DIR__.'/apiPolicy.php';
 Route::get('/api/documentation', [SwaggerController::class, 'docs']);

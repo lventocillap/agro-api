@@ -18,6 +18,415 @@
         }
     ],
     "paths": {
+        "/api/about-us": {
+            "get": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Obtener información de About Us",
+                "operationId": "5fff67ebfebbfe33deed338d7c8e398f",
+                "responses": {
+                    "200": {
+                        "description": "Información obtenida correctamente"
+                    },
+                    "404": {
+                        "description": "Registro no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Actualizar información de About Us",
+                "operationId": "fc170129b7a8214dceb8cf8a45b2fe9d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "mission": {
+                                        "type": "string"
+                                    },
+                                    "vision": {
+                                        "type": "string"
+                                    },
+                                    "name_yt": {
+                                        "type": "string"
+                                    },
+                                    "url_yt": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Información actualizada correctamente"
+                    }
+                }
+            }
+        },
+        "/api/about-us/image": {
+            "post": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Crea o Actualiza una imagen de About Us",
+                "operationId": "59e14ed71a0bda926327cf74c4f6ed03",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "description": "Imagen en base64",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Imagen actualizada con éxito"
+                    },
+                    "500": {
+                        "description": "Error al actualizar la imagen"
+                    }
+                }
+            }
+        },
+        "/api/about-us/{id}/value": {
+            "put": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Actualizar un valor existente en About Us",
+                "operationId": "0af69cbec07977e576d7e5ae02a102cb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "oldAboutValue": {
+                                        "type": "string"
+                                    },
+                                    "newAboutValue": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Valor actualizado correctamente"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Agregar un nuevo valor a About Us",
+                "operationId": "cf4b856427e47e02c27aa4f9cadd826c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "about_values": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Valor agregado con éxito"
+                    }
+                }
+            }
+        },
+        "/api/about-us-home": {
+            "get": {
+                "tags": [
+                    "AboutUsHome"
+                ],
+                "summary": "Obtener datos de About Us Home",
+                "operationId": "3e001cf973af70f3566edeb058da6efd",
+                "responses": {
+                    "200": {
+                        "description": "Datos obtenidos correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "AboutUsHome"
+                ],
+                "summary": "Actualizar los datos de About Us Home",
+                "operationId": "712ff0454fdca8363f88823242470b63",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "text_section_one",
+                                    "text_section_two"
+                                ],
+                                "properties": {
+                                    "text_section_one": {
+                                        "type": "string",
+                                        "example": "Nuestra misión es..."
+                                    },
+                                    "text_section_two": {
+                                        "type": "string",
+                                        "example": "Nuestro compromiso es..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Información actualizada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/about-us-home/image": {
+            "post": {
+                "tags": [
+                    "AboutUsHome"
+                ],
+                "summary": "Actualizar la imagen de About Us Home",
+                "operationId": "50a80368eaa00ea4f9530794122dc484",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "image"
+                                ],
+                                "properties": {
+                                    "image": {
+                                        "type": "string",
+                                        "format": "base64",
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANS..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Imagen actualizada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al actualizar la imagen"
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Registra un nuevo usuario",
+                "operationId": "94ea02baf6ea63a8a7c6453d3acfcaf8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "email",
+                                    "role",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "usuario123"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "usuario@example.com"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "enum": [
+                                            "admin",
+                                            "user"
+                                        ],
+                                        "example": "user"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "securePassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario registrado correctamente"
+                    },
+                    "422": {
+                        "description": "Error en validación de datos"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Inicia sesión y obtiene un token JWT",
+                "operationId": "1f9fd504b8b4e1cc2096d776682e9318",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "usuario123"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "securePassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Autenticación exitosa, devuelve el token JWT"
+                    },
+                    "401": {
+                        "description": "Credenciales inválidas"
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Obtiene los datos del usuario autenticado",
+                "operationId": "31234491f21a35d2de09d4fae7ee13c4",
+                "responses": {
+                    "200": {
+                        "description": "Datos del usuario autenticado"
+                    },
+                    "401": {
+                        "description": "Token inválido o expirado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Cierra sesión e invalida el token JWT",
+                "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
+                "responses": {
+                    "200": {
+                        "description": "Cierre de sesión exitoso"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/blogs": {
             "get": {
                 "tags": [
@@ -705,6 +1114,93 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/info-contact": {
+            "get": {
+                "tags": [
+                    "InfoContact"
+                ],
+                "summary": "Obtener la información de contacto",
+                "operationId": "bc5f50eb69c4e689f50f925b44d17a42",
+                "responses": {
+                    "200": {
+                        "description": "Información de contacto obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Información no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/info-contact/{id}": {
+            "put": {
+                "tags": [
+                    "InfoContact"
+                ],
+                "summary": "Actualizar la información de contacto",
+                "operationId": "ac032328e0816501ed4c70387fffc6cb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la información de contacto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "location": {
+                                        "type": "string",
+                                        "example": "Lima, Perú"
+                                    },
+                                    "cellphone": {
+                                        "type": "string",
+                                        "example": "987654321"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "contacto@empresa.com"
+                                    },
+                                    "attention_hours": {
+                                        "type": "string",
+                                        "example": "Lunes a Viernes de 9am a 6pm"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Información de contacto actualizada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No se enviaron datos válidos para actualizar"
+                    },
+                    "422": {
+                        "description": "Error de validación"
                     }
                 }
             }
@@ -2300,6 +2796,22 @@
         }
     },
     "tags": [
+        {
+            "name": "AboutUs",
+            "description": "Endpoints para gestionar la información de About Us"
+        },
+        {
+            "name": "AboutUsHome",
+            "description": "API para gestionar la sección About Us en la página de inicio"
+        },
+        {
+            "name": "Authentication",
+            "description": "Endpoints de autenticación de usuarios"
+        },
+        {
+            "name": "InfoContact",
+            "description": "API para gestionar la información de contacto"
+        },
         {
             "name": "Blogs",
             "description": "Blogs"

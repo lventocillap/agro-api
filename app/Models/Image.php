@@ -13,8 +13,12 @@ class Image extends Model
         'url'
     ];
 
-    protected $hidden = ['created_at', 'updated_at', 'imageble_id'];
-    
+    protected $hidden = [
+        'imageble_id',
+        'created_at',
+        'updated_at',
+    ];
+
     public function imageble(): MorphTo
     {
         return $this->morphTo();

@@ -5,16 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class InfoContact extends Model
+class AboutUsHome extends Model
 {
     use HasFactory;
 
+    protected $table = 'about_us_home';
+
     protected $fillable = [
-        'location', 
-        'cellphone', 
-        'email', 
-        'attention_hours'
+        'text_section_one',
+        'text_section_two',
     ];
+
+    public function images()
+    {
+        return $this->morphOne(Image::class, 'imageble');
+    }
+
     protected $hidden = [
         'created_at',
         'updated_at',
