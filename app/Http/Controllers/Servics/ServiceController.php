@@ -67,13 +67,14 @@ class ServiceController extends Controller
      * @OA\Post(
      *     path="/api/services",
      *     summary="Crear un nuevo servicio",
+     *     security={{"bearerAuth": {}}},
      *     tags={"Services"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             required={"title", "description"},
-     *             @OA\Property(property="title", type="string", example="Corte de Cabello"),
-     *             @OA\Property(property="description", type="string", example="Corte de cabello personalizado"),
+     *             @OA\Property(property="title", type="string", example="Almacenamiento"),
+     *             @OA\Property(property="description", type="string", example="Se ofrece el servicio de almacenamiento de mercancía"),
      *             @OA\Property(property="features", type="array", @OA\Items(type="string"), example={"Rapido", "Económico"}),
      *             @OA\Property(property="image", type="string", format="base64", example="data:image/png;base64,iVBORw0KGgoAAAANS...")
      *         )
@@ -184,6 +185,7 @@ class ServiceController extends Controller
      * @OA\Put(
      *     path="/api/services/{id}",
      *     summary="Actualizar un servicio por ID",
+     *     security={{"bearerAuth": {}}},
      *     tags={"Services"},
      *     @OA\Parameter(
      *         name="id",
@@ -294,6 +296,7 @@ class ServiceController extends Controller
      * @OA\Delete(
      *     path="/api/services/{id}",
      *     summary="Eliminar un servicio por ID",
+     *     security={{"bearerAuth": {}}},
      *     tags={"Services"},
      *     @OA\Parameter(
      *         name="id",
