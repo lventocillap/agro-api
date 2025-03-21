@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Laravel 11 API Documentation",
+        "title": "Agro API",
         "description": "Documentación de la API de autenticación con Swagger en Laravel 11",
         "contact": {
             "email": "soporte@tuempresa.com"
@@ -18,16 +18,2363 @@
         }
     ],
     "paths": {
-        "/api/usuarios": {
+        "/api/about-us": {
             "get": {
                 "tags": [
-                    "Usuarios"
+                    "AboutUs"
                 ],
-                "summary": "Obtener la lista de usuarios",
-                "operationId": "71ee31bae16451ba1e67d564db0f9416",
+                "summary": "Obtener información de About Us",
+                "operationId": "5fff67ebfebbfe33deed338d7c8e398f",
                 "responses": {
                     "200": {
-                        "description": "Lista de usuarios"
+                        "description": "Información obtenida correctamente"
+                    },
+                    "404": {
+                        "description": "Registro no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Actualizar información de About Us",
+                "operationId": "fc170129b7a8214dceb8cf8a45b2fe9d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "mission": {
+                                        "type": "string"
+                                    },
+                                    "vision": {
+                                        "type": "string"
+                                    },
+                                    "name_yt": {
+                                        "type": "string"
+                                    },
+                                    "url_yt": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Información actualizada correctamente"
+                    }
+                }
+            }
+        },
+        "/api/about-us/image": {
+            "post": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Crea o Actualiza una imagen de About Us",
+                "operationId": "59e14ed71a0bda926327cf74c4f6ed03",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "description": "Imagen en base64",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Imagen actualizada con éxito"
+                    },
+                    "500": {
+                        "description": "Error al actualizar la imagen"
+                    }
+                }
+            }
+        },
+        "/api/about-us/{id}/value": {
+            "put": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Actualizar un valor existente en About Us",
+                "operationId": "0af69cbec07977e576d7e5ae02a102cb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "oldAboutValue": {
+                                        "type": "string"
+                                    },
+                                    "newAboutValue": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Valor actualizado correctamente"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Agregar un nuevo valor a About Us",
+                "operationId": "cf4b856427e47e02c27aa4f9cadd826c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "about_values": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Valor agregado con éxito"
+                    }
+                }
+            }
+        },
+        "/api/about-us-home": {
+            "get": {
+                "tags": [
+                    "AboutUsHome"
+                ],
+                "summary": "Obtener datos de About Us Home",
+                "operationId": "3e001cf973af70f3566edeb058da6efd",
+                "responses": {
+                    "200": {
+                        "description": "Datos obtenidos correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "AboutUsHome"
+                ],
+                "summary": "Actualizar los datos de About Us Home",
+                "operationId": "712ff0454fdca8363f88823242470b63",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "text_section_one",
+                                    "text_section_two"
+                                ],
+                                "properties": {
+                                    "text_section_one": {
+                                        "type": "string",
+                                        "example": "Nuestra misión es..."
+                                    },
+                                    "text_section_two": {
+                                        "type": "string",
+                                        "example": "Nuestro compromiso es..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Información actualizada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/about-us-home/image": {
+            "post": {
+                "tags": [
+                    "AboutUsHome"
+                ],
+                "summary": "Actualizar la imagen de About Us Home",
+                "operationId": "50a80368eaa00ea4f9530794122dc484",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "image"
+                                ],
+                                "properties": {
+                                    "image": {
+                                        "type": "string",
+                                        "format": "base64",
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANS..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Imagen actualizada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al actualizar la imagen"
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Registra un nuevo usuario",
+                "operationId": "94ea02baf6ea63a8a7c6453d3acfcaf8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "email",
+                                    "role",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "usuario123"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "usuario@example.com"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "enum": [
+                                            "admin",
+                                            "user"
+                                        ],
+                                        "example": "user"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "securePassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario registrado correctamente"
+                    },
+                    "422": {
+                        "description": "Error en validación de datos"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Inicia sesión y obtiene un token JWT",
+                "operationId": "1f9fd504b8b4e1cc2096d776682e9318",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "usuario123"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "securePassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Autenticación exitosa, devuelve el token JWT"
+                    },
+                    "401": {
+                        "description": "Credenciales inválidas"
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Obtiene los datos del usuario autenticado",
+                "operationId": "31234491f21a35d2de09d4fae7ee13c4",
+                "responses": {
+                    "200": {
+                        "description": "Datos del usuario autenticado"
+                    },
+                    "401": {
+                        "description": "Token inválido o expirado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Cierra sesión e invalida el token JWT",
+                "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
+                "responses": {
+                    "200": {
+                        "description": "Cierre de sesión exitoso"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/blogs": {
+            "get": {
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "Obtener todos los blogs",
+                "operationId": "90960aad80a336fd6b24094cdf249695",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Cantidad de blogs por página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filtrar blogs por nombre de categoría",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Tecnología"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de blogs paginados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Blog sobre tecnología"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Descripción del blog"
+                                                    },
+                                                    "category": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Tecnología"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "image": {
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": "string",
+                                                                "example": "https://example.com/image.jpg"
+                                                            },
+                                                            "imageble_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 50
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "next_page": {
+                                            "type": "string",
+                                            "example": "https://api.example.com/api/blogs?page=2",
+                                            "nullable": true
+                                        },
+                                        "prev_page": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "Registrar un nuevo blog",
+                "operationId": "fedda2e41f22998802db429a0de7375e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "category_id",
+                                    "image"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Título del blog"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Descripción del blog"
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "base64",
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANS..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Blog registrado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Blog registrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error de validación"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "title": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El título es requerido"
+                                                    }
+                                                },
+                                                "description": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "La descripción es requerida"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/blogs/{idBlog}": {
+            "put": {
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "Actualizar un blog existente",
+                "operationId": "7a80ee444d81d4bb3654591d7c96cc00",
+                "parameters": [
+                    {
+                        "name": "idBlog",
+                        "in": "path",
+                        "description": "ID del blog a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "category_id",
+                                    "image"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Nuevo título del blog"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Nueva descripción del blog"
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "base64",
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANS..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Blog actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Blog actualizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Blog no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se encontró el blog solicitado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error de validación"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "title": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El título es requerido"
+                                                    }
+                                                },
+                                                "description": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "La descripción es requerida"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "Eliminar un blog",
+                "operationId": "841f0117d0b7e3e03e38171ae7501c49",
+                "parameters": [
+                    {
+                        "name": "idBlog",
+                        "in": "path",
+                        "description": "ID del blog a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Blog eliminado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Blog eliminado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Blog no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se encontró el blog solicitado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Obtener todas las categorías",
+                "description": "/**",
+                "operationId": "f159cb3ada212ed61441b3ce7561183a",
+                "parameters": [
+                    {
+                        "name": "subcategory",
+                        "in": "query",
+                        "description": "Filtrar categorías por nombre de subcategoría",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Verduras"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de categorías obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Frutas"
+                                                    },
+                                                    "subcategories": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 10
+                                                                },
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "example": "Cítricos"
+                                                                },
+                                                                "category_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Registrar una nueva categoría",
+                "operationId": "42b859c029ebfa7c8e524a95e2447c79",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Verduras"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Categoría registrada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Categoria registrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error en la validación de los datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error de validación"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "El campo name es requerido",
+                                                            "The name has already been taken."
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/categories/{id}": {
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Actualizar una categoría",
+                "operationId": "0f667d4cbf030075b42d304105cea123",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la categoría a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Frutas"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Categoría actualizada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Categoria actualizada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Categoría no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Categoría no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error en la validación de los datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error de validación"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "El campo name es requerido",
+                                                            "The name has already been taken."
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Eliminar una categoría",
+                "operationId": "d28c489eb22d40660eb24f8eefe8218e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la categoría a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categoría eliminada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Categoria eliminada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Categoría no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Categoría no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/info-contact": {
+            "get": {
+                "tags": [
+                    "InfoContact"
+                ],
+                "summary": "Obtener la información de contacto",
+                "operationId": "bc5f50eb69c4e689f50f925b44d17a42",
+                "responses": {
+                    "200": {
+                        "description": "Información de contacto obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Información no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/info-contact/{id}": {
+            "put": {
+                "tags": [
+                    "InfoContact"
+                ],
+                "summary": "Actualizar la información de contacto",
+                "operationId": "ac032328e0816501ed4c70387fffc6cb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la información de contacto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "location": {
+                                        "type": "string",
+                                        "example": "Lima, Perú"
+                                    },
+                                    "cellphone": {
+                                        "type": "string",
+                                        "example": "987654321"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "contacto@empresa.com"
+                                    },
+                                    "attention_hours": {
+                                        "type": "string",
+                                        "example": "Lunes a Viernes de 9am a 6pm"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Información de contacto actualizada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No se enviaron datos válidos para actualizar"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Obtener lista de productos",
+                "operationId": "7c20c2996c0202da8a6555300bc1e3b8",
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "query",
+                        "description": "Nombre del producto a buscar",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Nombre de la subcategoría del producto",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Cantidad de productos por página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos paginada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Tomate"
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 2.5
+                                                    },
+                                                    "status": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "subCategories": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "example": "Verduras"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "image": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "url": {
+                                                                "type": "string",
+                                                                "example": "https://example.com/image.jpg"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "next_page": {
+                                            "type": "string",
+                                            "example": "http://api.example.com/products?page=2",
+                                            "nullable": true
+                                        },
+                                        "prev_page": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Registrar un nuevo producto",
+                "operationId": "7751d790d3da23aecdbf8ffdee188dc2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "characteristics",
+                                    "benefits",
+                                    "compatibility",
+                                    "price",
+                                    "stock",
+                                    "pdf",
+                                    "subcategory_id",
+                                    "image"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Fertilizante Orgánico"
+                                    },
+                                    "characteristics": {
+                                        "type": "string",
+                                        "example": "Mejora la calidad del suelo"
+                                    },
+                                    "benefits": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "Aumenta la producción"
+                                        }
+                                    },
+                                    "compatibility": {
+                                        "type": "string",
+                                        "example": "Compatible con cultivos de frutas"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 49.99
+                                    },
+                                    "stock": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "pdf": {
+                                        "description": "Archivo PDF del producto",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "subcategory_id": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2
+                                        ]
+                                    },
+                                    "image": {
+                                        "description": "Imagen en formato base64",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto registrado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Producto registrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "El producto ya existe",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "El producto ya existe en la base de datos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error en la validación de los datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error de validación"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El campo name es requerido"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/{nameProduct}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Obtener un producto por su nombre",
+                "operationId": "62f52ae87e2c2e8928382b63f7e04531",
+                "parameters": [
+                    {
+                        "name": "nameProduct",
+                        "in": "path",
+                        "description": "Nombre del producto a consultar",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del producto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Tomate"
+                                                    },
+                                                    "characteristics": {
+                                                        "type": "string",
+                                                        "example": "Color rojo, tamaño mediano"
+                                                    },
+                                                    "benefits": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "example": "Rico en vitaminas"
+                                                        }
+                                                    },
+                                                    "compatibility": {
+                                                        "type": "string",
+                                                        "example": "Compatible con otros vegetales"
+                                                    },
+                                                    "stock": {
+                                                        "type": "integer",
+                                                        "example": 50
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 2.5
+                                                    },
+                                                    "status": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "pdf_id": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "subcategories": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "example": "Verduras"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "pdf": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 10
+                                                            },
+                                                            "url": {
+                                                                "type": "string",
+                                                                "example": "https://example.com/document.pdf"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "image": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 20
+                                                            },
+                                                            "url": {
+                                                                "type": "string",
+                                                                "example": "https://example.com/image.jpg"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Producto no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Actualizar un producto",
+                "operationId": "272ab5bf7d81a8a23e1f95bc8f5112ca",
+                "parameters": [
+                    {
+                        "name": "nameProduct",
+                        "in": "path",
+                        "description": "Nombre del producto a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "characteristics",
+                                    "benefits",
+                                    "compatibility",
+                                    "price",
+                                    "stock",
+                                    "pdf",
+                                    "subcategory_id",
+                                    "image"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Fertilizante Orgánico"
+                                    },
+                                    "characteristics": {
+                                        "type": "string",
+                                        "example": "Mejora la calidad del suelo"
+                                    },
+                                    "benefits": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "Aumenta la producción"
+                                        }
+                                    },
+                                    "compatibility": {
+                                        "type": "string",
+                                        "example": "Compatible con cultivos de frutas"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 49.99
+                                    },
+                                    "stock": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "pdf": {
+                                        "description": "Archivo PDF del producto",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "subcategory_id": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2
+                                        ]
+                                    },
+                                    "image": {
+                                        "description": "Imagen en formato base64",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Registro actualizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Producto no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error en la validación de los datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error de validación"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El campo name es requerido"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Eliminar un producto",
+                "operationId": "3880c43b4d242f1c1f035d9a050e6fed",
+                "parameters": [
+                    {
+                        "name": "nameProduct",
+                        "in": "path",
+                        "description": "Nombre del producto a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto eliminado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Producto eliminado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Producto no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/categories/{nameCategory}/subcategories": {
+            "get": {
+                "tags": [
+                    "Subcategories"
+                ],
+                "summary": "Obtener todas las subcategorías de una categoría",
+                "operationId": "cfec8fd47e29da2f5ebbc55cddce61d4",
+                "parameters": [
+                    {
+                        "name": "nameCategory",
+                        "in": "path",
+                        "description": "Nombre de la categoría",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de subcategorías obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Frutas"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Categoría no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Categoría no encontrada"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No se encontró la categoría especificada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Subcategories"
+                ],
+                "summary": "Registrar una nueva subcategoría dentro de una categoría",
+                "operationId": "44412ba3a8c3fc18c31eacbc6b9ad76c",
+                "parameters": [
+                    {
+                        "name": "nameCategory",
+                        "in": "path",
+                        "description": "Nombre de la categoría a la que pertenece la subcategoría",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Hortalizas"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Subcategoría registrada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Subcategoría registrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Categoría no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Categoría no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error en la validación de los datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "El campo name es requerido"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/subcategories/{nameSubcategory}": {
+            "delete": {
+                "tags": [
+                    "Subcategories"
+                ],
+                "summary": "Eliminar una subcategoría",
+                "operationId": "9022fb85048e901f6852c90b007942ba",
+                "parameters": [
+                    {
+                        "name": "nameSubcategory",
+                        "in": "path",
+                        "description": "Nombre de la subcategoría a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Subcategoría eliminada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Subcategoria eliminada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Subcategoría no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Subcategoría no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/testimonies": {
+            "post": {
+                "tags": [
+                    "Testimonies"
+                ],
+                "summary": "Registrar un testimonio",
+                "operationId": "ed1999744510f6e2b2695d00f21265ee",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name_customer",
+                                    "description",
+                                    "date",
+                                    "qualification"
+                                ],
+                                "properties": {
+                                    "name_customer": {
+                                        "type": "string",
+                                        "example": "Juan Pérez"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Excelente servicio y atención."
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-03-20"
+                                    },
+                                    "qualification": {
+                                        "type": "integer",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Testimonio registrado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Testimonio registrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error de validación"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "name_customer": [
+                                                    "El nombre del cliente es obligatorio"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/testimonies/{testimonieId}": {
+            "put": {
+                "tags": [
+                    "Testimonies"
+                ],
+                "summary": "Actualizar un testimonio",
+                "operationId": "0957ceb5b377e54833f8784569e96d9a",
+                "parameters": [
+                    {
+                        "name": "testimonieId",
+                        "in": "path",
+                        "description": "ID del testimonio a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name_customer",
+                                    "description",
+                                    "date",
+                                    "qualification"
+                                ],
+                                "properties": {
+                                    "name_customer": {
+                                        "type": "string",
+                                        "example": "Juan Pérez"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Servicio mejorado y excelente atención."
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-03-20"
+                                    },
+                                    "qualification": {
+                                        "type": "integer",
+                                        "example": 4
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Testimonio actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Testimonio actualizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Testimonio no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Testimonio no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error de validación"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "name_customer": [
+                                                    "El nombre del cliente es obligatorio"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Testimonies"
+                ],
+                "summary": "Eliminar un testimonio",
+                "operationId": "adc798ad5deec5092c0d152c606b57f6",
+                "parameters": [
+                    {
+                        "name": "testimonieId",
+                        "in": "path",
+                        "description": "ID del testimonio a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Testimonio eliminado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Testimonio eliminado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Testimonio no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Testimonio no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/testimonies": {
+            "get": {
+                "tags": [
+                    "Testimonies"
+                ],
+                "summary": "Obtiene todos los testimonios",
+                "description": "Devuelve una lista paginada de testimonios con la posibilidad de filtrar por cliente.",
+                "operationId": "c426631d070889cf89c30c73df2562e6",
+                "parameters": [
+                    {
+                        "name": "customer",
+                        "in": "query",
+                        "description": "Filtrar testimonios por nombre del cliente",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Juan Perez"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Cantidad de testimonios por página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista paginada de testimonios",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name_customer": {
+                                                        "type": "string",
+                                                        "example": "Juan Perez"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Excelente servicio"
+                                                    },
+                                                    "qualification": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 50
+                                        },
+                                        "last_page": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "next_page": {
+                                            "type": "string",
+                                            "example": "http://api.com/testimonies?page=2",
+                                            "nullable": true
+                                        },
+                                        "prev_page": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
                     }
                 }
             }
@@ -35,8 +2382,40 @@
     },
     "tags": [
         {
-            "name": "Usuarios",
-            "description": "Usuarios"
+            "name": "AboutUs",
+            "description": "Endpoints para gestionar la información de About Us"
+        },
+        {
+            "name": "AboutUsHome",
+            "description": "API para gestionar la sección About Us en la página de inicio"
+        },
+        {
+            "name": "Authentication",
+            "description": "Endpoints de autenticación de usuarios"
+        },
+        {
+            "name": "InfoContact",
+            "description": "API para gestionar la información de contacto"
+        },
+        {
+            "name": "Blogs",
+            "description": "Blogs"
+        },
+        {
+            "name": "Categories",
+            "description": "Categories"
+        },
+        {
+            "name": "Products",
+            "description": "Products"
+        },
+        {
+            "name": "Subcategories",
+            "description": "Subcategories"
+        },
+        {
+            "name": "Testimonies",
+            "description": "Testimonies"
         }
     ]
 }

@@ -151,18 +151,12 @@
                 dom_id: '#swagger-ui',
                 urls: urls,
                 "urls.primaryName": "{{ $documentationTitle }}",
-                operationsSorter: {
-                    !!isset($operationsSorter) ? '"'.$operationsSorter.
-                    '"' : 'null'!!
-                },
-                configUrl: {
-                    !!isset($configUrl) ? '"'.$configUrl.
-                    '"' : 'null'!!
-                },
-                validatorUrl: {
-                    !!isset($validatorUrl) ? '"'.$validatorUrl.
-                    '"' : 'null'!!
-                },
+                
+                operationsSorter: "{{ isset($operationsSorter) ? $operationsSorter : 'null' }}",
+
+                configUrl: "{{ isset($configUrl) ? $configUrl : 'null' }}",
+                validatorUrl: "{{ isset($validatorUrl) ? $validatorUrl : 'null' }}",
+
                 oauth2RedirectUrl: "{{ route('l5-swagger.'.$documentation.'.oauth2_callback', [], $useAbsolutePath) }}",
 
                 requestInterceptor: function(request) {
@@ -182,9 +176,7 @@
                 layout: "StandaloneLayout",
                 docExpansion: "{!! config('l5-swagger.defaults.ui.display.doc_expansion', 'none') !!}",
                 deepLinking: true,
-                filter: {
-                    !!config('l5-swagger.defaults.ui.display.filter') ? 'true' : 'false'!!
-                },
+                filter: "{{ config('l5-swagger.defaults.ui.display.filter') ? 'true' : 'false' }}",
                 persistAuthorization: "{!! config('l5-swagger.defaults.ui.authorization.persist_authorization') ? 'true' : 'false' !!}",
 
             })

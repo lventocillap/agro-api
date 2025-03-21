@@ -16,12 +16,28 @@ use Illuminate\Support\Facades\Validator;
 /**
  * Controlador de About-Us para mostrar y actualizar, tambien para gestionar los valores como, crear, mostrar, actualizar, eliminar y creacion de imagenes.
  */
+
+/**
+ * @OA\Tag(
+ *     name="AboutUs",
+ *     description="Endpoints para gestionar la información de About Us"
+ * )
+ */
 class AboutUsController extends Controller
 {
     use SaveImageAboutUs;
     use ValidateAboutUs;
-    
-    // Obtiene el único registro de AboutUs, si existe
+
+    /**
+     * @OA\Get(
+     *     path="/api/about-us",
+     *     summary="Obtener información de About Us",
+     *     tags={"AboutUs"},
+     *     @OA\Response(response=200, description="Información obtenida correctamente"),
+     *     @OA\Response(response=404, description="Registro no encontrado"),
+     *     @OA\Response(response=500, description="Error interno del servidor")
+     * )
+     */
     public function getAboutUs() 
     {
         try {
@@ -46,10 +62,26 @@ class AboutUsController extends Controller
         }
     }
 
-    // Actualiza los datos de AboutUs
+    /**
+     * @OA\Put(
+     *     path="/api/about-us",
+     *     summary="Actualizar información de About Us",
+     *     tags={"AboutUs"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="mission", type="string"),
+     *             @OA\Property(property="vision", type="string"),
+     *             @OA\Property(property="name_yt", type="string"),
+     *             @OA\Property(property="url_yt", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Información actualizada correctamente")
+     * )
+     */
     public function updateAboutUs(Request $request)
     {
-        // Llamamos al método de validación del trait
         $this->validateAboutUs($request);
 
         $aboutUs = AboutUs::firstOrCreate([]);
@@ -67,6 +99,21 @@ class AboutUsController extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/about-us/image",
+     *     summary="Crea o Actualiza una imagen de About Us",
+     *     tags={"AboutUs"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="image", type="string", description="Imagen en base64")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Imagen actualizada con éxito"),
+     *     @OA\Response(response=500, description="Error al actualizar la imagen")
+     * )
+     */
     public function updateImageToAboutUs(Request $request)
     {
         try {
@@ -77,10 +124,7 @@ class AboutUsController extends Controller
             $aboutUs = AboutUs::firstOrCreate([]);
 
             DB::transaction(function () use ($aboutUs, $request) {
-                // Obtener la imagen actual
                 $existingImage = $aboutUs->images()->latest()->first();
-
-                // Guardar la nueva imagen
                 $imagePath = $this->saveImageBase64($request->image, 'about_us_images');
 
                 if (!$imagePath) {
@@ -88,13 +132,9 @@ class AboutUsController extends Controller
                 }
 
                 if ($existingImage) {
-                    // Eliminar la imagen anterior del almacenamiento
                     $this->deleteImage($existingImage->url);
-
-                    // Actualizar la URL en la base de datos en lugar de eliminar el registro
                     $existingImage->update(['url' => $imagePath]);
                 } else {
-                    // Si no hay imagen previa, crear un nuevo registro
                     $aboutUs->images()->create(['url' => $imagePath]);
                 }
             });
@@ -111,45 +151,67 @@ class AboutUsController extends Controller
         }
     }
 
-
-    // Agrega un nuevo valor a la lista de valores de AboutUs
+    /**
+     * @OA\Post(
+     *     path="/api/about-us/{id}/value",
+     *     summary="Agregar un nuevo valor a About Us",
+     *     tags={"AboutUs"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="about_values", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Valor agregado con éxito")
+     * )
+     */
     public function addValueAboutUs(Request $request, $id)
     {
-        // Validar que 'about_values' viene en la petición
         $request->validate([
             'about_values' => 'required|string|max:255',
         ]);
 
-        // Buscar el registro AboutUs
         $aboutUs = AboutUs::find($id);
         
         if (!$aboutUs) {
             return response()->json(['message' => 'Registro no encontrado'], 404);
         }
 
-        // Asegurar que about_values es un array
         $values = $aboutUs->about_values ?? [];
 
-        // Verificar que el nuevo valor no esté duplicado
         if (in_array($request->about_values, $values)) {
             return response()->json(['message' => 'Este valor ya existe'], 422);
         }
 
-        // Agregar el nuevo valor al array
         $values[] = $request->about_values;
-        $aboutUs->about_values = $values; // Laravel lo guarda como JSON automáticamente
+        $aboutUs->about_values = $values;
         $aboutUs->save();
 
         return response()->json([
             'message' => 'Valor agregado con éxito',
-            'values' => $aboutUs->about_values, // Laravel ya lo devolverá como array
+            'values' => $aboutUs->about_values,
         ], 200);
     }
 
-    // Modifica un valor existente en la lista de valores
+    /**
+     * @OA\Put(
+     *     path="/api/about-us/{id}/value",
+     *     summary="Actualizar un valor existente en About Us",
+     *     tags={"AboutUs"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="oldAboutValue", type="string"),
+     *             @OA\Property(property="newAboutValue", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Valor actualizado correctamente")
+     * )
+     */
     public function updateValueAboutUs(Request $request, $id)
     {
-        // Validar que oldValue y newValue sean strings válidos
         $validator = Validator::make($request->all(), [
             'oldAboutValue' => 'required|string|max:255',
             'newAboutValue' => 'required|string|max:255',
@@ -159,24 +221,19 @@ class AboutUsController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // Buscar el registro AboutUs
         $aboutUs = AboutUs::find($id);
         if (!$aboutUs) {
             return response()->json(['message' => 'Registro no encontrado'], 404);
         }
 
-        // Obtener el array de about_values asegurando que no sea null
         $about_values = $aboutUs->about_values ?? [];
 
-        // Verificar si el valor antiguo existe en el array
         if (!in_array($request->oldAboutValue, $about_values)) {
             return response()->json(['message' => 'El valor a actualizar no fue encontrado'], 404);
         }
 
-        // Reemplazar el valor antiguo con el nuevo
         $updated_about_values = array_map(fn($v) => $v === $request->oldAboutValue ? $request->newAboutValue : $v, $about_values);
 
-        // Guardar el array modificado
         $aboutUs->about_values = $updated_about_values;
         $aboutUs->save();
 
@@ -185,42 +242,5 @@ class AboutUsController extends Controller
             'about_values' => $updated_about_values
         ], 200);
     }
-
-    public function deleteValueAboutUs(Request $request, $id)
-    {
-        // Validar que 'aboutValue' viene en la petición
-        $validator = Validator::make($request->all(), [
-            'aboutValue' => 'required|string|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        // Buscar el registro AboutUs
-        $aboutUs = AboutUs::find($id);
-        if (!$aboutUs) {
-            return response()->json(['message' => 'Registro no encontrado'], 404);
-        }
-
-        // Obtener el array de about_values asegurando que no sea null
-        $about_values = $aboutUs->about_values ?? [];
-
-        // Verificar si el valor existe en la lista
-        if (!in_array($request->aboutValue, $about_values)) {
-            return response()->json(['message' => 'El valor no fue encontrado'], 404);
-        }
-
-        // Eliminar el valor y reorganizar la lista
-        $updated_about_values = array_values(array_diff($about_values, [$request->aboutValue]));
-
-        // Guardar el array modificado
-        $aboutUs->about_values = $updated_about_values;
-        $aboutUs->save();
-
-        return response()->json([
-            'message' => 'Valor eliminado correctamente',
-            'about_values' => $updated_about_values
-        ], 200);
-    }
 }
+

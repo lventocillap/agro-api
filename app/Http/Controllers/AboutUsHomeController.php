@@ -8,10 +8,29 @@ use App\Models\AboutUsHome;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @OA\Tag(
+ *     name="AboutUsHome",
+ *     description="API para gestionar la sección About Us en la página de inicio"
+ * )
+ */
 class AboutUsHomeController extends Controller
 {
     use SaveImageAboutUs;
     use ValidateAboutUsHome;
+
+    /**
+     * @OA\Get(
+     *     path="/api/about-us-home",
+     *     summary="Obtener datos de About Us Home",
+     *     tags={"AboutUsHome"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Datos obtenidos correctamente",
+     *         @OA\JsonContent()
+     *     )
+     * )
+     */
     public function getAboutUsHome() 
     {
         $aboutUsHome = AboutUsHome::with('images')->first();
@@ -25,7 +44,26 @@ class AboutUsHomeController extends Controller
         return response()->json($aboutUsHome, 200);
     }
 
-    // Actualiza los datos de AboutUs
+    /**
+     * @OA\Put(
+     *     path="/api/about-us-home",
+     *     summary="Actualizar los datos de About Us Home",
+     *     tags={"AboutUsHome"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"text_section_one", "text_section_two"},
+     *             @OA\Property(property="text_section_one", type="string", example="Nuestra misión es..."),
+     *             @OA\Property(property="text_section_two", type="string", example="Nuestro compromiso es...")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Información actualizada correctamente",
+     *         @OA\JsonContent()
+     *     )
+     * )
+     */
     public function updateAboutUsHome(Request $request)
     {
         // Llamamos al método de validación del trait
@@ -46,6 +84,29 @@ class AboutUsHomeController extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/about-us-home/image",
+     *     summary="Actualizar la imagen de About Us Home",
+     *     tags={"AboutUsHome"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"image"},
+     *             @OA\Property(property="image", type="string", format="base64", example="data:image/png;base64,iVBORw0KGgoAAAANS...")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Imagen actualizada con éxito",
+     *         @OA\JsonContent()
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al actualizar la imagen"
+     *     )
+     * )
+     */
     public function updateImageToAboutUsHome(Request $request)
     {
         try {

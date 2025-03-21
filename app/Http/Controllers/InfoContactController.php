@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers;
 
@@ -6,9 +6,30 @@ use App\Models\InfoContact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * @OA\Tag(
+ *     name="InfoContact",
+ *     description="API para gestionar la información de contacto"
+ * )
+ */
 class InfoContactController extends Controller
 {
-    // Obtener el único registro de información de contacto
+    /**
+     * @OA\Get(
+     *     path="/api/info-contact",
+     *     summary="Obtener la información de contacto",
+     *     tags={"InfoContact"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Información de contacto obtenida exitosamente",
+     *         @OA\JsonContent()
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Información no encontrada"
+     *     )
+     * )
+     */
     public function getInfoContact()
     {
         $infoContact = InfoContact::first();
@@ -18,7 +39,42 @@ class InfoContactController extends Controller
             : response()->json(['message' => 'Información no encontrada'], 404);
     }
 
-    // Actualizar la información de contacto
+    /**
+     * @OA\Put(
+     *     path="/api/info-contact/{id}",
+     *     summary="Actualizar la información de contacto",
+     *     tags={"InfoContact"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la información de contacto",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="location", type="string", example="Lima, Perú"),
+     *             @OA\Property(property="cellphone", type="string", example="987654321"),
+     *             @OA\Property(property="email", type="string", format="email", example="contacto@empresa.com"),
+     *             @OA\Property(property="attention_hours", type="string", example="Lunes a Viernes de 9am a 6pm")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Información de contacto actualizada correctamente",
+     *         @OA\JsonContent()
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No se enviaron datos válidos para actualizar"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación"
+     *     )
+     * )
+     */
     public function updateInfoContact(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -32,20 +88,16 @@ class InfoContactController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // Buscar el registro por ID o devolver error 404
         $infoContact = InfoContact::findOrFail($id);
 
-        // Filtrar campos vacíos antes de actualizar
         $data = array_filter($request->only(['location', 'cellphone', 'email', 'attention_hours']), function ($value) {
             return $value !== null && $value !== '';
         });
 
-        // Si no hay datos válidos, evitar actualización innecesaria
         if (empty($data)) {
             return response()->json(['message' => 'No se enviaron datos válidos para actualizar.'], 400);
         }
 
-        // Actualizar solo los campos proporcionados
         $infoContact->update($data);
 
         return response()->json([
