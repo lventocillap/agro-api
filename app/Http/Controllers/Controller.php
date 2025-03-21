@@ -11,9 +11,8 @@ namespace App\Http\Controllers;
  *         email="soporte@tuempresa.com"
  *     )
  * )
- * 
  * @OA\Server(
- *     url="http://localhost:8000",
+ *     url="http://localhost:8000/",
  *     description="API Server"
  * )
  */
