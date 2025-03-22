@@ -1331,14 +1331,13 @@
                                 }
                             }
                         }
-                    },
-                    "401": {
-                        "description": "No autorizado. Se requiere un token válido para ver productos inactivos."
-                    },
-                    "400": {
-                        "description": "Solicitud incorrecta, parámetros inválidos."
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [

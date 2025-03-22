@@ -269,6 +269,7 @@ class ProductController extends Controller
  *     Si el usuario está autenticado mediante un token en el encabezado Authorization, verá todos los productos. 
  *     Si no está autenticado, solo se devolverán los productos activos.",
  *     tags={"Products"},
+ *     security={{"bearerAuth":{}}},
  *     @OA\Parameter(
  *         name="product",
  *         in="query",
@@ -289,11 +290,6 @@ class ProductController extends Controller
  *         required=false,
  *         description="Cantidad máxima de productos por página (por defecto 10).",
  *         @OA\Schema(type="integer", default=10)
- *     ),
- *     @OA\Header(
- *         header="Authorization",
- *         description="Token de autenticación en formato Bearer {token}. Si no se proporciona, solo se mostrarán productos activos.",
- *         @OA\Schema(type="string")
  *     ),
  *     @OA\Response(
  *         response=200,
@@ -319,14 +315,6 @@ class ProductController extends Controller
  *             @OA\Property(property="next_page", type="string", nullable=true, example="http://api.example.com/products?page=2"),
  *             @OA\Property(property="prev_page", type="string", nullable=true, example=null)
  *         )
- *     ),
- *     @OA\Response(
- *         response=401,
- *         description="No autorizado. Se requiere un token válido para ver productos inactivos."
- *     ),
- *     @OA\Response(
- *         response=400,
- *         description="Solicitud incorrecta, parámetros inválidos."
  *     )
  * )
  */
