@@ -21,45 +21,68 @@ class ServiceController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/services",
-     *     summary="Obtener todos los servicios",
+     *     path="/api/getServices",
+     *     summary="Obtiene una lista paginada de servicios",
      *     tags={"Services"},
+     *     @OA\Parameter(
+     *         name="limit",
+     *         in="query",
+     *         description="Cantidad de servicios por página (por defecto 10)",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Lista de servicios obtenida correctamente",
+     *         description="Lista paginada de servicios",
      *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Service")
+     *             type="object",
+     *             @OA\Property(property="data", type="array", @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="features", type="array", @OA\Items(type="string")),
+     *                 @OA\Property(property="image", type="string", format="url")
+     *             )),
+     *             @OA\Property(property="current_page", type="integer"),
+     *             @OA\Property(property="total", type="integer"),
+     *             @OA\Property(property="last_page", type="integer"),
+     *             @OA\Property(property="next_page", type="string", nullable=true),
+     *             @OA\Property(property="prev_page", type="string", nullable=true)
      *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="No hay servicios para mostrar",
+     *         description="No hay servicios disponibles",
      *         @OA\JsonContent(
+     *             type="object",
      *             @OA\Property(property="message", type="string", example="There are no services to display")
      *         )
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Error interno del servidor"
      *     )
      * )
      */
-    public function getServices() : JsonResponse
+    public function getServices(Request $request) : JsonResponse
     {
-        try{
-            $services = Service::with('image')->get();
-            if($services->isEmpty()){
-                return new JsonResponse(['message' => 'There are no services to display'], 404);
-            }
+        try {
+            $limit = $request->query('limit', 10); // Define un límite por defecto (10)
+    
+            $services = Service::with('image')->paginate($limit);
+    
             // Convertir features de string a array para cada servicio
-            $services->transform(function ($service) {
+            $services->map(function ($service) {
                 $service->features = $service->features ? explode('益', $service->features) : [];
                 return $service;
             });
-            return new JsonResponse($services, 200);
+    
+            return new JsonResponse([
+                'data' => $services->items(),
+                'current_page' => $services->currentPage(),
+                'total' => $services->total(),
+                'last_page' => $services->lastPage(),
+                'next_page' => $services->nextPageUrl(),
+                'prev_page' => $services->previousPageUrl(),
+            ], 200);
         } catch (\Exception $e) {
-            throw NotFoundService::serviceLoadError(); 
+            throw NotFoundService::serviceLoadError();
         }
     }
 

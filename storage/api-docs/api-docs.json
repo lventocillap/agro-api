@@ -1495,29 +1495,80 @@
                 }
             }
         },
-        "/api/services": {
+        "/api/getServices": {
             "get": {
                 "tags": [
                     "Services"
                 ],
-                "summary": "Obtener todos los servicios",
-                "operationId": "a8fc166f4f81daebd927e784238f5af6",
+                "summary": "Obtiene una lista paginada de servicios",
+                "operationId": "ce66c50af851232bf27c859997492525",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Cantidad de servicios por página (por defecto 10)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Lista de servicios obtenida correctamente",
+                        "description": "Lista paginada de servicios",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Service"
-                                    }
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "features": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "format": "url"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "current_page": {
+                                            "type": "integer"
+                                        },
+                                        "total": {
+                                            "type": "integer"
+                                        },
+                                        "last_page": {
+                                            "type": "integer"
+                                        },
+                                        "next_page": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "prev_page": {
+                                            "type": "string",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "No hay servicios para mostrar",
+                        "description": "No hay servicios disponibles",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1531,12 +1582,11 @@
                                 }
                             }
                         }
-                    },
-                    "500": {
-                        "description": "Error interno del servidor"
                     }
                 }
-            },
+            }
+        },
+        "/api/services": {
             "post": {
                 "tags": [
                     "Services"
