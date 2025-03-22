@@ -1,7 +1,9 @@
 <?php 
 
-namespace App\Http\Controllers;
 
+namespace App\Http\Controllers\AuthUsers;
+
+use App\Http\Controllers\Controller; // Agrega esta línea
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +12,8 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 /**
- * @OA\Tag(name="Authentication", description="Endpoints de autenticación de usuarios")
+ * @OA\Tag(name="Authentication", 
+ * description="Endpoints de autenticación de usuarios")
  */
 class AuthController extends Controller
 {

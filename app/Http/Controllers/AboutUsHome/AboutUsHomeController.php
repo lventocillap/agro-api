@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AboutUsHome;
 
+use App\Http\Controllers\Controller; // Agrega esta línea
 use App\Http\Service\Image\SaveImageAboutUs;
 use App\Http\Requests\AboutUsHome\ValidateAboutUsHome;
 use App\Models\AboutUsHome;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * @OA\Tag(
  *     name="AboutUsHome",
- *     description="API para gestionar la sección About Us en la página de inicio"
+ *     description="Endpoints para gestionar la sección About Us en la página de inicio"
  * )
  */
 class AboutUsHomeController extends Controller

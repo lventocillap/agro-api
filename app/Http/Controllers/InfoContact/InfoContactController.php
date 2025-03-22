@@ -1,7 +1,9 @@
 <?php 
 
-namespace App\Http\Controllers;
 
+namespace App\Http\Controllers\InfoContact;
+
+use App\Http\Controllers\Controller; // Agrega esta línea
 use App\Models\InfoContact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -9,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 /**
  * @OA\Tag(
  *     name="InfoContact",
- *     description="API para gestionar la información de contacto"
+ *     description="Endpoints para gestionar la información de contacto"
  * )
  */
 class InfoContactController extends Controller

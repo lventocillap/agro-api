@@ -18,181 +18,13 @@
         }
     ],
     "paths": {
-        "/api/about-us": {
-            "get": {
-                "tags": [
-                    "AboutUs"
-                ],
-                "summary": "Obtener información de About Us",
-                "operationId": "5fff67ebfebbfe33deed338d7c8e398f",
-                "responses": {
-                    "200": {
-                        "description": "Información obtenida correctamente"
-                    },
-                    "404": {
-                        "description": "Registro no encontrado"
-                    },
-                    "500": {
-                        "description": "Error interno del servidor"
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "AboutUs"
-                ],
-                "summary": "Actualizar información de About Us",
-                "operationId": "fc170129b7a8214dceb8cf8a45b2fe9d",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "mission": {
-                                        "type": "string"
-                                    },
-                                    "vision": {
-                                        "type": "string"
-                                    },
-                                    "name_yt": {
-                                        "type": "string"
-                                    },
-                                    "url_yt": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Información actualizada correctamente"
-                    }
-                }
-            }
-        },
-        "/api/about-us/image": {
-            "post": {
-                "tags": [
-                    "AboutUs"
-                ],
-                "summary": "Crea o Actualiza una imagen de About Us",
-                "operationId": "59e14ed71a0bda926327cf74c4f6ed03",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "image": {
-                                        "description": "Imagen en base64",
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Imagen actualizada con éxito"
-                    },
-                    "500": {
-                        "description": "Error al actualizar la imagen"
-                    }
-                }
-            }
-        },
-        "/api/about-us/{id}/value": {
-            "put": {
-                "tags": [
-                    "AboutUs"
-                ],
-                "summary": "Actualizar un valor existente en About Us",
-                "operationId": "0af69cbec07977e576d7e5ae02a102cb",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "oldAboutValue": {
-                                        "type": "string"
-                                    },
-                                    "newAboutValue": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Valor actualizado correctamente"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "AboutUs"
-                ],
-                "summary": "Agregar un nuevo valor a About Us",
-                "operationId": "cf4b856427e47e02c27aa4f9cadd826c",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "about_values": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Valor agregado con éxito"
-                    }
-                }
-            }
-        },
         "/api/about-us-home": {
             "get": {
                 "tags": [
                     "AboutUsHome"
                 ],
                 "summary": "Obtener datos de About Us Home",
-                "operationId": "3e001cf973af70f3566edeb058da6efd",
+                "operationId": "2b478e6543375386fa586110bd60851d",
                 "responses": {
                     "200": {
                         "description": "Datos obtenidos correctamente",
@@ -209,7 +41,7 @@
                     "AboutUsHome"
                 ],
                 "summary": "Actualizar los datos de About Us Home",
-                "operationId": "712ff0454fdca8363f88823242470b63",
+                "operationId": "f526c857e11d77ea8e934cf1f83b1d60",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -252,7 +84,7 @@
                     "AboutUsHome"
                 ],
                 "summary": "Actualizar la imagen de About Us Home",
-                "operationId": "50a80368eaa00ea4f9530794122dc484",
+                "operationId": "31af6878edebf1e1e41ce0e794ebea46",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -288,13 +120,181 @@
                 }
             }
         },
+        "/api/about-us": {
+            "get": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Obtener información de About Us",
+                "operationId": "75b59cf230787273ea2ec9a03f704023",
+                "responses": {
+                    "200": {
+                        "description": "Información obtenida correctamente"
+                    },
+                    "404": {
+                        "description": "Registro no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Actualizar información de About Us",
+                "operationId": "80d43fb84c7250621d1cd2797c178518",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "mission": {
+                                        "type": "string"
+                                    },
+                                    "vision": {
+                                        "type": "string"
+                                    },
+                                    "name_yt": {
+                                        "type": "string"
+                                    },
+                                    "url_yt": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Información actualizada correctamente"
+                    }
+                }
+            }
+        },
+        "/api/about-us/image": {
+            "post": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Crea o Actualiza una imagen de About Us",
+                "operationId": "e8c00b517e46f4e1a7ab6ee397a8c2ce",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "description": "Imagen en base64",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Imagen actualizada con éxito"
+                    },
+                    "500": {
+                        "description": "Error al actualizar la imagen"
+                    }
+                }
+            }
+        },
+        "/api/about-us/{id}/value": {
+            "put": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Actualizar un valor existente en About Us",
+                "operationId": "bc204058ec915626c0f5d398590c56e0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "oldAboutValue": {
+                                        "type": "string"
+                                    },
+                                    "newAboutValue": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Valor actualizado correctamente"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Agregar un nuevo valor a About Us",
+                "operationId": "cf4f844baaeaf4dcd1b51e5b051c8d13",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "about_values": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Valor agregado con éxito"
+                    }
+                }
+            }
+        },
         "/api/register": {
             "post": {
                 "tags": [
                     "Authentication"
                 ],
                 "summary": "Registra un nuevo usuario",
-                "operationId": "94ea02baf6ea63a8a7c6453d3acfcaf8",
+                "operationId": "b9e071918fa6250b23cdeddd7643e0a1",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -350,7 +350,7 @@
                     "Authentication"
                 ],
                 "summary": "Inicia sesión y obtiene un token JWT",
-                "operationId": "1f9fd504b8b4e1cc2096d776682e9318",
+                "operationId": "d981c87d4b23485ce8fa578d2d9f95f6",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -392,7 +392,7 @@
                     "Authentication"
                 ],
                 "summary": "Obtiene los datos del usuario autenticado",
-                "operationId": "31234491f21a35d2de09d4fae7ee13c4",
+                "operationId": "7f111548d336760611bdb9d837cc332e",
                 "responses": {
                     "200": {
                         "description": "Datos del usuario autenticado"
@@ -414,7 +414,7 @@
                     "Authentication"
                 ],
                 "summary": "Cierra sesión e invalida el token JWT",
-                "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
+                "operationId": "e44cd8b1e02c80892153cba48f159c36",
                 "responses": {
                     "200": {
                         "description": "Cierre de sesión exitoso"
@@ -1124,7 +1124,7 @@
                     "InfoContact"
                 ],
                 "summary": "Obtener la información de contacto",
-                "operationId": "bc5f50eb69c4e689f50f925b44d17a42",
+                "operationId": "b77438071e605eba8ebe76a637b8bd99",
                 "responses": {
                     "200": {
                         "description": "Información de contacto obtenida exitosamente",
@@ -1146,7 +1146,7 @@
                     "InfoContact"
                 ],
                 "summary": "Actualizar la información de contacto",
-                "operationId": "ac032328e0816501ed4c70387fffc6cb",
+                "operationId": "4550cbd3863ce668d6147963f829e7fd",
                 "parameters": [
                     {
                         "name": "id",
@@ -2797,12 +2797,12 @@
     },
     "tags": [
         {
-            "name": "AboutUs",
-            "description": "Endpoints para gestionar la información de About Us"
+            "name": "AboutUsHome",
+            "description": "Endpoints para gestionar la sección About Us en la página de inicio"
         },
         {
-            "name": "AboutUsHome",
-            "description": "API para gestionar la sección About Us en la página de inicio"
+            "name": "AboutUs",
+            "description": "Endpoints para gestionar la información de About Us"
         },
         {
             "name": "Authentication",
@@ -2810,7 +2810,7 @@
         },
         {
             "name": "InfoContact",
-            "description": "API para gestionar la información de contacto"
+            "description": "Endpoints para gestionar la información de contacto"
         },
         {
             "name": "Blogs",

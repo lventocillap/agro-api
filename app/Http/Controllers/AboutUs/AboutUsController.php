@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AboutUs;
 
+use App\Http\Controllers\Controller;
 use App\Exceptions\AboutUs\NotFoundAboutUs; 
 use App\Http\Service\Image\SaveImageAboutUs;
 use App\Http\Requests\AboutUs\ValidateAboutUs;
@@ -11,11 +12,6 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-
-
-/**
- * Controlador de About-Us para mostrar y actualizar, tambien para gestionar los valores como, crear, mostrar, actualizar, eliminar y creacion de imagenes.
- */
 
 /**
  * @OA\Tag(
