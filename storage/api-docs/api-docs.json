@@ -1211,21 +1211,22 @@
                     "Products"
                 ],
                 "summary": "Obtener lista de productos",
+                "description": "Devuelve una lista paginada de productos, con opción de filtrado por nombre y subcategoría. \n *     Si el usuario está autenticado mediante un token en el encabezado Authorization, verá todos los productos. \n *     Si no está autenticado, solo se devolverán los productos activos.",
                 "operationId": "7c20c2996c0202da8a6555300bc1e3b8",
                 "parameters": [
                     {
                         "name": "product",
                         "in": "query",
-                        "description": "Nombre del producto a buscar",
+                        "description": "Buscar productos por nombre (coincidencia parcial).",
                         "required": false,
                         "schema": {
                             "type": "string"
                         }
                     },
                     {
-                        "name": "category",
+                        "name": "subcategory",
                         "in": "query",
-                        "description": "Nombre de la subcategoría del producto",
+                        "description": "Filtrar productos por subcategoría.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -1234,7 +1235,7 @@
                     {
                         "name": "limit",
                         "in": "query",
-                        "description": "Cantidad de productos por página",
+                        "description": "Cantidad máxima de productos por página (por defecto 10).",
                         "required": false,
                         "schema": {
                             "type": "integer",
@@ -1244,7 +1245,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Lista de productos paginada",
+                        "description": "Lista de productos paginada.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1330,6 +1331,12 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "No autorizado. Se requiere un token válido para ver productos inactivos."
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta, parámetros inválidos."
                     }
                 }
             },

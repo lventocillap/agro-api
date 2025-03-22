@@ -265,31 +265,39 @@ class ProductController extends Controller
  * @OA\Get(
  *     path="/api/products",
  *     summary="Obtener lista de productos",
+ *     description="Devuelve una lista paginada de productos, con opción de filtrado por nombre y subcategoría. 
+ *     Si el usuario está autenticado mediante un token en el encabezado Authorization, verá todos los productos. 
+ *     Si no está autenticado, solo se devolverán los productos activos.",
  *     tags={"Products"},
  *     @OA\Parameter(
  *         name="product",
  *         in="query",
  *         required=false,
- *         description="Nombre del producto a buscar",
+ *         description="Buscar productos por nombre (coincidencia parcial).",
  *         @OA\Schema(type="string")
  *     ),
  *     @OA\Parameter(
- *         name="category",
+ *         name="subcategory",
  *         in="query",
  *         required=false,
- *         description="Nombre de la subcategoría del producto",
+ *         description="Filtrar productos por subcategoría.",
  *         @OA\Schema(type="string")
  *     ),
  *     @OA\Parameter(
  *         name="limit",
  *         in="query",
  *         required=false,
- *         description="Cantidad de productos por página",
+ *         description="Cantidad máxima de productos por página (por defecto 10).",
  *         @OA\Schema(type="integer", default=10)
+ *     ),
+ *     @OA\Header(
+ *         header="Authorization",
+ *         description="Token de autenticación en formato Bearer {token}. Si no se proporciona, solo se mostrarán productos activos.",
+ *         @OA\Schema(type="string")
  *     ),
  *     @OA\Response(
  *         response=200,
- *         description="Lista de productos paginada",
+ *         description="Lista de productos paginada.",
  *         @OA\JsonContent(
  *             @OA\Property(property="data", type="array", @OA\Items(
  *                 @OA\Property(property="id", type="integer", example=1),
@@ -311,6 +319,14 @@ class ProductController extends Controller
  *             @OA\Property(property="next_page", type="string", nullable=true, example="http://api.example.com/products?page=2"),
  *             @OA\Property(property="prev_page", type="string", nullable=true, example=null)
  *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="No autorizado. Se requiere un token válido para ver productos inactivos."
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Solicitud incorrecta, parámetros inválidos."
  *     )
  * )
  */
@@ -320,6 +336,7 @@ class ProductController extends Controller
         $subcategory = $request->query('category');
         $limit = $request->query('limit');
 
+        $user = auth('api')->user();
         $products = Product::select('id', 'name', 'price', 'status')
             ->with([
                 'subCategories:id,name',
@@ -332,8 +349,9 @@ class ProductController extends Controller
                     $subQuery->where('name', $subcategory);
                 });
             })
-            ->where('status', true)
-            //->get(); 
+            ->when(is_null($user), function ($query) {
+                $query->where('status', true);
+            })
             ->paginate($limit);
             
         return new JsonResponse([
