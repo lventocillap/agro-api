@@ -35,13 +35,15 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/about-us-home/{idAboutUsHome}": {
             "put": {
                 "tags": [
                     "AboutUsHome"
                 ],
                 "summary": "Actualizar los datos de About Us Home",
-                "operationId": "f526c857e11d77ea8e934cf1f83b1d60",
+                "operationId": "8381da444bf84f352799587cd1e7b1c4",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -138,13 +140,15 @@
                         "description": "Error interno del servidor"
                     }
                 }
-            },
+            }
+        },
+        "/api/about-us/{idAboutUs}": {
             "put": {
                 "tags": [
                     "AboutUs"
                 ],
                 "summary": "Actualizar información de About Us",
-                "operationId": "80d43fb84c7250621d1cd2797c178518",
+                "operationId": "d909ed44da73d3b59ac9b4aec3995617",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -209,13 +213,13 @@
                 }
             }
         },
-        "/api/about-us/{id}/value": {
+        "/api/about-us/add-value/{idValue}": {
             "put": {
                 "tags": [
                     "AboutUs"
                 ],
                 "summary": "Actualizar un valor existente en About Us",
-                "operationId": "bc204058ec915626c0f5d398590c56e0",
+                "operationId": "64c6e9aa409e6c757a5aea2a579c2a49",
                 "parameters": [
                     {
                         "name": "id",
@@ -255,7 +259,7 @@
                     "AboutUs"
                 ],
                 "summary": "Agregar un nuevo valor a About Us",
-                "operationId": "cf4f844baaeaf4dcd1b51e5b051c8d13",
+                "operationId": "7bf09206ac09cfa719937aabb227a3dd",
                 "parameters": [
                     {
                         "name": "id",
@@ -284,6 +288,51 @@
                 "responses": {
                     "200": {
                         "description": "Valor agregado con éxito"
+                    }
+                }
+            }
+        },
+        "/api/about-us/delete-value/{idValue}": {
+            "delete": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Eliminar un valor de About Us",
+                "operationId": "22e35c35a51c2c775a7a66a6fc1835a8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "aboutValue": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Valor eliminado correctamente"
+                    },
+                    "404": {
+                        "description": "Registro no encontrado"
+                    },
+                    "422": {
+                        "description": "El valor no existe en la lista"
                     }
                 }
             }

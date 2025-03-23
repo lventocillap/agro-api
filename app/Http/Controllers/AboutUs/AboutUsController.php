@@ -60,7 +60,7 @@ class AboutUsController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/about-us",
+     *     path="/api/about-us/{idAboutUs}",
      *     summary="Actualizar información de About Us",
      *     tags={"AboutUs"},
      *     @OA\RequestBody(
@@ -149,7 +149,7 @@ class AboutUsController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/about-us/{id}/value",
+     *     path="/api/about-us/add-value/{idValue}",
      *     summary="Agregar un nuevo valor a About Us",
      *     tags={"AboutUs"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -192,7 +192,7 @@ class AboutUsController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/about-us/{id}/value",
+     *     path="/api/about-us/add-value/{idValue}",
      *     summary="Actualizar un valor existente en About Us",
      *     tags={"AboutUs"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -238,5 +238,51 @@ class AboutUsController extends Controller
             'about_values' => $updated_about_values
         ], 200);
     }
+
+    /**
+ * @OA\Delete(
+ *     path="/api/about-us/delete-value/{idValue}",
+ *     summary="Eliminar un valor de About Us",
+ *     tags={"AboutUs"},
+ *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             @OA\Property(property="aboutValue", type="string")
+ *         )
+ *     ),
+ *     @OA\Response(response=200, description="Valor eliminado correctamente"),
+ *     @OA\Response(response=404, description="Registro no encontrado"),
+ *     @OA\Response(response=422, description="El valor no existe en la lista")
+ * )
+ */
+public function deleteValueAboutUs(Request $request, $id)
+{
+    $request->validate([
+        'aboutValue' => 'required|string|max:255',
+    ]);
+
+    $aboutUs = AboutUs::find($id);
+    if (!$aboutUs) {
+        return response()->json(['message' => 'Registro no encontrado'], 404);
+    }
+
+    $values = $aboutUs->about_values ?? [];
+
+    if (!in_array($request->aboutValue, $values)) {
+        return response()->json(['message' => 'El valor no existe en la lista'], 422);
+    }
+
+    $filteredValues = array_filter($values, fn($v) => $v !== $request->aboutValue);
+    
+    $aboutUs->about_values = array_values($filteredValues); // Reindexa el array
+    $aboutUs->save();
+
+    return response()->json([
+        'message' => 'Valor eliminado correctamente',
+        'values' => $aboutUs->about_values,
+    ], 200);
+}
+
 }
 

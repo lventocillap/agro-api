@@ -43,7 +43,7 @@ class InfoContactController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/info-contact/{id}",
+     *     path="/api/info-contact/{idInfoContact}",
      *     summary="Actualizar la información de contacto",
      *     tags={"InfoContact"},
      *     @OA\Parameter(
