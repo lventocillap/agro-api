@@ -1254,6 +1254,183 @@
                 }
             }
         },
+        "/api/policy": {
+            "get": {
+                "tags": [
+                    "Policies"
+                ],
+                "summary": "Obtener la política",
+                "description": "Retorna la política con su imagen asociada.",
+                "operationId": "64ea1b239df8e8f32c17a974ed721758",
+                "responses": {
+                    "200": {
+                        "description": "Éxito: Retorna la política",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Política de privacidad"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Esta es la política..."
+                                        },
+                                        "image": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "url": {
+                                                    "type": "string",
+                                                    "example": "https://example.com/image.jpg"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Política no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Policies"
+                ],
+                "summary": "Actualizar la política",
+                "description": "Actualiza la información de la política y su imagen.",
+                "operationId": "f78b7e098e29888867fe71ac174e75da",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Política actualizada"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Nueva descripción de la política."
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "byte",
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANS..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Política actualizada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Policy updated successfully"
+                                        },
+                                        "policy": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Política actualizada"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Nueva descripción..."
+                                                },
+                                                "image": {
+                                                    "properties": {
+                                                        "url": {
+                                                            "type": "string",
+                                                            "example": "https://example.com/image.jpg"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor al guardar la imagen",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error saving image"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error message details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/products": {
             "get": {
                 "tags": [
@@ -1866,29 +2043,80 @@
                 }
             }
         },
-        "/api/services": {
+        "/api/getServices": {
             "get": {
                 "tags": [
                     "Services"
                 ],
-                "summary": "Obtener todos los servicios",
-                "operationId": "a8fc166f4f81daebd927e784238f5af6",
+                "summary": "Obtiene una lista paginada de servicios",
+                "operationId": "ce66c50af851232bf27c859997492525",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Cantidad de servicios por página (por defecto 10)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Lista de servicios obtenida correctamente",
+                        "description": "Lista paginada de servicios",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Service"
-                                    }
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "features": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "format": "url"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "current_page": {
+                                            "type": "integer"
+                                        },
+                                        "total": {
+                                            "type": "integer"
+                                        },
+                                        "last_page": {
+                                            "type": "integer"
+                                        },
+                                        "next_page": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "prev_page": {
+                                            "type": "string",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "No hay servicios para mostrar",
+                        "description": "No hay servicios disponibles",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1902,12 +2130,11 @@
                                 }
                             }
                         }
-                    },
-                    "500": {
-                        "description": "Error interno del servidor"
                     }
                 }
-            },
+            }
+        },
+        "/api/services": {
             "post": {
                 "tags": [
                     "Services"
@@ -1926,11 +2153,11 @@
                                 "properties": {
                                     "title": {
                                         "type": "string",
-                                        "example": "Corte de Cabello"
+                                        "example": "Almacenamiento"
                                     },
                                     "description": {
                                         "type": "string",
-                                        "example": "Corte de cabello personalizado"
+                                        "example": "Se ofrece el servicio de almacenamiento de mercancía"
                                     },
                                     "features": {
                                         "type": "array",
@@ -1995,7 +2222,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/services/{id}": {
@@ -2167,7 +2399,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -2240,7 +2477,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/categories/{nameCategory}/subcategories": {
@@ -2842,6 +3084,12 @@
                 },
                 "type": "object"
             }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
         }
     },
     "tags": [
@@ -2868,6 +3116,10 @@
         {
             "name": "Categories",
             "description": "Categories"
+        },
+        {
+            "name": "Policies",
+            "description": "Policies"
         },
         {
             "name": "Products",
