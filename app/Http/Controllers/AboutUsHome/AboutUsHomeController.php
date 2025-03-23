@@ -50,6 +50,13 @@ class AboutUsHomeController extends Controller
      *     path="/api/about-us-home/{idAboutUsHome}",
      *     summary="Actualizar los datos de About Us Home",
      *     tags={"AboutUsHome"},
+     *     @OA\Parameter(
+     *         name="idAboutUsHome",
+     *         in="path",
+     *         required=true,
+     *         description="ID de About Us Home",
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -61,7 +68,18 @@ class AboutUsHomeController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Información actualizada correctamente",
-     *         @OA\JsonContent()
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Información actualizada correctamente"),
+     *             @OA\Property(property="data", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No se enviaron datos válidos para actualizar"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación"
      *     )
      * )
      */

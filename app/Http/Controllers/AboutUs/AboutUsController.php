@@ -58,22 +58,44 @@ class AboutUsController extends Controller
         }
     }
 
-    /**
+       /**
      * @OA\Put(
      *     path="/api/about-us/{idAboutUs}",
      *     summary="Actualizar información de About Us",
      *     tags={"AboutUs"},
+     *     @OA\Parameter(
+     *         name="idAboutUs",
+     *         in="path",
+     *         required=true,
+     *         description="ID del registro de About Us",
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="mission", type="string"),
-     *             @OA\Property(property="vision", type="string"),
-     *             @OA\Property(property="name_yt", type="string"),
-     *             @OA\Property(property="url_yt", type="string")
+     *             @OA\Property(property="mission", type="string", example="Ser la mejor empresa del sector"),
+     *             @OA\Property(property="vision", type="string", example="Innovar y expandir nuestras soluciones"),
+     *             @OA\Property(property="name_yt", type="string", example="Nuestro canal oficial"),
+     *             @OA\Property(property="url_yt", type="string", example="https://www.youtube.com/channel/ejemplo")
      *         )
      *     ),
-     *     @OA\Response(response=200, description="Información actualizada correctamente")
+     *     @OA\Response(
+     *         response=200,
+     *         description="Información actualizada correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Información actualizada correctamente"),
+     *             @OA\Property(property="data", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No se enviaron datos válidos para actualizar"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación"
+     *     )
      * )
      */
     public function updateAboutUs(Request $request)
