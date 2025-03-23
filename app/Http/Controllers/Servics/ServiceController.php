@@ -67,13 +67,14 @@ class ServiceController extends Controller
      * @OA\Post(
      *     path="/api/services",
      *     summary="Crear un nuevo servicio",
+     *     security={{"bearerAuth": {}}},
      *     tags={"Services"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             required={"title", "description"},
-     *             @OA\Property(property="title", type="string", example="Corte de Cabello"),
-     *             @OA\Property(property="description", type="string", example="Corte de cabello personalizado"),
+     *             @OA\Property(property="title", type="string", example="Almacenamiento"),
+     *             @OA\Property(property="description", type="string", example="Se ofrece el servicio de almacenamiento de mercancía"),
      *             @OA\Property(property="features", type="array", @OA\Items(type="string"), example={"Rapido", "Económico"}),
      *             @OA\Property(property="image", type="string", format="base64", example="data:image/png;base64,iVBORw0KGgoAAAANS...")
      *         )
@@ -136,7 +137,7 @@ class ServiceController extends Controller
      *     summary="Obtener un servicio por ID",
      *     tags={"Services"},
      *     @OA\Parameter(
-     *         name="id",
+     *         name="idServices",  
      *         in="path",
      *         required=true,
      *         description="ID del servicio a obtener",
@@ -164,10 +165,10 @@ class ServiceController extends Controller
      *     )
      * )
      */
-    public function getServiceById($id) : JsonResponse
+    public function getServiceById($idServices) : JsonResponse
     {
         try {
-            $service = Service::with('image')->findOrFail($id);
+            $service = Service::with('image')->findOrFail($idServices);
     
             // Convertir features de string a array antes de devolver la respuesta
             $service->features = $service->features ? explode('益', $service->features) : [];
@@ -184,9 +185,10 @@ class ServiceController extends Controller
      * @OA\Put(
      *     path="/api/services/{idServices}",
      *     summary="Actualizar un servicio por ID",
+     *     security={{"bearerAuth": {}}},
      *     tags={"Services"},
      *     @OA\Parameter(
-     *         name="id",
+     *         name="idServices",
      *         in="path",
      *         required=true,
      *         description="ID del servicio a actualizar",
@@ -228,10 +230,10 @@ class ServiceController extends Controller
      *     )
      * )
      */
-    public function updateServiceById(Request $request, $id) : JsonResponse
+    public function updateServiceById(Request $request, $idServices) : JsonResponse
     {
         try {
-            $service = Service::findOrFail($id); // Usa findOrFail para lanzar excepción si no existe
+            $service = Service::findOrFail($idServices); // Usa findOrFail para lanzar excepción si no existe
     
             // Validamos los datos de actualización
             $validatedData = $this->validateServiceUpdate($request);
@@ -294,9 +296,10 @@ class ServiceController extends Controller
      * @OA\Delete(
      *     path="/api/services/{idServices}",
      *     summary="Eliminar un servicio por ID",
+     *     security={{"bearerAuth": {}}},
      *     tags={"Services"},
      *     @OA\Parameter(
-     *         name="id",
+     *         name="idServices",
      *         in="path",
      *         required=true,
      *         description="ID del servicio a eliminar",
@@ -326,9 +329,9 @@ class ServiceController extends Controller
      *     )
      * )
      */
-    public function deleteService($id) : JsonResponse
+    public function deleteService($idServices) : JsonResponse
     {
-        $service = Service::with('image')->find($id);
+        $service = Service::with('image')->find($idServices);
         
         if (!$service) {
             throw new NotFoundService();

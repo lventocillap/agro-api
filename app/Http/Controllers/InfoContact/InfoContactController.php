@@ -47,7 +47,7 @@ class InfoContactController extends Controller
      *     summary="Actualizar la información de contacto",
      *     tags={"InfoContact"},
      *     @OA\Parameter(
-     *         name="id",
+     *         name="idInfoContact",  
      *         in="path",
      *         required=true,
      *         description="ID de la información de contacto",
@@ -77,7 +77,8 @@ class InfoContactController extends Controller
      *     )
      * )
      */
-    public function updateInfoContact(Request $request, $id)
+
+    public function updateInfoContact(Request $request, $idInfoContact)
     {
         $validator = Validator::make($request->all(), [
             'location' => 'nullable|string|max:100',
@@ -90,7 +91,7 @@ class InfoContactController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $infoContact = InfoContact::findOrFail($id);
+        $infoContact = InfoContact::findOrFail($idInfoContact);
 
         $data = array_filter($request->only(['location', 'cellphone', 'email', 'attention_hours']), function ($value) {
             return $value !== null && $value !== '';

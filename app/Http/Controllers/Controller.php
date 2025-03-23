@@ -15,6 +15,11 @@ namespace App\Http\Controllers;
  *     url="http://localhost:8000/",
  *     description="API Server"
  * )
+ * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http",
+ *     scheme="bearer"
+ * )
  */
 abstract class Controller
 {

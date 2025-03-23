@@ -107,7 +107,7 @@ Route::middleware(IsUserAuth::class)->group(function () {
             Route::delete('blogs/{idBlog}', [BlogController::class, 'deleteBlog']); // Eliminar blog
         
             //Policies
-            Route::put('/policies/{id}', [PolicyController::class, 'updatePolicy']);
+            Route::put('/policies/{idPolicies}', [PolicyController::class, 'updatePolicy']);
         
             //Info_Contact
             Route::put('/info-contact/{idInfoContact}', [InfoContactController::class, 'updateInfoContact']); // Actualizar Info Contact

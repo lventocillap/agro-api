@@ -63,6 +63,12 @@ class AboutUsController extends Controller
      *     path="/api/about-us/{idAboutUs}",
      *     summary="Actualizar información de About Us",
      *     tags={"AboutUs"},
+     *     @OA\Parameter(
+     *         name="idAboutUs",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -152,7 +158,12 @@ class AboutUsController extends Controller
      *     path="/api/about-us/add-value/{idValue}",
      *     summary="Agregar un nuevo valor a About Us",
      *     tags={"AboutUs"},
-     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Parameter(
+     *         name="idValue",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -195,7 +206,12 @@ class AboutUsController extends Controller
      *     path="/api/about-us/add-value/{idValue}",
      *     summary="Actualizar un valor existente en About Us",
      *     tags={"AboutUs"},
-     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Parameter(
+     *         name="idValue",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -244,12 +260,17 @@ class AboutUsController extends Controller
  *     path="/api/about-us/delete-value/{idValue}",
  *     summary="Eliminar un valor de About Us",
  *     tags={"AboutUs"},
- *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
- *     @OA\RequestBody(
+ *     @OA\Parameter(
+ *         name="idValue",
+ *         in="path",
  *         required=true,
- *         @OA\JsonContent(
- *             @OA\Property(property="aboutValue", type="string")
- *         )
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Parameter(
+ *         name="aboutValue",
+ *         in="query",
+ *         required=true,
+ *         @OA\Schema(type="string")
  *     ),
  *     @OA\Response(response=200, description="Valor eliminado correctamente"),
  *     @OA\Response(response=404, description="Registro no encontrado"),
