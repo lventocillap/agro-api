@@ -47,7 +47,7 @@ class AboutUsHomeController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/about-us-home",
+     *     path="/api/about-us-home/{idAboutUsHome}",
      *     summary="Actualizar los datos de About Us Home",
      *     tags={"AboutUsHome"},
      *     @OA\RequestBody(

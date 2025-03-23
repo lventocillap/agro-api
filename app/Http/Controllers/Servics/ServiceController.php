@@ -132,7 +132,7 @@ class ServiceController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/services/{id}",
+     *     path="/api/services/{idServices}",
      *     summary="Obtener un servicio por ID",
      *     tags={"Services"},
      *     @OA\Parameter(
@@ -182,7 +182,7 @@ class ServiceController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/services/{id}",
+     *     path="/api/services/{idServices}",
      *     summary="Actualizar un servicio por ID",
      *     tags={"Services"},
      *     @OA\Parameter(
@@ -292,7 +292,7 @@ class ServiceController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/services/{id}",
+     *     path="/api/services/{idServices}",
      *     summary="Eliminar un servicio por ID",
      *     tags={"Services"},
      *     @OA\Parameter(
