@@ -35,13 +35,26 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/about-us-home/{idAboutUsHome}": {
             "put": {
                 "tags": [
                     "AboutUsHome"
                 ],
                 "summary": "Actualizar los datos de About Us Home",
-                "operationId": "f526c857e11d77ea8e934cf1f83b1d60",
+                "operationId": "8381da444bf84f352799587cd1e7b1c4",
+                "parameters": [
+                    {
+                        "name": "idAboutUsHome",
+                        "in": "path",
+                        "description": "ID de About Us Home",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -71,9 +84,26 @@
                         "description": "Información actualizada correctamente",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Información actualizada correctamente"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "No se enviaron datos válidos para actualizar"
+                    },
+                    "422": {
+                        "description": "Error de validación"
                     }
                 }
             }
@@ -138,13 +168,26 @@
                         "description": "Error interno del servidor"
                     }
                 }
-            },
+            }
+        },
+        "/api/about-us/{idAboutUs}": {
             "put": {
                 "tags": [
                     "AboutUs"
                 ],
                 "summary": "Actualizar información de About Us",
-                "operationId": "80d43fb84c7250621d1cd2797c178518",
+                "operationId": "d909ed44da73d3b59ac9b4aec3995617",
+                "parameters": [
+                    {
+                        "name": "idAboutUs",
+                        "in": "path",
+                        "description": "ID del registro de About Us",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -152,16 +195,20 @@
                             "schema": {
                                 "properties": {
                                     "mission": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Ser la mejor empresa del sector"
                                     },
                                     "vision": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Innovar y expandir nuestras soluciones"
                                     },
                                     "name_yt": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Nuestro canal oficial"
                                     },
                                     "url_yt": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "https://www.youtube.com/channel/ejemplo"
                                     }
                                 },
                                 "type": "object"
@@ -171,7 +218,29 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Información actualizada correctamente"
+                        "description": "Información actualizada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Información actualizada correctamente"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No se enviaron datos válidos para actualizar"
+                    },
+                    "422": {
+                        "description": "Error de validación"
                     }
                 }
             }
@@ -209,13 +278,13 @@
                 }
             }
         },
-        "/api/about-us/{id}/value": {
+        "/api/about-us/add-value/{idValue}": {
             "put": {
                 "tags": [
                     "AboutUs"
                 ],
                 "summary": "Actualizar un valor existente en About Us",
-                "operationId": "bc204058ec915626c0f5d398590c56e0",
+                "operationId": "64c6e9aa409e6c757a5aea2a579c2a49",
                 "parameters": [
                     {
                         "name": "id",
@@ -255,7 +324,7 @@
                     "AboutUs"
                 ],
                 "summary": "Agregar un nuevo valor a About Us",
-                "operationId": "cf4f844baaeaf4dcd1b51e5b051c8d13",
+                "operationId": "7bf09206ac09cfa719937aabb227a3dd",
                 "parameters": [
                     {
                         "name": "id",
@@ -284,6 +353,51 @@
                 "responses": {
                     "200": {
                         "description": "Valor agregado con éxito"
+                    }
+                }
+            }
+        },
+        "/api/about-us/delete-value/{idValue}": {
+            "delete": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Eliminar un valor de About Us",
+                "operationId": "22e35c35a51c2c775a7a66a6fc1835a8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "aboutValue": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Valor eliminado correctamente"
+                    },
+                    "404": {
+                        "description": "Registro no encontrado"
+                    },
+                    "422": {
+                        "description": "El valor no existe en la lista"
                     }
                 }
             }
@@ -1151,7 +1265,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID de la información de contacto",
+                        "description": "ID de la información de contacto a actualizar",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1166,19 +1280,24 @@
                                 "properties": {
                                     "location": {
                                         "type": "string",
+                                        "maxLength": 100,
                                         "example": "Lima, Perú"
                                     },
                                     "cellphone": {
                                         "type": "string",
+                                        "maxLength": 9,
+                                        "minLength": 9,
                                         "example": "987654321"
                                     },
                                     "email": {
                                         "type": "string",
                                         "format": "email",
+                                        "maxLength": 320,
                                         "example": "contacto@empresa.com"
                                     },
                                     "attention_hours": {
                                         "type": "string",
+                                        "maxLength": 100,
                                         "example": "Lunes a Viernes de 9am a 6pm"
                                     }
                                 },
@@ -1192,17 +1311,297 @@
                         "description": "Información de contacto actualizada correctamente",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Información de contacto actualizada correctamente"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "location": {
+                                                    "type": "string",
+                                                    "example": "Lima, Perú"
+                                                },
+                                                "cellphone": {
+                                                    "type": "string",
+                                                    "example": "987654321"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "format": "email",
+                                                    "example": "contacto@empresa.com"
+                                                },
+                                                "attention_hours": {
+                                                    "type": "string",
+                                                    "example": "Lunes a Viernes de 9am a 6pm"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
                             }
                         }
                     },
                     "400": {
-                        "description": "No se enviaron datos válidos para actualizar"
+                        "description": "No se enviaron datos válidos para actualizar",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se enviaron datos válidos para actualizar."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Información de contacto no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Información de contacto no encontrada."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "422": {
-                        "description": "Error de validación"
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string",
+                                                    "example": "El campo location es obligatorio."
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
+            }
+        },
+        "/api/policy": {
+            "get": {
+                "tags": [
+                    "Policies"
+                ],
+                "summary": "Obtener la política",
+                "description": "Retorna la política con su imagen asociada.",
+                "operationId": "64ea1b239df8e8f32c17a974ed721758",
+                "responses": {
+                    "200": {
+                        "description": "Éxito: Retorna la política",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Política de privacidad"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Esta es la política..."
+                                        },
+                                        "image": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "url": {
+                                                    "type": "string",
+                                                    "example": "https://example.com/image.jpg"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Política no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/policy/{idPolicies}": {
+            "put": {
+                "tags": [
+                    "Policies"
+                ],
+                "summary": "Actualizar la política",
+                "description": "Actualiza la información de la política y su imagen.",
+                "operationId": "6a68546c8966925e8f8005250ea0db4c",
+                "parameters": [
+                    {
+                        "name": "idPolicies",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "aboutValue"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Política actualizada"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Nueva descripción de la política."
+                                    },
+                                    "aboutValue": {
+                                        "type": "string",
+                                        "example": "Información adicional sobre la política."
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "byte",
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANS..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Política actualizada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Policy updated successfully"
+                                        },
+                                        "policy": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Política actualizada"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Nueva descripción..."
+                                                },
+                                                "aboutValue": {
+                                                    "type": "string",
+                                                    "example": "Información adicional actualizada."
+                                                },
+                                                "image": {
+                                                    "properties": {
+                                                        "url": {
+                                                            "type": "string",
+                                                            "example": "https://example.com/image.jpg"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor al guardar la imagen",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error saving image"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error message details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/products": {
@@ -1823,29 +2222,80 @@
                 }
             }
         },
-        "/api/services": {
+        "/api/getServices": {
             "get": {
                 "tags": [
                     "Services"
                 ],
-                "summary": "Obtener todos los servicios",
-                "operationId": "a8fc166f4f81daebd927e784238f5af6",
+                "summary": "Obtiene una lista paginada de servicios",
+                "operationId": "ce66c50af851232bf27c859997492525",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Cantidad de servicios por página (por defecto 10)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Lista de servicios obtenida correctamente",
+                        "description": "Lista paginada de servicios",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Service"
-                                    }
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "features": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "image": {
+                                                        "type": "string",
+                                                        "format": "url"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "current_page": {
+                                            "type": "integer"
+                                        },
+                                        "total": {
+                                            "type": "integer"
+                                        },
+                                        "last_page": {
+                                            "type": "integer"
+                                        },
+                                        "next_page": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "prev_page": {
+                                            "type": "string",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "No hay servicios para mostrar",
+                        "description": "No hay servicios disponibles",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1859,12 +2309,11 @@
                                 }
                             }
                         }
-                    },
-                    "500": {
-                        "description": "Error interno del servidor"
                     }
                 }
-            },
+            }
+        },
+        "/api/services": {
             "post": {
                 "tags": [
                     "Services"
@@ -1883,11 +2332,11 @@
                                 "properties": {
                                     "title": {
                                         "type": "string",
-                                        "example": "Corte de Cabello"
+                                        "example": "Almacenamiento"
                                     },
                                     "description": {
                                         "type": "string",
-                                        "example": "Corte de cabello personalizado"
+                                        "example": "Se ofrece el servicio de almacenamiento de mercancía"
                                     },
                                     "features": {
                                         "type": "array",
@@ -1952,16 +2401,21 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
-        "/api/services/{id}": {
+        "/api/services/{idServices}": {
             "get": {
                 "tags": [
                     "Services"
                 ],
                 "summary": "Obtener un servicio por ID",
-                "operationId": "016caeff466c5bdd11e8defc93c0ccf1",
+                "operationId": "c70e5e0e3746612e9f358d97b62e3366",
                 "parameters": [
                     {
                         "name": "id",
@@ -2028,7 +2482,7 @@
                     "Services"
                 ],
                 "summary": "Actualizar un servicio por ID",
-                "operationId": "e3e0ac3bbfb4b5018cd7e4cc5b927ca2",
+                "operationId": "e7f24dd7e2a86598a86b519acec2c005",
                 "parameters": [
                     {
                         "name": "id",
@@ -2124,14 +2578,19 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
                     "Services"
                 ],
                 "summary": "Eliminar un servicio por ID",
-                "operationId": "c24018b04c44dc5700624b6f52853a25",
+                "operationId": "f18099c047ccf5aef0348f0f3d73cf8a",
                 "parameters": [
                     {
                         "name": "id",
@@ -2197,7 +2656,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/categories/{nameCategory}/subcategories": {
@@ -2799,6 +3263,12 @@
                 },
                 "type": "object"
             }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
         }
     },
     "tags": [
@@ -2825,6 +3295,10 @@
         {
             "name": "Categories",
             "description": "Categories"
+        },
+        {
+            "name": "Policies",
+            "description": "Policies"
         },
         {
             "name": "Products",

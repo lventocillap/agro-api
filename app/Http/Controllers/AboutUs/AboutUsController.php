@@ -58,22 +58,44 @@ class AboutUsController extends Controller
         }
     }
 
-    /**
+       /**
      * @OA\Put(
-     *     path="/api/about-us",
+     *     path="/api/about-us/{idAboutUs}",
      *     summary="Actualizar información de About Us",
      *     tags={"AboutUs"},
+     *     @OA\Parameter(
+     *         name="idAboutUs",
+     *         in="path",
+     *         required=true,
+     *         description="ID del registro de About Us",
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="mission", type="string"),
-     *             @OA\Property(property="vision", type="string"),
-     *             @OA\Property(property="name_yt", type="string"),
-     *             @OA\Property(property="url_yt", type="string")
+     *             @OA\Property(property="mission", type="string", example="Ser la mejor empresa del sector"),
+     *             @OA\Property(property="vision", type="string", example="Innovar y expandir nuestras soluciones"),
+     *             @OA\Property(property="name_yt", type="string", example="Nuestro canal oficial"),
+     *             @OA\Property(property="url_yt", type="string", example="https://www.youtube.com/channel/ejemplo")
      *         )
      *     ),
-     *     @OA\Response(response=200, description="Información actualizada correctamente")
+     *     @OA\Response(
+     *         response=200,
+     *         description="Información actualizada correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Información actualizada correctamente"),
+     *             @OA\Property(property="data", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No se enviaron datos válidos para actualizar"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación"
+     *     )
      * )
      */
     public function updateAboutUs(Request $request)
@@ -149,7 +171,7 @@ class AboutUsController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/about-us/{id}/value",
+     *     path="/api/about-us/add-value/{idValue}",
      *     summary="Agregar un nuevo valor a About Us",
      *     tags={"AboutUs"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -192,7 +214,7 @@ class AboutUsController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/about-us/{id}/value",
+     *     path="/api/about-us/add-value/{idValue}",
      *     summary="Actualizar un valor existente en About Us",
      *     tags={"AboutUs"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -238,5 +260,51 @@ class AboutUsController extends Controller
             'about_values' => $updated_about_values
         ], 200);
     }
+
+    /**
+ * @OA\Delete(
+ *     path="/api/about-us/delete-value/{idValue}",
+ *     summary="Eliminar un valor de About Us",
+ *     tags={"AboutUs"},
+ *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             @OA\Property(property="aboutValue", type="string")
+ *         )
+ *     ),
+ *     @OA\Response(response=200, description="Valor eliminado correctamente"),
+ *     @OA\Response(response=404, description="Registro no encontrado"),
+ *     @OA\Response(response=422, description="El valor no existe en la lista")
+ * )
+ */
+public function deleteValueAboutUs(Request $request, $id)
+{
+    $request->validate([
+        'aboutValue' => 'required|string|max:255',
+    ]);
+
+    $aboutUs = AboutUs::find($id);
+    if (!$aboutUs) {
+        return response()->json(['message' => 'Registro no encontrado'], 404);
+    }
+
+    $values = $aboutUs->about_values ?? [];
+
+    if (!in_array($request->aboutValue, $values)) {
+        return response()->json(['message' => 'El valor no existe en la lista'], 422);
+    }
+
+    $filteredValues = array_filter($values, fn($v) => $v !== $request->aboutValue);
+    
+    $aboutUs->about_values = array_values($filteredValues); // Reindexa el array
+    $aboutUs->save();
+
+    return response()->json([
+        'message' => 'Valor eliminado correctamente',
+        'values' => $aboutUs->about_values,
+    ], 200);
+}
+
 }
 

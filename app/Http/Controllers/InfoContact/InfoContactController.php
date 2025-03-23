@@ -50,30 +50,56 @@ class InfoContactController extends Controller
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID de la información de contacto",
+     *         description="ID de la información de contacto a actualizar",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="location", type="string", example="Lima, Perú"),
-     *             @OA\Property(property="cellphone", type="string", example="987654321"),
-     *             @OA\Property(property="email", type="string", format="email", example="contacto@empresa.com"),
-     *             @OA\Property(property="attention_hours", type="string", example="Lunes a Viernes de 9am a 6pm")
+     *             @OA\Property(property="location", type="string", maxLength=100, example="Lima, Perú"),
+     *             @OA\Property(property="cellphone", type="string", minLength=9, maxLength=9, example="987654321"),
+     *             @OA\Property(property="email", type="string", format="email", maxLength=320, example="contacto@empresa.com"),
+     *             @OA\Property(property="attention_hours", type="string", maxLength=100, example="Lunes a Viernes de 9am a 6pm")
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Información de contacto actualizada correctamente",
-     *         @OA\JsonContent()
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Información de contacto actualizada correctamente"),
+     *             @OA\Property(property="data", type="object", 
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="location", type="string", example="Lima, Perú"),
+     *                 @OA\Property(property="cellphone", type="string", example="987654321"),
+     *                 @OA\Property(property="email", type="string", format="email", example="contacto@empresa.com"),
+     *                 @OA\Property(property="attention_hours", type="string", example="Lunes a Viernes de 9am a 6pm")
+     *             )
+     *         )
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="No se enviaron datos válidos para actualizar"
+     *         description="No se enviaron datos válidos para actualizar",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="No se enviaron datos válidos para actualizar.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Información de contacto no encontrada",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Información de contacto no encontrada.")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=422,
-     *         description="Error de validación"
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\AdditionalProperties(type="array",
+     *                     @OA\Items(type="string", example="El campo location es obligatorio.")
+     *                 )
+     *             )
+     *         )
      *     )
      * )
      */

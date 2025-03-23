@@ -59,7 +59,7 @@ Route::get('/info-contact', [InfoContactController::class, 'getInfoContact']); /
 Route::middleware(IsUserAuth::class)->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::post('logout', 'logout');
-        Route::get('me', 'getUser');
+        Route::get('user', 'getUser');
     });
 
 
@@ -67,7 +67,7 @@ Route::middleware(IsUserAuth::class)->group(function () {
         Route::controller(AuthController::class)->group(function () {
 
             //About_Us_Home
-            Route::put('/about-us-home/{id}', [AboutUsHomeController::class, 'updateAboutUsHome']); // Actualizar About Us
+            Route::put('/about-us-home/{idAboutUsHome}', [AboutUsHomeController::class, 'updateAboutUsHome']); // Actualizar About Us
             Route::post('/about-us-home/image', [AboutUsHomeController::class, 'updateImageToAboutUsHome']); // Agregar Imagen
 
             //Testimonies
@@ -76,11 +76,11 @@ Route::middleware(IsUserAuth::class)->group(function () {
             Route::delete('testimonies/{testimonieId}', [TestimoniesController::class, 'deleteTestimonie']); // Eliminar testimonio
             
             //About_Us
-            Route::put('/about-us/{id}', [AboutUsController::class, 'updateAboutUs']); // Actualizar About Us
+            Route::put('/about-us/{idAboutUs}', [AboutUsController::class, 'updateAboutUs']); // Actualizar About Us
             Route::post('/about-us/image', [AboutUsController::class, 'updateImageToAboutUs']); // Agregar Imagen
-            Route::post('/about-us/add-value/{id}', [AboutUsController::class, 'addValueAboutUs']); // Agregar un valor
-            Route::put('/about-us/update-value/{id}', [AboutUsController::class, 'updateValueAboutUs']); // Actualizar un valor
-            Route::delete('/about-us/delete-value/{id}', [AboutUsController::class, 'deleteValueAboutUs']); // Eliminar un valor
+            Route::post('/about-us/add-value/{idValue}', [AboutUsController::class, 'addValueAboutUs']); // Agregar un valor
+            Route::put('/about-us/update-value/{idValue}', [AboutUsController::class, 'updateValueAboutUs']); // Actualizar un valor
+            Route::delete('/about-us/delete-value/{idValue}', [AboutUsController::class, 'deleteValueAboutUs']); // Eliminar un valor
 
             //Categories
             Route::post('categories', [CategoryController::class, 'storeCategory']); // Crear categoría
@@ -98,8 +98,8 @@ Route::middleware(IsUserAuth::class)->group(function () {
         
             //Service
             Route::post('/services', [ServiceController::class, 'createService']);
-            Route::put('/services/{id}', [ServiceController::class, 'updateServiceById']);
-            Route::delete('/services/{id}', [ServiceController::class, 'deleteService']);
+            Route::put('/services/{idServices}', [ServiceController::class, 'updateServiceById']);
+            Route::delete('/services/{idServices}', [ServiceController::class, 'deleteService']);
             
             //Blog
             Route::post('blogs', [BlogController::class, 'storeBlog']); // Crear blog
@@ -107,10 +107,10 @@ Route::middleware(IsUserAuth::class)->group(function () {
             Route::delete('blogs/{idBlog}', [BlogController::class, 'deleteBlog']); // Eliminar blog
         
             //Policies
-            Route::put('/policies/{id}', [PolicyController::class, 'updatePolicy']);
+            Route::put('/policies/{idPolicies}', [PolicyController::class, 'updatePolicy']);
         
             //Info_Contact
-            Route::put('/info-contact/{id}', [InfoContactController::class, 'updateInfoContact']); // Actualizar Info Contact
+            Route::put('/info-contact/{idInfoContact}', [InfoContactController::class, 'updateInfoContact']); // Actualizar Info Contact
         });
     });
 });
