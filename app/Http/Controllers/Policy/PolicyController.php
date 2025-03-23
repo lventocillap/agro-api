@@ -14,12 +14,97 @@ class PolicyController extends Controller
 {
     use ValidatePolicyUpdate, SaveImageService;
 
+    /**
+     * @OA\Get(
+     *     path="/api/policy",
+     *     summary="Obtener la política",
+     *     description="Retorna la política con su imagen asociada.",
+     *     tags={"Policies"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Éxito: Retorna la política",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="name", type="string", example="Política de privacidad"),
+     *             @OA\Property(property="description", type="string", example="Esta es la política..."),
+     *             @OA\Property(
+     *                 property="image",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=10),
+     *                 @OA\Property(property="url", type="string", example="https://example.com/image.jpg")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Política no encontrada"
+     *     )
+     * )
+     */
     public function getPolicy() : JsonResponse
     {
         $policies = Policies::with('image')->first();
         return new JsonResponse($policies, 200);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/policy",
+     *     summary="Actualizar la política",
+     *     security={{"bearerAuth": {}}},
+     *     description="Actualiza la información de la política y su imagen.",
+     *     tags={"Policies"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             required={"name", "description"},
+     *             @OA\Property(property="name", type="string", example="Política actualizada"),
+     *             @OA\Property(property="description", type="string", example="Nueva descripción de la política."),
+     *             @OA\Property(property="image", type="string", format="byte", example="data:image/png;base64,iVBORw0KGgoAAAANS...")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Política actualizada correctamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Policy updated successfully"),
+     *             @OA\Property(
+     *                 property="policy",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Política actualizada"),
+     *                 @OA\Property(property="description", type="string", example="Nueva descripción..."),
+     *                 @OA\Property(
+     *                     property="image",
+     *                     type="object",
+     *                     @OA\Property(property="url", type="string", example="https://example.com/image.jpg")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Validation error"),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor al guardar la imagen",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Error saving image"),
+     *             @OA\Property(property="error", type="string", example="Error message details")
+     *         )
+     *     )
+     * )
+     */
     public function updatePolicy(Request $request) : JsonResponse
     {
         $policy = Policies::first();
@@ -58,49 +143,5 @@ class PolicyController extends Controller
             'policy' => $policy
         ], 200);
     }
-
-    /* public function updateImageToAboutUs(Request $request)
-    {
-        try {
-            $request->validate([
-                'image' => 'required|string',
-            ]);
-
-            $aboutUs = AboutUs::firstOrCreate([]);
-
-            DB::transaction(function () use ($aboutUs, $request) {
-                // Obtener la imagen actual
-                $existingImage = $aboutUs->images()->latest()->first();
-
-                // Guardar la nueva imagen
-                $imagePath = $this->saveImageBase64($request->image, 'about_us_images');
-
-                if (!$imagePath) {
-                    throw new \Exception("Error al guardar la imagen.");
-                }
-
-                if ($existingImage) {
-                    // Eliminar la imagen anterior del almacenamiento
-                    $this->deleteImage($existingImage->url);
-
-                    // Actualizar la URL en la base de datos en lugar de eliminar el registro
-                    $existingImage->update(['url' => $imagePath]);
-                } else {
-                    // Si no hay imagen previa, crear un nuevo registro
-                    $aboutUs->images()->create(['url' => $imagePath]);
-                }
-            });
-
-            return response()->json([
-                'message' => 'Imagen actualizada con éxito',
-                'path' => asset('storage/' . $aboutUs->images()->latest()->first()->url),
-            ], 200);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Error al actualizar la imagen: ' . $e->getMessage(),
-            ], 500);
-        }
-    } */
 
 }   
