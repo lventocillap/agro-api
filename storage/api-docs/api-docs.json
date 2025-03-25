@@ -1406,6 +1406,97 @@
                 }
             }
         },
+        "/api/products/{nameProduct}/pdf": {
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Actualizar el PDF de un producto",
+                "description": "Elimina el PDF anterior de un producto y guarda uno nuevo.",
+                "operationId": "d1f2004e41118d8161b27e11721abe4f",
+                "parameters": [
+                    {
+                        "name": "nameProduct",
+                        "in": "path",
+                        "description": "Nombre del producto cuyo PDF se actualizará.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "pdf"
+                                ],
+                                "properties": {
+                                    "pdf": {
+                                        "description": "Archivo PDF en formato Base64.",
+                                        "type": "string",
+                                        "format": "base64"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "PDF actualizado correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Pdf actualizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Producto no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la solicitud.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "El archivo PDF es inválido"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/policy": {
             "get": {
                 "tags": [
@@ -3302,12 +3393,12 @@
             "description": "Categories"
         },
         {
-            "name": "Policies",
-            "description": "Policies"
-        },
-        {
             "name": "Products",
             "description": "Products"
+        },
+        {
+            "name": "Policies",
+            "description": "Policies"
         },
         {
             "name": "Services",
