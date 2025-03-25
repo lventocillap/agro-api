@@ -196,7 +196,6 @@ class ProductController extends Controller
         }
         
         $this->deleteImage($product->image->url); 
-        $this->deletePDF($product->pdf->url);
         
         $product->update([
             'name' => $request->name,
