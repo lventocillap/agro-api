@@ -11,7 +11,7 @@ trait ValidateProductRequest
     public function validateProducRequest(Request $request): void
     {
         $request->validate([
-            'name' => 'required|string|max:256',
+            'name' => 'required|string|unique:products,name|max:256',
             'characteristics' => 'required|string|max:10000',
             'benefits' => 'required|array',
             'compatibility' => 'required|string|max:10000',
