@@ -15,6 +15,7 @@ use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Policy\PolicyController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\InfoContact\InfoContactController;
+use App\Http\Controllers\Pdf\PdfController;
 use Illuminate\Support\Facades\Route;
 
 //Public Routes
@@ -95,6 +96,7 @@ Route::middleware(IsUserAuth::class)->group(function () {
             Route::post('products', [ProductController::class, 'storeProduct']); // Crear producto
             Route::put('products/{nameProduct}', [ProductController::class, 'updateProduct']); // Actualizar producto
             Route::delete('products/{nameProduct}', [ProductController::class, 'deleteProduct']); // Eliminar producto
+            Route::post('products/pdf/{nameProduct}', [PdfController::class, 'pdfUpdateProduct']); //Guarda pdf en el producto
         
             //Service
             Route::post('/services', [ServiceController::class, 'createService']);

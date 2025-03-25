@@ -95,7 +95,7 @@ class ProductController extends Controller
         $benefits = implode('益', $request->benefits);
 
         DB::transaction(function () use ($request, $benefits) {
-            $pdfId = $this->storePDF($request->pdf);
+            $pdfId = $this->storePDF(null);
             $productId = Product::create([
                 'name' => $request->name,
                 'characteristics' => $request->characteristics,
@@ -207,10 +207,7 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'status' => $status
         ]);
-        
-        $this->updatePDF($product, $request->pdf);
         $image = $this->saveImageBase64($request->image, 'products');
-        
         $product->subCategories()->sync($request->subcategory_id);
         $product->image()->update([
             'url' => $image
