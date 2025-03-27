@@ -1497,14 +1497,14 @@
                 }
             }
         },
-        "/api/policy": {
+        "/api/policies": {
             "get": {
                 "tags": [
                     "Policies"
                 ],
                 "summary": "Obtener la política",
                 "description": "Retorna la política con su imagen asociada.",
-                "operationId": "64ea1b239df8e8f32c17a974ed721758",
+                "operationId": "9e98360ee35089ef4fc6e1ad320e0c4d",
                 "responses": {
                     "200": {
                         "description": "Éxito: Retorna la política",
@@ -1549,14 +1549,14 @@
                 }
             }
         },
-        "/api/policy/{idPolicies}": {
+        "/api/policies/{idPolicies}": {
             "put": {
                 "tags": [
                     "Policies"
                 ],
                 "summary": "Actualizar la política",
                 "description": "Actualiza la información de la política y su imagen.",
-                "operationId": "6a68546c8966925e8f8005250ea0db4c",
+                "operationId": "473a686b7a283e960254c6aa4d811dbc",
                 "parameters": [
                     {
                         "name": "idPolicies",

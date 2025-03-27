@@ -15,7 +15,7 @@ class PolicyController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/policy",
+     *     path="/api/policies",
      *     summary="Obtener la política",
      *     description="Retorna la política con su imagen asociada.",
      *     tags={"Policies"},
@@ -49,7 +49,7 @@ class PolicyController extends Controller
 
     /** 
      * @OA\Put(
-     *     path="/api/policy/{idPolicies}",
+     *     path="/api/policies/{idPolicies}",
      *     summary="Actualizar la política",
      *     security={{"bearerAuth": {}}},
      *     description="Actualiza la información de la política y su imagen.",
