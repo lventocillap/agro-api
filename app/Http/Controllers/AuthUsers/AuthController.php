@@ -38,10 +38,17 @@ class AuthController extends Controller
      */
     public function registerUser(Request $request)
     {
+        // Verifica si ya existe un usuario en la tabla
+        $userExists = User::exists();
+
+        if ($userExists) {
+            return response()->json(['error' => 'El registro está bloqueado. Ya existe un administrador.'], 403);
+        }
+
+        // Validación de datos
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|min:5|max:50|unique:users',
             'email' => 'required|email|unique:users',
-            'role' => 'required|string|in:admin,user',
             'password' => 'required|string|min:8'
         ]);
 
@@ -49,15 +56,18 @@ class AuthController extends Controller
             return response()->json(['error' => $validator->errors()], 422);
         }
 
+        // Crear el único usuario admin
         User::create([
             'username' => $request->get('username'),
             'email' => $request->get('email'),
-            'role' => $request->get('role'),
+            'role' => 'admin', 
             'password' => bcrypt($request->get('password'))
         ]);
 
-        return response()->json(['message' => 'User created successfully'], 201);
+        return response()->json(['message' => 'Usuario admin creado con éxito'], 201);
     }
+
+
 
     /**
      * @OA\Post(

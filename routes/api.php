@@ -2,6 +2,7 @@
 
 
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\NoUserExists;
 use App\Http\Controllers\AuthUsers\AuthController;
 use App\Http\Middleware\IsUserAuth;
 use App\Http\Controllers\AboutUsHome\AboutUsHomeController;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 //Public Routes
 
 //AuthUser
-Route::post('register', [AuthController::class, 'registerUser']);
+Route::post('register', [AuthController::class, 'registerUser'])->middleware(NoUserExists::class);
 Route::post('login', [AuthController::class, 'loginUser']);
 
 //Aboout_Us_Home
