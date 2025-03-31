@@ -30,6 +30,8 @@ trait SaveImage
             switch($mineType){
                 case 'jpg':
                     return '.jpg';
+                case 'jpeg':
+                    return '.jpeg';
                 case 'png':
                     return '.png';
                 case 'webp':
