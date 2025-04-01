@@ -20,6 +20,6 @@ trait SavePDF
         $filename = Str::uuid() . '.pdf';
         $path = $folder . '/' . $filename;
         Storage::disk('public')->put($path, $pdf);
-        return 'http://127.0.0.1:8000/storage/'.$path;
+        return url('storage/'.$path);
     }
 }

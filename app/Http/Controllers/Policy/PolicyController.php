@@ -6,7 +6,6 @@ use App\Http\Requests\Policy\ValidatePolicyUpdate;
 use App\Http\Controllers\Controller;
 use App\Http\Service\Image\SaveImageService;
 use App\Models\Policies;
-use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -16,7 +15,7 @@ class PolicyController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/policy",
+     *     path="/api/policies",
      *     summary="Obtener la política",
      *     description="Retorna la política con su imagen asociada.",
      *     tags={"Policies"},
@@ -48,9 +47,9 @@ class PolicyController extends Controller
         return new JsonResponse($policies, 200);
     }
 
-    /**
+    /** 
      * @OA\Put(
-     *     path="/api/policy/{idPolicies}",
+     *     path="/api/policies/{idPolicies}",
      *     summary="Actualizar la política",
      *     security={{"bearerAuth": {}}},
      *     description="Actualiza la información de la política y su imagen.",
@@ -59,16 +58,16 @@ class PolicyController extends Controller
      *         name="idPolicies",
      *         in="path",
      *         required=true,
-     *         description="ID de la política a actualizar",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             type="object",
-     *             required={"name", "description"},
+     *             required={"name", "description", "aboutValue"},
      *             @OA\Property(property="name", type="string", example="Política actualizada"),
      *             @OA\Property(property="description", type="string", example="Nueva descripción de la política."),
+     *             @OA\Property(property="aboutValue", type="string", example="Información adicional sobre la política."),
      *             @OA\Property(property="image", type="string", format="byte", example="data:image/png;base64,iVBORw0KGgoAAAANS...")
      *         )
      *     ),
@@ -84,6 +83,7 @@ class PolicyController extends Controller
      *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="name", type="string", example="Política actualizada"),
      *                 @OA\Property(property="description", type="string", example="Nueva descripción..."),
+     *                 @OA\Property(property="aboutValue", type="string", example="Información adicional actualizada."),
      *                 @OA\Property(
      *                     property="image",
      *                     type="object",
@@ -112,10 +112,9 @@ class PolicyController extends Controller
      *     )
      * )
      */
-
-    public function updatePolicy(Request $request) : JsonResponse
+    public function updatePolicy(Request $request, $idPolicies) : JsonResponse
     {
-        $policy = Policies::first();
+        $policy = Policies::findOrFail($idPolicies);
         $validateData = $this->validatePolicyUpdate($request);
         
         // Si hay imagen en la solicitud
@@ -151,5 +150,4 @@ class PolicyController extends Controller
             'policy' => $policy
         ], 200);
     }
-
-}   
+}

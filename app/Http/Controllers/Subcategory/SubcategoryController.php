@@ -104,6 +104,7 @@ class SubcategoryController extends Controller
         if (!$nameSubcategory) {
             throw new NotFoundSubcategory;
         }
+        $nameSubcategory->delete();
         return new JsonResponse(['data' => 'Subcategoria eliminada']);
     }
 

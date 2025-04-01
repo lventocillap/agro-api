@@ -195,7 +195,8 @@ class TestimoniesController extends Controller
  *                     @OA\Property(property="id", type="integer", example=1),
  *                     @OA\Property(property="name_customer", type="string", example="Juan Perez"),
  *                     @OA\Property(property="description", type="string", example="Excelente servicio"),
- *                     @OA\Property(property="qualification", type="integer", example=5)
+ *                     @OA\Property(property="qualification", type="integer", example=5),
+ *                     @OA\Property(property="date", type="string", format="date", example="2024-03-24")
  *                 )
  *             ),
  *             @OA\Property(property="current_page", type="integer", example=1),
@@ -223,7 +224,8 @@ class TestimoniesController extends Controller
             'id', 
             'name_customer', 
             'description', 
-            'qualification')
+            'qualification',
+            'date')
         ->where('name_customer', 'like', "%{$nameClient}%")
         ->paginate($limit);
         return new JsonResponse([
