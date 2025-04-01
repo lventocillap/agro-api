@@ -67,10 +67,7 @@ class AboutUsController extends Controller
      *         name="idAboutUs",
      *         in="path",
      *         required=true,
-<<<<<<< HEAD
-=======
      *         description="ID del registro de About Us",
->>>>>>> origin/main
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(

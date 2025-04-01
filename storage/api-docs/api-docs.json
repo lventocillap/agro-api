@@ -1254,13 +1254,13 @@
                 }
             }
         },
-        "/api/info-contact/{idInfoContact}": {
+        "/api/info-contact/{id}": {
             "put": {
                 "tags": [
                     "InfoContact"
                 ],
                 "summary": "Actualizar la información de contacto",
-                "operationId": "991d3c68834fdc14676193e130e6e59d",
+                "operationId": "4550cbd3863ce668d6147963f829e7fd",
                 "parameters": [
                     {
                         "name": "idInfoContact",
@@ -3391,10 +3391,6 @@
         {
             "name": "Categories",
             "description": "Categories"
-        },
-        {
-            "name": "Policies",
-            "description": "Policies"
         },
         {
             "name": "Products",
