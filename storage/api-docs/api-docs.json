@@ -927,6 +927,92 @@
                 }
             }
         },
+        "/api/blogs/{blogId}": {
+            "get": {
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "Obtener un blog por ID",
+                "description": "Retorna los detalles de un blog específico, incluyendo su categoría.",
+                "operationId": "b83a387fbb5ac6868cf7dc53957962ee",
+                "parameters": [
+                    {
+                        "name": "blogId",
+                        "in": "path",
+                        "description": "ID del blog a obtener",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Blog encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Título del blog"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Descripción del blog"
+                                                },
+                                                "category_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "category": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Tecnología"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Blog no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Blog no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/categories": {
             "get": {
                 "tags": [
@@ -3053,6 +3139,82 @@
             }
         },
         "/api/testimonies/{testimonieId}": {
+            "get": {
+                "tags": [
+                    "Testimonies"
+                ],
+                "summary": "Obtener un testimonio por ID",
+                "description": "Retorna los detalles de un testimonio específico.",
+                "operationId": "44d98ff9d52ddf1335ad9d5db1d22066",
+                "parameters": [
+                    {
+                        "name": "testimonieId",
+                        "in": "path",
+                        "description": "ID del testimonio a obtener",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Testimonio encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name_customer": {
+                                                    "type": "string",
+                                                    "example": "Juan Pérez"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Excelente servicio."
+                                                },
+                                                "qualification": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "date": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2024-04-02"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Testimonio no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Testimonio no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "put": {
                 "tags": [
                     "Testimonies"

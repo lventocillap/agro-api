@@ -250,4 +250,59 @@ class BlogController extends Controller
             'prev_page' => $blogs->previousPageUrl()
         ]);;
     }
+
+    /**
+ * @OA\Get(
+ *     path="/api/blogs/{blogId}",
+ *     summary="Obtener un blog por ID",
+ *     description="Retorna los detalles de un blog específico, incluyendo su categoría.",
+ *     tags={"Blogs"},
+ *     @OA\Parameter(
+ *         name="blogId",
+ *         in="path",
+ *         required=true,
+ *         description="ID del blog a obtener",
+ *         @OA\Schema(type="integer", example=1)
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Blog encontrado",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="data", type="object",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="title", type="string", example="Título del blog"),
+ *                 @OA\Property(property="description", type="string", example="Descripción del blog"),
+ *                 @OA\Property(property="category_id", type="integer", example=2),
+ *                 @OA\Property(property="category", type="object",
+ *                     @OA\Property(property="id", type="integer", example=2),
+ *                     @OA\Property(property="name", type="string", example="Tecnología")
+ *                 )
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Blog no encontrado",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="message", type="string", example="Blog no encontrado")
+ *         )
+ *     )
+ * )
+ */
+    public function getBlog(int $blogId): JsonResponse
+    {
+        $blog = Blog::select(
+            'id',
+            'title',
+            'description',
+            'category_id')
+        ->with(['category:id,name'])
+        ->find($blogId);
+        if(!$blog){
+            throw new NotFoundBlog;
+        }
+        return new JsonResponse(['data' => $blog]);
+    }
 }

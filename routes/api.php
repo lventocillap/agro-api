@@ -29,6 +29,7 @@ Route::get('/about-us-home', [AboutUsHomeController::class, 'getAboutUsHome']); 
 
 //Testimonies
 Route::get('testimonies', [TestimoniesController::class, 'getAllTestimonies']); // Obtener testimoni
+Route::get('testimonies/{testimonieId}', [TestimoniesController::class, 'getTestimonie']); //Obtener testimonio por Id
 
 //About_Us
 Route::get('about-us', [AboutUsController::class, 'getAboutUs']); // Obtener AboutUs con imágenes
@@ -49,6 +50,7 @@ Route::get('/services/{id}', [ServiceController::class, 'getServiceById']);
 
 //Blog
 Route::get('blogs', [BlogController::class, 'getAllBlogs']); // Obtener blogs
+Route::get('blogs/{blogId}', [BlogController::class, 'getBlog']);
 
 //Policies
 Route::get('/policies', [PolicyController::class, 'getPolicy']); // Obtener policies
