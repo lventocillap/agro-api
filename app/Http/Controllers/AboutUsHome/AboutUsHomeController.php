@@ -160,7 +160,7 @@ class AboutUsHomeController extends Controller
 
             return response()->json([
                 'message' => 'Imagen actualizada con éxito',
-                'path' => asset('storage/' . $aboutUsHome->images()->latest()->first()->url),
+                'path' => $aboutUsHome->images()->latest()->first()->url,
             ], 200);
 
         } catch (\Exception $e) {
