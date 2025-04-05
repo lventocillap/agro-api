@@ -4,15 +4,12 @@ namespace App\Http\Controllers\AboutUs;
 
 use App\Http\Controllers\Controller;
 use App\Exceptions\AboutUs\NotFoundAboutUs;
-use App\Http\Service\Image\SaveImageAboutUs;
 use App\Http\Requests\AboutUs\ValidateAboutUs;
 use App\Http\Service\Image\DeleteImage;
 use App\Http\Service\Image\SaveImage;
 use App\Models\AboutUs;
 use Illuminate\Support\Facades\DB;
-use App\Models\Image;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 /**

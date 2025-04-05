@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\Servics;
 
-use App\Exceptions\Servics\NotFoundFeature;
 use App\Exceptions\Servics\NotFoundService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Servics\ValidateServiceStore;
 use App\Http\Service\Image\DeleteImage;
 use App\Http\Service\Image\SaveImage;
-use App\Http\Service\Image\SaveImageService;
 use App\Models\Service;
 use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
