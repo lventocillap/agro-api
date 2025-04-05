@@ -1787,7 +1787,7 @@
                     "Products"
                 ],
                 "summary": "Obtener lista de productos",
-                "description": "Devuelve una lista paginada de productos, con opción de filtrado por nombre y subcategoría. \n *     Si el usuario está autenticado mediante un token en el encabezado Authorization, verá todos los productos. \n *     Si no está autenticado, solo se devolverán los productos activos.",
+                "description": "Devuelve una lista paginada de productos, con opción de filtrado por nombre y subcategoría. \n     *     Si el usuario está autenticado mediante un token en el encabezado Authorization, verá todos los productos. \n     *     Si no está autenticado, solo se devolverán los productos activos.",
                 "operationId": "7c20c2996c0202da8a6555300bc1e3b8",
                 "parameters": [
                     {
@@ -1817,6 +1817,15 @@
                             "type": "integer",
                             "default": 10
                         }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filtrar productos por categoria.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -1842,6 +1851,11 @@
                                                         "type": "number",
                                                         "format": "float",
                                                         "example": 2.5
+                                                    },
+                                                    "stock": {
+                                                        "type": "number",
+                                                        "format": "int",
+                                                        "example": 10
                                                     },
                                                     "status": {
                                                         "type": "boolean",
@@ -1965,11 +1979,6 @@
                                     "stock": {
                                         "type": "integer",
                                         "example": 100
-                                    },
-                                    "pdf": {
-                                        "description": "Archivo PDF del producto",
-                                        "type": "string",
-                                        "format": "binary"
                                     },
                                     "subcategory_id": {
                                         "type": "array",
@@ -2256,11 +2265,6 @@
                                     "stock": {
                                         "type": "integer",
                                         "example": 100
-                                    },
-                                    "pdf": {
-                                        "description": "Archivo PDF del producto",
-                                        "type": "string",
-                                        "format": "binary"
                                     },
                                     "subcategory_id": {
                                         "type": "array",
