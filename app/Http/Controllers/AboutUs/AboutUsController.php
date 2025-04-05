@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Exceptions\AboutUs\NotFoundAboutUs;
 use App\Http\Service\Image\SaveImageAboutUs;
 use App\Http\Requests\AboutUs\ValidateAboutUs;
+use App\Http\Service\Image\DeleteImage;
 use App\Http\Service\Image\SaveImage;
 use App\Models\AboutUs;
 use Illuminate\Support\Facades\DB;
@@ -23,8 +24,8 @@ use Illuminate\Support\Facades\Validator;
 class AboutUsController extends Controller
 {
     use SaveImage;
+    use DeleteImage;
     use ValidateAboutUs;
-    use SaveImageAboutUs;
 
     /**
      * @OA\Get(

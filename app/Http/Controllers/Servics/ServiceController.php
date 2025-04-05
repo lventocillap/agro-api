@@ -6,6 +6,7 @@ use App\Exceptions\Servics\NotFoundFeature;
 use App\Exceptions\Servics\NotFoundService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Servics\ValidateServiceStore;
+use App\Http\Service\Image\DeleteImage;
 use App\Http\Service\Image\SaveImage;
 use App\Http\Service\Image\SaveImageService;
 use App\Models\Service;
@@ -18,7 +19,7 @@ use Illuminate\Http\Request;
 class ServiceController extends Controller
 {
 
-    use SaveImageService, ValidateServiceStore , SaveImage;
+    use ValidateServiceStore , SaveImage, DeleteImage;
 
     /**
      * @OA\Get(

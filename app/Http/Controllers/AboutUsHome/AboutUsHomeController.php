@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AboutUsHome;
 use App\Http\Controllers\Controller; // Agrega esta línea
 use App\Http\Service\Image\SaveImageAboutUs;
 use App\Http\Requests\AboutUsHome\ValidateAboutUsHome;
+use App\Http\Service\Image\DeleteImage;
 use App\Http\Service\Image\SaveImage;
 use App\Models\AboutUsHome;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\DB;
 class AboutUsHomeController extends Controller
 {
     use SaveImage;
-    use SaveImageAboutUs;
+    use DeleteImage;
     use ValidateAboutUsHome;
 
     /**
