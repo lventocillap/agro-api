@@ -6,6 +6,7 @@ use App\Exceptions\Servics\NotFoundFeature;
 use App\Exceptions\Servics\NotFoundService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Servics\ValidateServiceStore;
+use App\Http\Service\Image\SaveImage;
 use App\Http\Service\Image\SaveImageService;
 use App\Models\Service;
 use Exception;
@@ -17,7 +18,7 @@ use Illuminate\Http\Request;
 class ServiceController extends Controller
 {
 
-    use SaveImageService, ValidateServiceStore;
+    use SaveImageService, ValidateServiceStore , SaveImage;
 
     /**
      * @OA\Get(
@@ -274,7 +275,7 @@ class ServiceController extends Controller
                         // Eliminar la imagen anterior del almacenamiento
                         $this->deleteImage($existingImage->url);
                     }
-                    $image = $this->saveImageBase64($request->image, 'services');
+                    $image = $this->saveImage($request->image, 'services');
     
                     if ($service->image) {
                         // Si la imagen ya existe, actualizamos

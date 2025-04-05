@@ -133,7 +133,7 @@ class BlogController extends Controller
             'category_id' => $request->category_id
         ]);
         $this->deleteImage($blog->image->url);
-        $image = $this->saveImageBase64($request->image, 'blogs');
+        $image = $this->saveImage($request->image, 'blogs');
         $blog->image()->update([
             'url' => $image
         ]);

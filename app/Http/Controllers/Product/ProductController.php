@@ -184,8 +184,10 @@ class ProductController extends Controller
         if (!$product) {
             throw new NotFoundProduct();
         }
-        $this->validateProducRequest($request);
-
+        $sameName = $nameProduct !== $request->name;
+        if($sameName){
+            $this->validateProducRequest($request);
+        }
         $benefits = implode('益', $request->benefits);
 
         $status = true;
@@ -204,7 +206,7 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'status' => $status
         ]);
-        $image = $this->saveImageBase64($request->image, 'products');
+        $image = $this->saveImage($request->image, 'products');
         $product->subCategories()->sync($request->subcategory_id);
         $product->image()->update([
             'url' => $image
