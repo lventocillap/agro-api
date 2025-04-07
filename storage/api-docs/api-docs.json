@@ -1029,7 +1029,17 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "example": "Verduras"
+                            "example": "Acidas"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filtrar nombres de categorias",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Frutas"
                         }
                     }
                 ],
