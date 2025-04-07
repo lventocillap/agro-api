@@ -206,8 +206,12 @@ class CategoryController extends Controller
     public function getAllCategories(Request $request): JsonResponse
     {
         $nameSubcategory = $request->query('subcategory');
-
+        $nameCategory = $request->query('category');
         $query = Category::select('id', 'name');
+
+        if ($nameCategory) {
+            $query->where('name', 'like', "%{$nameCategory}%");
+        }
 
         if ($nameSubcategory) {
             $query->whereHas('subcategories', function ($query) use ($nameSubcategory) {

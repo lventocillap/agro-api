@@ -19,7 +19,6 @@ trait ValidateProductRequest
             'stock' => 'required|integer|min:0|max:10000',
             'subcategory_id' => 'required|array',
             'subcategory_id.*' => 'integer|exists:subcategories,id',
-            'pdf' => 'string|nullable',
             'image' => 'string|nullable'
         ],);
     }
