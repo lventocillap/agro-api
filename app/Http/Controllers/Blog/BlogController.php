@@ -127,16 +127,16 @@ class BlogController extends Controller
         if (!$blog) {
             throw new NotFoundBlog;
         }
+        $image = $this->saveImage($request->image, 'blogs');
+        $this->deleteImage($blog->image->url);
         $blog->update([
             'title' => $request->title,
             'description' => $request->description,
             'category_id' => $request->category_id
         ]);
-        $image = $this->saveImage($request->image, 'blogs');
         $blog->image()->update([
             'url' => $image
         ]);
-        $this->deleteImage($blog->image->url);
         return new JsonResponse(['data' => 'Blog actulizado']);
     }
 
