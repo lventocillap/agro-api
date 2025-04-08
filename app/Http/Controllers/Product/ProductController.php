@@ -204,12 +204,11 @@ class ProductController extends Controller
             'status' => $status
         ]);
         $image = $this->saveImage($request->image, 'products');
+        $this->deleteImage($product->image->url);
         $product->subCategories()->sync($request->subcategory_id);
         $product->image()->update([
             'url' => $image
         ]);
-        
-        $this->deleteImage($product->image->url);
         return new JsonResponse(['data' => 'Registro actualizado']);
     }
 
