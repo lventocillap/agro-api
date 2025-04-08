@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 //AuthUser
 Route::post('register', [AuthController::class, 'registerUser']);
 Route::post('login', [AuthController::class, 'loginUser']);
+Route::post('send-code-email', [AuthController::class, 'sednEmailPasswordChange']);
+Route::post('change-password', [AuthController::class, 'changePassword']);
 
 //Aboout_Us_Home
 Route::get('/about-us-home', [AboutUsHomeController::class, 'getAboutUsHome']); // Obtener AboutUs con imágen

@@ -541,6 +541,200 @@
                 ]
             }
         },
+        "/send-email-password-change": {
+            "post": {
+                "tags": [
+                    "ChangePassword"
+                ],
+                "summary": "Envía un código de verificación para el cambio de contraseña",
+                "description": "Genera un código de verificación que se enviará al correo electrónico del usuario para realizar el cambio de contraseña.",
+                "operationId": "sendEmailPasswordChange",
+                "requestBody": {
+                    "description": "Los datos necesarios para el cambio de contraseña",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "usuario@ejemplo.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Código de verificación enviado con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Se envio el codigo de verificación revise su correo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Datos de entrada inválidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "El campo email es obligatorio y debe ser una dirección de correo válida"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/change-password": {
+            "post": {
+                "tags": [
+                    "ChangePassword"
+                ],
+                "summary": "Cambia la contraseña del usuario utilizando un código de verificación",
+                "description": "Permite al usuario cambiar su contraseña mediante un código de verificación enviado por correo electrónico.",
+                "operationId": "changePassword",
+                "requestBody": {
+                    "description": "Datos necesarios para cambiar la contraseña",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "code",
+                                    "password_new"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "usuario@ejemplo.com"
+                                    },
+                                    "code": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    },
+                                    "password_new": {
+                                        "description": "Contraseña nueva con al menos 8 caracteres",
+                                        "type": "string",
+                                        "example": "NuevaContraseña123"
+                                    },
+                                    "password_new_confirmation": {
+                                        "description": "Confirmar contraseña nueva con al menos 8 caracteres",
+                                        "type": "string",
+                                        "example": "NuevaContraseña123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contraseña cambiada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Su contraseña se cambio"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Datos de entrada inválidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "La contraseña debe tener al menos 8 caracteres"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado o código de verificación incorrecto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Credenciales inválidas"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "410": {
+                        "description": "Código de verificación expirado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "El código de verificación ha expirado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/blogs": {
             "get": {
                 "tags": [
@@ -2413,13 +2607,13 @@
                 }
             }
         },
-        "/api/getServices": {
+        "/api/services": {
             "get": {
                 "tags": [
                     "Services"
                 ],
                 "summary": "Obtiene una lista paginada de servicios",
-                "operationId": "ce66c50af851232bf27c859997492525",
+                "operationId": "a8fc166f4f81daebd927e784238f5af6",
                 "parameters": [
                     {
                         "name": "limit",
@@ -2502,9 +2696,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/api/services": {
+            },
             "post": {
                 "tags": [
                     "Services"
@@ -3559,6 +3751,10 @@
         {
             "name": "InfoContact",
             "description": "Endpoints para gestionar la información de contacto"
+        },
+        {
+            "name": "ChangePassword",
+            "description": "ChangePassword"
         },
         {
             "name": "Blogs",

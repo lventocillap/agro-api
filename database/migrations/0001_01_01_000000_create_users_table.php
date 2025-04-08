@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->enum('role', ['admin', 'user']);
             $table->string('password');
+            $table->string('password_reset_code')->nullable();
+            $table->timestamp('code_expired')->nullable();
             $table->timestamps();
         });
     }

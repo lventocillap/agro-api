@@ -20,7 +20,7 @@ class ServiceController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/getServices",
+     *     path="/api/services",
      *     summary="Obtiene una lista paginada de servicios",
      *     tags={"Services"},
      *     @OA\Parameter(
