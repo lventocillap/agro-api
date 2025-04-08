@@ -269,12 +269,11 @@ class ServiceController extends Controller
             if ($request->has('image') && !empty($request->image)) {
                 try {
                     $existingImage = $service->image()->latest()->first();
+                    $image = $this->saveImage($request->image, 'services');
                     if ($existingImage) {
                         // Eliminar la imagen anterior del almacenamiento
                         $this->deleteImage($existingImage->url);
                     }
-                    $image = $this->saveImage($request->image, 'services');
-    
                     if ($service->image) {
                         // Si la imagen ya existe, actualizamos
                         $service->image()->update(['url' => $image]);

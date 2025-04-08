@@ -194,9 +194,6 @@ class ProductController extends Controller
         if ($request->stock === 0) {
             $status = false;
         }
-
-        $this->deleteImage($product->image->url);
-
         $product->update([
             'name' => $request->name,
             'characteristics' => $request->characteristics,
@@ -211,7 +208,8 @@ class ProductController extends Controller
         $product->image()->update([
             'url' => $image
         ]);
-
+        
+        $this->deleteImage($product->image->url);
         return new JsonResponse(['data' => 'Registro actualizado']);
     }
 

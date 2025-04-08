@@ -132,11 +132,11 @@ class BlogController extends Controller
             'description' => $request->description,
             'category_id' => $request->category_id
         ]);
-        $this->deleteImage($blog->image->url);
         $image = $this->saveImage($request->image, 'blogs');
         $blog->image()->update([
             'url' => $image
         ]);
+        $this->deleteImage($blog->image->url);
         return new JsonResponse(['data' => 'Blog actulizado']);
     }
 
