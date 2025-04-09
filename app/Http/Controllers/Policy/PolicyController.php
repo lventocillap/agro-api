@@ -123,10 +123,6 @@ class PolicyController extends Controller
             try {
                 $existingImage = $policy->image()->latest()->first();
                 $image = $this->saveImage($request->image, 'policies');
-                if ($existingImage) {
-                    // Eliminar la imagen anterior del almacenamiento
-                    $this->deleteImage($existingImage->url);
-                }
                 
                 if ($policy->image) {
                     // Si la imagen ya existe, actualizamos
@@ -135,6 +131,10 @@ class PolicyController extends Controller
                 } else {
                     // Si no hay imagen, creamos una nueva relación
                     $policy->image()->create(['url' => $image]);
+                }
+                if ($existingImage) {
+                    // Eliminar la imagen anterior del almacenamiento
+                    $this->deleteImage($existingImage->url);
                 }
                 $policy->load('image');
             } catch (\Exception $e) {
