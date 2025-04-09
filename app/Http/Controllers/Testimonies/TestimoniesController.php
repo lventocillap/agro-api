@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Testimonies;
 use App\Exceptions\Testimonie\NotFoundTestimonie;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Testimonies\ValidateTestimoniesRequest;
+use App\Http\Service\Image\SaveImage;
 use App\Models\Testimonie;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TestimoniesController extends Controller
 {
-    use ValidateTestimoniesRequest;
+    use ValidateTestimoniesRequest,
+    SaveImage;
 
     /**
  * @OA\Post(
@@ -52,7 +54,7 @@ class TestimoniesController extends Controller
     public function storeTestimonies(Request $request): JsonResponse
     {
         $this->validateTestimoniesRequest($request);
-
+        $this->saveImageBase64($request->image);
         Testimonie::create([
             'name_customer' => $request->name_customer,
             'description' => $request->description,

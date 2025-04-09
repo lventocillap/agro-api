@@ -94,7 +94,7 @@ Route::middleware(IsUserAuth::class)->group(function () {
 
             //Sub-Categories
             Route::post('categories/{idCategory}/subcategories', [SubcategoryController::class, 'storeSubcategory']); // Crear subcategoría
-            Route::delete('subcategory/{nameSubcategories}', [SubcategoryController::class, 'deleteSubcategory']); // Eliminar subcategoría
+            Route::delete('subcategories/{nameSubcategories}', [SubcategoryController::class, 'deleteSubcategory']); // Eliminar subcategoría
 
             //Product
             Route::post('products', [ProductController::class, 'storeProduct']); // Crear producto

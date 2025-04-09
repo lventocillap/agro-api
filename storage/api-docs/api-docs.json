@@ -2057,15 +2057,14 @@
                                                         "example": 2.5
                                                     },
                                                     "stock": {
-                                                        "type": "number",
-                                                        "format": "int",
+                                                        "type": "integer",
                                                         "example": 10
                                                     },
                                                     "status": {
                                                         "type": "boolean",
                                                         "example": true
                                                     },
-                                                    "subCategories": {
+                                                    "categories": {
                                                         "type": "array",
                                                         "items": {
                                                             "properties": {
@@ -2075,7 +2074,23 @@
                                                                 },
                                                                 "name": {
                                                                     "type": "string",
-                                                                    "example": "Verduras"
+                                                                    "example": "Alimentos"
+                                                                },
+                                                                "sub_categories": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "integer",
+                                                                                "example": 1
+                                                                            },
+                                                                            "name": {
+                                                                                "type": "string",
+                                                                                "example": "Verduras"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    }
                                                                 }
                                                             },
                                                             "type": "object"

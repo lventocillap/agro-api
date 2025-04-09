@@ -185,7 +185,7 @@ class ProductController extends Controller
             throw new NotFoundProduct();
         }
         $sameName = $nameProduct !== $request->name;
-        if($sameName){
+        if ($sameName) {
             $this->validateProducRequest($request);
         }
         $benefits = implode('益', $request->benefits);
@@ -291,7 +291,7 @@ class ProductController extends Controller
      *         description="Filtrar productos por categoria.",
      *         @OA\Schema(type="string")
      *     ),
-     *     @OA\Response(
+     *      @OA\Response(
      *         response=200,
      *         description="Lista de productos paginada.",
      *         @OA\JsonContent(
@@ -299,11 +299,15 @@ class ProductController extends Controller
      *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="name", type="string", example="Tomate"),
      *                 @OA\Property(property="price", type="number", format="float", example=2.50),
-     *                 @OA\Property(property="stock", type="number", format="int", example=10),
+     *                 @OA\Property(property="stock", type="integer", example=10),
      *                 @OA\Property(property="status", type="boolean", example=true),
-     *                 @OA\Property(property="subCategories", type="array", @OA\Items(
+     *                 @OA\Property(property="categories", type="array", @OA\Items(
      *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property(property="name", type="string", example="Verduras")
+     *                     @OA\Property(property="name", type="string", example="Alimentos"),
+     *                     @OA\Property(property="sub_categories", type="array", @OA\Items(
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="name", type="string", example="Verduras")
+     *                     ))
      *                 )),
      *                 @OA\Property(property="image", type="object",
      *                     @OA\Property(property="id", type="integer", example=1),
@@ -329,7 +333,7 @@ class ProductController extends Controller
         $user = auth('api')->user();
         $products = Product::select('id', 'name', 'price', 'stock', 'status')
             ->with([
-                'subCategories:id,name',
+                'subCategories.category:id,name',
                 'image:id,imageble_id,url',
             ])
             ->when($nameProduct, function ($query) use ($nameProduct) {
@@ -349,6 +353,36 @@ class ProductController extends Controller
                 $query->where('status', true);
             })
             ->paginate($limit);
+
+        $products->getCollection()->transform(function (Product $product) {
+            $grouped = [];
+
+            foreach ($product->subCategories as $sub) {
+                $category = $sub->category;
+                $catId = $category->id;
+
+                if (!isset($grouped[$catId])) {
+                    $grouped[$catId] = [
+                        'id' => $catId,
+                        'name' => $category->name,
+                        'sub_categories' => [],
+                    ];
+                }
+
+                $grouped[$catId]['sub_categories'][] = [
+                    'id' => $sub->id,
+                    'name' => $sub->name,
+                ];
+            }
+
+            // Agregamos la propiedad virtual 'categories'
+            $product->setAttribute('categories', array_values($grouped));
+
+            // Opcional: eliminar la lista plana de sub_categories
+            $product->unsetRelation('subCategories');
+
+            return $product;
+        });
 
         return new JsonResponse([
             'data' => $products->items(),
