@@ -24,7 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($e instanceof \Illuminate\Validation\ValidationException) {
                 return response()->json([
                     'message' => 'Error de validación',
-                    'errors' => $e->errors(),
+                    'error' => $e->errors(),
                 ], 422);
             }
             $errorCode = $e->getCode();
@@ -32,7 +32,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 $errorCode = 500;
             }
             return new JsonResponse([
-                'message' => $e->getMessage(),
+                'error' => $e->getMessage(),
                 'code' => $e->getCode()
             ],$errorCode
             );

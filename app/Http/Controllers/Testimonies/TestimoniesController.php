@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Testimonies;
 use App\Exceptions\Testimonie\NotFoundTestimonie;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Testimonies\ValidateTestimoniesRequest;
+use App\Http\Service\Image\DeleteImage;
 use App\Http\Service\Image\SaveImage;
 use App\Models\Testimonie;
 use Illuminate\Http\JsonResponse;
@@ -13,7 +14,8 @@ use Illuminate\Http\Request;
 class TestimoniesController extends Controller
 {
     use ValidateTestimoniesRequest,
-    SaveImage;
+    SaveImage,
+    DeleteImage;
 
     /**
  * @OA\Post(
@@ -27,7 +29,8 @@ class TestimoniesController extends Controller
  *             @OA\Property(property="name_customer", type="string", example="Juan Pérez"),
  *             @OA\Property(property="description", type="string", example="Excelente servicio y atención."),
  *             @OA\Property(property="date", type="string", format="date", example="2024-03-20"),
- *             @OA\Property(property="qualification", type="integer", example=5)
+ *             @OA\Property(property="qualification", type="integer", example=5),
+ *             @OA\Property(property="image", type="string", format="base64", example="data:image/png;base64,iVBORw0KGgoAAAANS..."),
  *         )
  *     ),
  *     @OA\Response(
@@ -54,12 +57,15 @@ class TestimoniesController extends Controller
     public function storeTestimonies(Request $request): JsonResponse
     {
         $this->validateTestimoniesRequest($request);
-        $this->saveImageBase64($request->image);
-        Testimonie::create([
+        $testimonie = Testimonie::create([
             'name_customer' => $request->name_customer,
             'description' => $request->description,
             'date' => $request->date,
             'qualification' => $request->qualification
+        ]);
+        $image = $this->saveImage($request->image);
+        $testimonie->image()->create([
+            'url' => $image
         ]);
 
         return new JsonResponse(['data' => 'Testimonio registrado']);
@@ -84,7 +90,8 @@ class TestimoniesController extends Controller
  *             @OA\Property(property="name_customer", type="string", example="Juan Pérez"),
  *             @OA\Property(property="description", type="string", example="Servicio mejorado y excelente atención."),
  *             @OA\Property(property="date", type="string", format="date", example="2024-03-20"),
- *             @OA\Property(property="qualification", type="integer", example=4)
+ *             @OA\Property(property="qualification", type="integer", example=4),
+ *             @OA\Property(property="image", type="string", format="base64", example="data:image/png;base64,iVBORw0KGgoAAAANS..."),
  *         )
  *     ),
  *     @OA\Response(
@@ -127,6 +134,11 @@ class TestimoniesController extends Controller
             'date' => $request->date,
             'qualification' => $request->qualification
         ]);
+        $image = $this->saveImage($request->image);
+        $this->deleteImage($testimonie->image->url);
+        $testimonie->image()->update([
+            'url' => $image
+        ]);
         return new JsonResponse(['data' => 'Testimonio actulizado']);
     }
 
@@ -165,6 +177,7 @@ class TestimoniesController extends Controller
             throw new NotFoundTestimonie;
         }
         $testimonie->delete();
+        $this->deleteImage($testimonie->image->url);
         return new JsonResponse(['data' => 'Testiminio eliminado']);
     }
 
@@ -198,8 +211,12 @@ class TestimoniesController extends Controller
  *                     @OA\Property(property="name_customer", type="string", example="Juan Perez"),
  *                     @OA\Property(property="description", type="string", example="Excelente servicio"),
  *                     @OA\Property(property="qualification", type="integer", example=5),
- *                     @OA\Property(property="date", type="string", format="date", example="2024-03-24")
- *                 )
+ *                     @OA\Property(property="date", type="string", format="date", example="2024-03-24"),
+ *                     @OA\Property(property="image", type="object",
+ *                         @OA\Property(property="url", type="string", example="https://example.com/image.jpg"),
+ *                     )
+ *                 ),
+ *                     
  *             ),
  *             @OA\Property(property="current_page", type="integer", example=1),
  *             @OA\Property(property="total", type="integer", example=50),
@@ -228,6 +245,7 @@ class TestimoniesController extends Controller
             'description', 
             'qualification',
             'date')
+        ->with(['image:id,imageble_id,url'])
         ->where('name_customer', 'like', "%{$nameClient}%")
         ->paginate($limit);
         return new JsonResponse([
@@ -240,40 +258,38 @@ class TestimoniesController extends Controller
         ]);
     }
 
-    /**
+/**
  * @OA\Get(
- *     path="/api/testimonies/{testimonieId}",
+ *     path="/api/testimonies/{id}",
  *     summary="Obtener un testimonio por ID",
- *     description="Retorna los detalles de un testimonio específico.",
+ *     description="Devuelve un testimonio específico junto con su imagen relacionada.",
  *     tags={"Testimonies"},
  *     @OA\Parameter(
- *         name="testimonieId",
+ *         name="id",
  *         in="path",
  *         required=true,
- *         description="ID del testimonio a obtener",
+ *         description="ID del testimonio a consultar",
  *         @OA\Schema(type="integer", example=1)
  *     ),
  *     @OA\Response(
  *         response=200,
  *         description="Testimonio encontrado",
  *         @OA\JsonContent(
- *             type="object",
  *             @OA\Property(property="data", type="object",
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="name_customer", type="string", example="Juan Pérez"),
- *                 @OA\Property(property="description", type="string", example="Excelente servicio."),
+ *                 @OA\Property(property="description", type="string", example="Muy buen servicio."),
  *                 @OA\Property(property="qualification", type="integer", example=5),
- *                 @OA\Property(property="date", type="string", format="date", example="2024-04-02")
+ *                 @OA\Property(property="date", type="string", format="date", example="2024-04-09"),
+ *                 @OA\Property(property="image", type="object",
+ *                     @OA\Property(property="url", type="string", example="https://example.com/storage/testimonies/image.jpg")
+ *                 )
  *             )
  *         )
  *     ),
  *     @OA\Response(
  *         response=404,
- *         description="Testimonio no encontrado",
- *         @OA\JsonContent(
- *             type="object",
- *             @OA\Property(property="message", type="string", example="Testimonio no encontrado")
- *         )
+ *         description="Testimonio no encontrado"
  *     )
  * )
  */
@@ -285,6 +301,7 @@ class TestimoniesController extends Controller
             'description', 
             'qualification', 
             'date')
+            ->with(['image:id,imageble_id,url'])
             ->find($testimonieId);
         if(!$testimonie){
             throw new NotFoundTestimonie;

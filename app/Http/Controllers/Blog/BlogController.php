@@ -198,6 +198,13 @@ class BlogController extends Controller
  *         description="Filtrar blogs por nombre de categoría",
  *         @OA\Schema(type="string", example="Tecnología")
  *     ),
+ *     @OA\Parameter(
+ *         name="title",
+ *         in="query",
+ *         required=false,
+ *         description="Filtrar blogs por nombre deL titulo",
+ *         @OA\Schema(type="string", example="Nuevas Tecnologías Llegaron")
+ *     ),
  *     @OA\Response(
  *         response=200,
  *         description="Lista de blogs paginados",
@@ -230,6 +237,7 @@ class BlogController extends Controller
     {
         $limit = $request->query('limit');
         $category = $request->query('category');
+        $title = $request->query('title');
         $blogs = Blog::select('id', 'title', 'description', 'category_id')
         ->with([
             'category:id,name',
@@ -239,6 +247,9 @@ class BlogController extends Controller
             $query->whereHas('category', function($subquery) use($category){
                 $subquery->where('name', $category);
             });
+        })
+        ->when($title, function ($query) use ($title){
+            $query->where('title', 'like', "%{$title}%");
         })
         ->paginate($limit);
         return new JsonResponse([
