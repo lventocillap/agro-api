@@ -541,6 +541,200 @@
                 ]
             }
         },
+        "/send-email-password-change": {
+            "post": {
+                "tags": [
+                    "ChangePassword"
+                ],
+                "summary": "Envía un código de verificación para el cambio de contraseña",
+                "description": "Genera un código de verificación que se enviará al correo electrónico del usuario para realizar el cambio de contraseña.",
+                "operationId": "sendEmailPasswordChange",
+                "requestBody": {
+                    "description": "Los datos necesarios para el cambio de contraseña",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "usuario@ejemplo.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Código de verificación enviado con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Se envio el codigo de verificación revise su correo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Datos de entrada inválidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "El campo email es obligatorio y debe ser una dirección de correo válida"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/change-password": {
+            "post": {
+                "tags": [
+                    "ChangePassword"
+                ],
+                "summary": "Cambia la contraseña del usuario utilizando un código de verificación",
+                "description": "Permite al usuario cambiar su contraseña mediante un código de verificación enviado por correo electrónico.",
+                "operationId": "changePassword",
+                "requestBody": {
+                    "description": "Datos necesarios para cambiar la contraseña",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "code",
+                                    "password_new"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "usuario@ejemplo.com"
+                                    },
+                                    "code": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    },
+                                    "password_new": {
+                                        "description": "Contraseña nueva con al menos 8 caracteres",
+                                        "type": "string",
+                                        "example": "NuevaContraseña123"
+                                    },
+                                    "password_new_confirmation": {
+                                        "description": "Confirmar contraseña nueva con al menos 8 caracteres",
+                                        "type": "string",
+                                        "example": "NuevaContraseña123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contraseña cambiada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Su contraseña se cambio"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Datos de entrada inválidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "La contraseña debe tener al menos 8 caracteres"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado o código de verificación incorrecto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Credenciales inválidas"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "410": {
+                        "description": "Código de verificación expirado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "El código de verificación ha expirado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/blogs": {
             "get": {
                 "tags": [
@@ -927,6 +1121,92 @@
                 }
             }
         },
+        "/api/blogs/{blogId}": {
+            "get": {
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "Obtener un blog por ID",
+                "description": "Retorna los detalles de un blog específico, incluyendo su categoría.",
+                "operationId": "b83a387fbb5ac6868cf7dc53957962ee",
+                "parameters": [
+                    {
+                        "name": "blogId",
+                        "in": "path",
+                        "description": "ID del blog a obtener",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Blog encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Título del blog"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Descripción del blog"
+                                                },
+                                                "category_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "category": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Tecnología"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Blog no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Blog no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/categories": {
             "get": {
                 "tags": [
@@ -943,7 +1223,17 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "example": "Verduras"
+                            "example": "Acidas"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filtrar nombres de categorias",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Frutas"
                         }
                     }
                 ],
@@ -1701,7 +1991,7 @@
                     "Products"
                 ],
                 "summary": "Obtener lista de productos",
-                "description": "Devuelve una lista paginada de productos, con opción de filtrado por nombre y subcategoría. \n *     Si el usuario está autenticado mediante un token en el encabezado Authorization, verá todos los productos. \n *     Si no está autenticado, solo se devolverán los productos activos.",
+                "description": "Devuelve una lista paginada de productos, con opción de filtrado por nombre y subcategoría. \n     *     Si el usuario está autenticado mediante un token en el encabezado Authorization, verá todos los productos. \n     *     Si no está autenticado, solo se devolverán los productos activos.",
                 "operationId": "7c20c2996c0202da8a6555300bc1e3b8",
                 "parameters": [
                     {
@@ -1731,6 +2021,15 @@
                             "type": "integer",
                             "default": 10
                         }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Filtrar productos por categoria.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -1756,6 +2055,11 @@
                                                         "type": "number",
                                                         "format": "float",
                                                         "example": 2.5
+                                                    },
+                                                    "stock": {
+                                                        "type": "number",
+                                                        "format": "int",
+                                                        "example": 10
                                                     },
                                                     "status": {
                                                         "type": "boolean",
@@ -1879,11 +2183,6 @@
                                     "stock": {
                                         "type": "integer",
                                         "example": 100
-                                    },
-                                    "pdf": {
-                                        "description": "Archivo PDF del producto",
-                                        "type": "string",
-                                        "format": "binary"
                                     },
                                     "subcategory_id": {
                                         "type": "array",
@@ -2171,11 +2470,6 @@
                                         "type": "integer",
                                         "example": 100
                                     },
-                                    "pdf": {
-                                        "description": "Archivo PDF del producto",
-                                        "type": "string",
-                                        "format": "binary"
-                                    },
                                     "subcategory_id": {
                                         "type": "array",
                                         "items": {
@@ -2313,13 +2607,13 @@
                 }
             }
         },
-        "/api/getServices": {
+        "/api/services": {
             "get": {
                 "tags": [
                     "Services"
                 ],
                 "summary": "Obtiene una lista paginada de servicios",
-                "operationId": "ce66c50af851232bf27c859997492525",
+                "operationId": "a8fc166f4f81daebd927e784238f5af6",
                 "parameters": [
                     {
                         "name": "limit",
@@ -2402,9 +2696,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/api/services": {
+            },
             "post": {
                 "tags": [
                     "Services"
@@ -3053,6 +3345,82 @@
             }
         },
         "/api/testimonies/{testimonieId}": {
+            "get": {
+                "tags": [
+                    "Testimonies"
+                ],
+                "summary": "Obtener un testimonio por ID",
+                "description": "Retorna los detalles de un testimonio específico.",
+                "operationId": "44d98ff9d52ddf1335ad9d5db1d22066",
+                "parameters": [
+                    {
+                        "name": "testimonieId",
+                        "in": "path",
+                        "description": "ID del testimonio a obtener",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Testimonio encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name_customer": {
+                                                    "type": "string",
+                                                    "example": "Juan Pérez"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Excelente servicio."
+                                                },
+                                                "qualification": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "date": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2024-04-02"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Testimonio no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Testimonio no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "put": {
                 "tags": [
                     "Testimonies"
@@ -3383,6 +3751,10 @@
         {
             "name": "InfoContact",
             "description": "Endpoints para gestionar la información de contacto"
+        },
+        {
+            "name": "ChangePassword",
+            "description": "ChangePassword"
         },
         {
             "name": "Blogs",

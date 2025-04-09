@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Policy;
 
 use App\Http\Requests\Policy\ValidatePolicyUpdate;
 use App\Http\Controllers\Controller;
-use App\Http\Service\Image\SaveImageService;
+use App\Http\Service\Image\DeleteImage;
+use App\Http\Service\Image\SaveImage;
 use App\Models\Policies;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PolicyController extends Controller
 {
-    use ValidatePolicyUpdate, SaveImageService;
+    use ValidatePolicyUpdate, SaveImage, DeleteImage;
 
     /**
      * @OA\Get(

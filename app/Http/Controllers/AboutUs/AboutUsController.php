@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\AboutUs;
 
 use App\Http\Controllers\Controller;
-use App\Exceptions\AboutUs\NotFoundAboutUs; 
-use App\Http\Service\Image\SaveImageAboutUs;
+use App\Exceptions\AboutUs\NotFoundAboutUs;
 use App\Http\Requests\AboutUs\ValidateAboutUs;
+use App\Http\Service\Image\DeleteImage;
+use App\Http\Service\Image\SaveImage;
 use App\Models\AboutUs;
 use Illuminate\Support\Facades\DB;
-use App\Models\Image;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -21,7 +20,8 @@ use Illuminate\Support\Facades\Validator;
  */
 class AboutUsController extends Controller
 {
-    use SaveImageAboutUs;
+    use SaveImage;
+    use DeleteImage;
     use ValidateAboutUs;
 
     /**
@@ -34,7 +34,7 @@ class AboutUsController extends Controller
      *     @OA\Response(response=500, description="Error interno del servidor")
      * )
      */
-    public function getAboutUs() 
+    public function getAboutUs()
     {
         try {
             $aboutUs = AboutUs::with('images')->first();
@@ -50,7 +50,6 @@ class AboutUsController extends Controller
             }
 
             return response()->json($aboutUs, 200);
-
         } catch (NotFoundAboutUs $e) {
             return $e->render();
         } catch (\Exception $e) {
@@ -58,7 +57,7 @@ class AboutUsController extends Controller
         }
     }
 
-       /**
+    /**
      * @OA\Put(
      *     path="/api/about-us/{idAboutUs}",
      *     summary="Actualizar información de About Us",
@@ -143,7 +142,7 @@ class AboutUsController extends Controller
 
             DB::transaction(function () use ($aboutUs, $request) {
                 $existingImage = $aboutUs->images()->latest()->first();
-                $imagePath = $this->saveImageBase64($request->image, 'about_us_images');
+                $imagePath = $this->saveImage($request->image, 'about_us_images');
 
                 if (!$imagePath) {
                     throw new \Exception("Error al guardar la imagen.");
@@ -161,7 +160,6 @@ class AboutUsController extends Controller
                 'message' => 'Imagen actualizada con éxito',
                 'path' => asset('storage/' . $aboutUs->images()->latest()->first()->url),
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Error al actualizar la imagen: ' . $e->getMessage(),
@@ -196,7 +194,7 @@ class AboutUsController extends Controller
         ]);
 
         $aboutUs = AboutUs::find($id);
-        
+
         if (!$aboutUs) {
             return response()->json(['message' => 'Registro no encontrado'], 404);
         }
@@ -272,49 +270,47 @@ class AboutUsController extends Controller
     }
 
     /**
- * @OA\Delete(
- *     path="/api/about-us/delete-value/{idValue}",
- *     summary="Eliminar un valor de About Us",
- *     tags={"AboutUs"},
- *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
- *     @OA\RequestBody(
- *         required=true,
- *         @OA\JsonContent(
- *             @OA\Property(property="aboutValue", type="string")
- *         )
- *     ),
- *     @OA\Response(response=200, description="Valor eliminado correctamente"),
- *     @OA\Response(response=404, description="Registro no encontrado"),
- *     @OA\Response(response=422, description="El valor no existe en la lista")
- * )
- */
-public function deleteValueAboutUs(Request $request, $id)
-{
-    $request->validate([
-        'aboutValue' => 'required|string|max:255',
-    ]);
+     * @OA\Delete(
+     *     path="/api/about-us/delete-value/{idValue}",
+     *     summary="Eliminar un valor de About Us",
+     *     tags={"AboutUs"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="aboutValue", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Valor eliminado correctamente"),
+     *     @OA\Response(response=404, description="Registro no encontrado"),
+     *     @OA\Response(response=422, description="El valor no existe en la lista")
+     * )
+     */
+    public function deleteValueAboutUs(Request $request, $id)
+    {
+        $request->validate([
+            'aboutValue' => 'required|string|max:255',
+        ]);
 
-    $aboutUs = AboutUs::find($id);
-    if (!$aboutUs) {
-        return response()->json(['message' => 'Registro no encontrado'], 404);
+        $aboutUs = AboutUs::find($id);
+        if (!$aboutUs) {
+            return response()->json(['message' => 'Registro no encontrado'], 404);
+        }
+
+        $values = $aboutUs->about_values ?? [];
+
+        if (!in_array($request->aboutValue, $values)) {
+            return response()->json(['message' => 'El valor no existe en la lista'], 422);
+        }
+
+        $filteredValues = array_filter($values, fn($v) => $v !== $request->aboutValue);
+
+        $aboutUs->about_values = array_values($filteredValues); // Reindexa el array
+        $aboutUs->save();
+
+        return response()->json([
+            'message' => 'Valor eliminado correctamente',
+            'values' => $aboutUs->about_values,
+        ], 200);
     }
-
-    $values = $aboutUs->about_values ?? [];
-
-    if (!in_array($request->aboutValue, $values)) {
-        return response()->json(['message' => 'El valor no existe en la lista'], 422);
-    }
-
-    $filteredValues = array_filter($values, fn($v) => $v !== $request->aboutValue);
-    
-    $aboutUs->about_values = array_values($filteredValues); // Reindexa el array
-    $aboutUs->save();
-
-    return response()->json([
-        'message' => 'Valor eliminado correctamente',
-        'values' => $aboutUs->about_values,
-    ], 200);
 }
-
-}
-

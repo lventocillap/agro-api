@@ -24,12 +24,15 @@ use Illuminate\Support\Facades\Route;
 //AuthUser
 Route::post('register', [AuthController::class, 'registerUser'])->middleware(NoUserExists::class);
 Route::post('login', [AuthController::class, 'loginUser']);
+Route::post('send-code-email', [AuthController::class, 'sednEmailPasswordChange']);
+Route::post('change-password', [AuthController::class, 'changePassword']);
 
 //Aboout_Us_Home
 Route::get('/about-us-home', [AboutUsHomeController::class, 'getAboutUsHome']); // Obtener AboutUs con imágen
 
 //Testimonies
 Route::get('testimonies', [TestimoniesController::class, 'getAllTestimonies']); // Obtener testimoni
+Route::get('testimonies/{testimonieId}', [TestimoniesController::class, 'getTestimonie']); //Obtener testimonio por Id
 
 //About_Us
 Route::get('about-us', [AboutUsController::class, 'getAboutUs']); // Obtener AboutUs con imágenes
@@ -50,6 +53,7 @@ Route::get('/services/{id}', [ServiceController::class, 'getServiceById']);
 
 //Blog
 Route::get('blogs', [BlogController::class, 'getAllBlogs']); // Obtener blogs
+Route::get('blogs/{blogId}', [BlogController::class, 'getBlog']);
 
 //Policies
 Route::get('/policies', [PolicyController::class, 'getPolicy']); // Obtener policies

@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Servics;
 
-use App\Exceptions\Servics\NotFoundFeature;
 use App\Exceptions\Servics\NotFoundService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Servics\ValidateServiceStore;
-use App\Http\Service\Image\SaveImageService;
+use App\Http\Service\Image\DeleteImage;
+use App\Http\Service\Image\SaveImage;
 use App\Models\Service;
 use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -17,11 +16,11 @@ use Illuminate\Http\Request;
 class ServiceController extends Controller
 {
 
-    use SaveImageService, ValidateServiceStore;
+    use ValidateServiceStore , SaveImage, DeleteImage;
 
     /**
      * @OA\Get(
-     *     path="/api/getServices",
+     *     path="/api/services",
      *     summary="Obtiene una lista paginada de servicios",
      *     tags={"Services"},
      *     @OA\Parameter(
@@ -270,12 +269,11 @@ class ServiceController extends Controller
             if ($request->has('image') && !empty($request->image)) {
                 try {
                     $existingImage = $service->image()->latest()->first();
+                    $image = $this->saveImage($request->image, 'services');
                     if ($existingImage) {
                         // Eliminar la imagen anterior del almacenamiento
                         $this->deleteImage($existingImage->url);
                     }
-                    $image = $this->saveImageBase64($request->image, 'services');
-    
                     if ($service->image) {
                         // Si la imagen ya existe, actualizamos
                         $service->image()->update(['url' => $image]);

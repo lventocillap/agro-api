@@ -237,4 +237,56 @@ class TestimoniesController extends Controller
             'prev_page' => $testimonies->previousPageUrl()
         ]);
     }
+
+    /**
+ * @OA\Get(
+ *     path="/api/testimonies/{testimonieId}",
+ *     summary="Obtener un testimonio por ID",
+ *     description="Retorna los detalles de un testimonio específico.",
+ *     tags={"Testimonies"},
+ *     @OA\Parameter(
+ *         name="testimonieId",
+ *         in="path",
+ *         required=true,
+ *         description="ID del testimonio a obtener",
+ *         @OA\Schema(type="integer", example=1)
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Testimonio encontrado",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="data", type="object",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="name_customer", type="string", example="Juan Pérez"),
+ *                 @OA\Property(property="description", type="string", example="Excelente servicio."),
+ *                 @OA\Property(property="qualification", type="integer", example=5),
+ *                 @OA\Property(property="date", type="string", format="date", example="2024-04-02")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Testimonio no encontrado",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="message", type="string", example="Testimonio no encontrado")
+ *         )
+ *     )
+ * )
+ */
+    public function getTestimonie(int $testimonieId): JsonResponse
+    {   
+        $testimonie = Testimonie::select(
+            'id', 
+            'name_customer', 
+            'description', 
+            'qualification', 
+            'date')
+            ->find($testimonieId);
+        if(!$testimonie){
+            throw new NotFoundTestimonie;
+        }
+        return new JsonResponse(['data' => $testimonie]);
+    }
 }

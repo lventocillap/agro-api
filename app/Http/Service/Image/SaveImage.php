@@ -10,6 +10,44 @@ use Illuminate\Support\Str;
 
 trait SaveImage
 {
+    public function saveImage(?string $inputImage, string $folder = 'products'): ?string
+    {
+        if (empty($inputImage)) {
+            return null;
+        }
+        if (filter_var($inputImage, FILTER_VALIDATE_URL)) {
+            return $this->saveImageUrl($inputImage, $folder);
+        }
+        if (preg_match('/^data:image\/(\w+);base64,/', $inputImage)) {
+            return $this->saveImageBase64($inputImage, $folder);
+        }
+        throw new Exception('Formato de imagen no reconocido: debe ser una URL o base64');
+    }
+
+    public function saveImageUrl(string $urlImage, string $folder = 'products'): ?string
+    {
+        $contents = file_get_contents($urlImage);
+
+        if (!$contents) {
+            throw new Exception('No se pudo descargar la imagen desde la URL.');
+        }
+
+        $extension = pathinfo(parse_url($urlImage, PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'jpg';
+        $extension = strtolower($extension);
+
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+        if (!in_array($extension, $allowedExtensions)) {
+            throw new Exception("Extensión no permitida: .$extension");
+        }
+
+        $filename = Str::uuid() . '.' . $extension;
+        $path = $folder . '/' . $filename;
+
+        Storage::disk('public')->put($path, $contents);
+
+        return url('storage/' . $path);
+    }
+    
     public function saveImageBase64(?string $base64Image, string $folder = 'products'): ?string
     {
         if(empty($base64Image)){
@@ -22,6 +60,7 @@ trait SaveImage
         Storage::disk('public')->put($path, $image);
         return url('storage/'.$path);
     }
+
     public function getFileExtension(string $base64Image): string
     {
         $matches = [];

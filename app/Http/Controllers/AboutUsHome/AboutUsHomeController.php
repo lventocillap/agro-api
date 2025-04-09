@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\AboutUsHome;
 
 use App\Http\Controllers\Controller; // Agrega esta línea
-use App\Http\Service\Image\SaveImageAboutUs;
 use App\Http\Requests\AboutUsHome\ValidateAboutUsHome;
+use App\Http\Service\Image\DeleteImage;
+use App\Http\Service\Image\SaveImage;
 use App\Models\AboutUsHome;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\DB;
  */
 class AboutUsHomeController extends Controller
 {
-    use SaveImageAboutUs;
+    use SaveImage;
+    use DeleteImage;
     use ValidateAboutUsHome;
 
     /**
@@ -140,7 +142,7 @@ class AboutUsHomeController extends Controller
                 $existingImage = $aboutUsHome->images()->latest()->first();
 
                 // Guardar la nueva imagen
-                $imagePath = $this->saveImageBase64($request->image, 'about_us_home_images');
+                $imagePath = $this->saveImage($request->image, 'about_us_home_images');
 
                 if (!$imagePath) {
                     throw new \Exception("Error al guardar la imagen.");
@@ -160,7 +162,7 @@ class AboutUsHomeController extends Controller
 
             return response()->json([
                 'message' => 'Imagen actualizada con éxito',
-                'path' => asset('storage/' . $aboutUsHome->images()->latest()->first()->url),
+                'path' => $aboutUsHome->images()->latest()->first()->url,
             ], 200);
 
         } catch (\Exception $e) {
