@@ -25,4 +25,11 @@ class Blog extends Model
     {
         return $this->morphOne(Image::class, 'imageble');
     }
+
+    protected static function booted()
+    {
+        static::deleting(function (Blog $blog) {
+            $blog->image()->delete();
+        });
+    }
 }

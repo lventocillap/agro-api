@@ -17,4 +17,11 @@ class Policies extends Model
     {
         return $this->morphOne(Image::class, 'imageble');
     }
+
+    protected static function booted()
+    {
+        static::deleting(function (Policies $policies) {
+            $policies->image()->delete();
+        });
+    }
 }

@@ -18,4 +18,11 @@ class Testimonie extends Model
     {
         return $this->morphOne(Image::class, 'imageble');
     }
+
+    protected static function booted()
+    {
+        static::deleting(function (Testimonie $testimonie) {
+            $testimonie->image()->delete();
+        });
+    }
 }
