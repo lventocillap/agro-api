@@ -25,4 +25,11 @@ class AboutUsHome extends Model
         'created_at',
         'updated_at',
     ];
+
+    protected static function booted()
+    {
+        static::deleting(function (AboutUsHome $aboutUsHome) {
+            $aboutUsHome->images()->delete();
+        });
+    }
 }

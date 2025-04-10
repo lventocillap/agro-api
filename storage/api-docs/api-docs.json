@@ -500,6 +500,59 @@
                 }
             }
         },
+        "/api/refresh-token": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Refrescar token JWT",
+                "description": "Genera un nuevo token JWT usando el token actual (incluso si ha expirado, siempre que esté dentro del tiempo de refresh permitido).",
+                "operationId": "b22c55bf0feb94d3a0d5bfaedcf45ea7",
+                "responses": {
+                    "200": {
+                        "description": "Token renovado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJh..."
+                                        },
+                                        "expires_in": {
+                                            "type": "integer",
+                                            "example": 60
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token no válido o ya expirado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Token no válido o ya expirado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/user": {
             "get": {
                 "tags": [
@@ -541,7 +594,7 @@
                 ]
             }
         },
-        "/send-email-password-change": {
+        "/api/send-email-password-change": {
             "post": {
                 "tags": [
                     "ChangePassword"
@@ -622,7 +675,7 @@
                 }
             }
         },
-        "/change-password": {
+        "/api/change-password": {
             "post": {
                 "tags": [
                     "ChangePassword"
@@ -761,6 +814,16 @@
                         "schema": {
                             "type": "string",
                             "example": "Tecnología"
+                        }
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Filtrar blogs por nombre deL titulo",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Nuevas Tecnologías Llegaron"
                         }
                     }
                 ],
@@ -2057,15 +2120,14 @@
                                                         "example": 2.5
                                                     },
                                                     "stock": {
-                                                        "type": "number",
-                                                        "format": "int",
+                                                        "type": "integer",
                                                         "example": 10
                                                     },
                                                     "status": {
                                                         "type": "boolean",
                                                         "example": true
                                                     },
-                                                    "subCategories": {
+                                                    "categories": {
                                                         "type": "array",
                                                         "items": {
                                                             "properties": {
@@ -2075,7 +2137,23 @@
                                                                 },
                                                                 "name": {
                                                                     "type": "string",
-                                                                    "example": "Verduras"
+                                                                    "example": "Alimentos"
+                                                                },
+                                                                "sub_categories": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "integer",
+                                                                                "example": 1
+                                                                            },
+                                                                            "name": {
+                                                                                "type": "string",
+                                                                                "example": "Verduras"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    }
                                                                 }
                                                             },
                                                             "type": "object"
@@ -3293,6 +3371,11 @@
                                     "qualification": {
                                         "type": "integer",
                                         "example": 5
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "base64",
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANS..."
                                     }
                                 },
                                 "type": "object"
@@ -3345,82 +3428,6 @@
             }
         },
         "/api/testimonies/{testimonieId}": {
-            "get": {
-                "tags": [
-                    "Testimonies"
-                ],
-                "summary": "Obtener un testimonio por ID",
-                "description": "Retorna los detalles de un testimonio específico.",
-                "operationId": "44d98ff9d52ddf1335ad9d5db1d22066",
-                "parameters": [
-                    {
-                        "name": "testimonieId",
-                        "in": "path",
-                        "description": "ID del testimonio a obtener",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Testimonio encontrado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "name_customer": {
-                                                    "type": "string",
-                                                    "example": "Juan Pérez"
-                                                },
-                                                "description": {
-                                                    "type": "string",
-                                                    "example": "Excelente servicio."
-                                                },
-                                                "qualification": {
-                                                    "type": "integer",
-                                                    "example": 5
-                                                },
-                                                "date": {
-                                                    "type": "string",
-                                                    "format": "date",
-                                                    "example": "2024-04-02"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Testimonio no encontrado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Testimonio no encontrado"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
             "put": {
                 "tags": [
                     "Testimonies"
@@ -3467,6 +3474,11 @@
                                     "qualification": {
                                         "type": "integer",
                                         "example": 4
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "base64",
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANS..."
                                     }
                                 },
                                 "type": "object"
@@ -3648,6 +3660,15 @@
                                                         "type": "string",
                                                         "format": "date",
                                                         "example": "2024-03-24"
+                                                    },
+                                                    "image": {
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": "string",
+                                                                "example": "https://example.com/image.jpg"
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 },
                                                 "type": "object"
@@ -3686,6 +3707,80 @@
                     },
                     "500": {
                         "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/testimonies/{id}": {
+            "get": {
+                "tags": [
+                    "Testimonies"
+                ],
+                "summary": "Obtener un testimonio por ID",
+                "description": "Devuelve un testimonio específico junto con su imagen relacionada.",
+                "operationId": "2e2d66ff940138c75ea4a9fe9da4dba5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del testimonio a consultar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Testimonio encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name_customer": {
+                                                    "type": "string",
+                                                    "example": "Juan Pérez"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Muy buen servicio."
+                                                },
+                                                "qualification": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "date": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2024-04-09"
+                                                },
+                                                "image": {
+                                                    "properties": {
+                                                        "url": {
+                                                            "type": "string",
+                                                            "example": "https://example.com/storage/testimonies/image.jpg"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Testimonio no encontrado"
                     }
                 }
             }

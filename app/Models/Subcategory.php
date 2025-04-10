@@ -14,7 +14,9 @@ class Subcategory extends Model
     ];
     protected $hidden = [
         'pivot',
-        'category_id'
+        'category_id',
+        'created_at',
+        'updated_at'
     ];
 
     public function category(): BelongsTo

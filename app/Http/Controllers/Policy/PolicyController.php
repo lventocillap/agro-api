@@ -122,18 +122,19 @@ class PolicyController extends Controller
         if ($request->has('image') && !empty($request->image)) {
             try {
                 $existingImage = $policy->image()->latest()->first();
-                if ($existingImage) {
-                    // Eliminar la imagen anterior del almacenamiento
-                    $this->deleteImage($existingImage->url);
-                }
-                $image = $this->saveImageBase64($request->image, 'policies');
+                $image = $this->saveImage($request->image, 'policies');
                 
                 if ($policy->image) {
                     // Si la imagen ya existe, actualizamos
                     $policy->image()->update(['url' => $image]);
+
                 } else {
                     // Si no hay imagen, creamos una nueva relación
                     $policy->image()->create(['url' => $image]);
+                }
+                if ($existingImage) {
+                    // Eliminar la imagen anterior del almacenamiento
+                    $this->deleteImage($existingImage->url);
                 }
                 $policy->load('image');
             } catch (\Exception $e) {
@@ -145,6 +146,7 @@ class PolicyController extends Controller
         }
         
         $policy->update($validateData);
+        $policy->save();
 
         return new JsonResponse([
             'message' => 'Policy updated successfully',

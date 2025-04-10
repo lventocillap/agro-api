@@ -37,4 +37,11 @@ class Product extends Model
     {
         return $this->belongsToMany(Subcategory::class, 'product_subcategory');
     }
+
+    protected static function booted()
+    {
+        static::deleting(function (Product $product) {
+            $product->image()->delete();
+        });
+    }
 }

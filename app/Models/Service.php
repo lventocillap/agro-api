@@ -31,4 +31,11 @@ class Service extends Model
         return $this->morphOne(Image::class, 'imageble');
     }
 
+    protected static function booted()
+    {
+        static::deleting(function (Service $service) {
+            $service->image()->delete();
+        });
+    }
+
 }

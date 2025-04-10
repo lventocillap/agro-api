@@ -64,6 +64,7 @@ Route::get('/info-contact', [InfoContactController::class, 'getInfoContact']); /
 //Private Routes
 Route::middleware(IsUserAuth::class)->group(function () {
     Route::controller(AuthController::class)->group(function () {
+        Route::post('refresh-token', [AuthController::class, 'refreshToken']);
         Route::post('logout', 'logout');
         Route::get('user', 'getUser');
     });
@@ -95,7 +96,7 @@ Route::middleware(IsUserAuth::class)->group(function () {
 
             //Sub-Categories
             Route::post('categories/{idCategory}/subcategories', [SubcategoryController::class, 'storeSubcategory']); // Crear subcategoría
-            Route::delete('subcategory/{nameSubcategories}', [SubcategoryController::class, 'deleteSubcategory']); // Eliminar subcategoría
+            Route::delete('subcategories/{nameSubcategories}', [SubcategoryController::class, 'deleteSubcategory']); // Eliminar subcategoría
 
             //Product
             Route::post('products', [ProductController::class, 'storeProduct']); // Crear producto

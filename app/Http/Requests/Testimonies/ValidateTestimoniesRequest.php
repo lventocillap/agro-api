@@ -14,7 +14,8 @@ trait ValidateTestimoniesRequest
             'name_customer' => 'required|string|max:256',
             'description' => 'required|string|max:256',
             'date' => 'required|string',
-            'qualification' => 'required|numeric'
+            'qualification' => 'required|numeric',
+            'image' => 'nullable|string'
         ]);
     }
 }

@@ -111,10 +111,51 @@ class AuthController extends Controller
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json(['error' => 'Invalid credentials'], 401);
             }
-            return response()->json(['token' => $token], 200);
+            return response()->json([
+                'token' => $token,
+                'expires_in' => JWTAuth::factory()->getTTL()
+            ], 200);
         } catch (JWTException $e) {
             return response()->json(['error' => 'Could not create token', $e], 500);
         }
+    }
+
+/**
+ * Refresca el token JWT expirado utilizando el token actual enviado en el encabezado Authorization.
+ *
+ * @OA\Post(
+ *     path="/api/refresh-token",
+ *     summary="Refrescar token JWT",
+ *     description="Genera un nuevo token JWT usando el token actual (incluso si ha expirado, siempre que esté dentro del tiempo de refresh permitido).",
+ *     tags={"Authentication"},
+ *     security={{"bearerAuth":{}}},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Token renovado exitosamente",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="token", type="string", example="eyJ0eXAiOiJKV1QiLCJh..."),
+ *             @OA\Property(property="expires_in", type="integer", example=60)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Token no válido o ya expirado",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string", example="Token no válido o ya expirado")
+ *         )
+ *     )
+ * )
+ *
+ * @return JsonResponse JSON con el nuevo token y su tiempo de expiración
+ */
+
+    public function refreshToken(): JsonResponse
+    {
+        $newToken = JWTAuth::parseToken()->refresh();
+        return new JsonResponse([
+            'token' => $newToken,
+            'expires_in' => JWTAuth::factory()->getTTL()
+        ]);
     }
 
     /**
@@ -159,7 +200,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/send-email-password-change",
+     *     path="/api/send-email-password-change",
      *     summary="Envía un código de verificación para el cambio de contraseña",
      *     description="Genera un código de verificación que se enviará al correo electrónico del usuario para realizar el cambio de contraseña.",
      *     operationId="sendEmailPasswordChange",
@@ -212,7 +253,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/change-password",
+     *     path="/api/change-password",
      *     summary="Cambia la contraseña del usuario utilizando un código de verificación",
      *     description="Permite al usuario cambiar su contraseña mediante un código de verificación enviado por correo electrónico.",
      *     operationId="changePassword",

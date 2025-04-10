@@ -30,4 +30,11 @@ class AboutUs extends Model
         'created_at',
         'updated_at',
     ];
+
+    protected static function booted()
+    {
+        static::deleting(function (AboutUs $aboutUs) {
+            $aboutUs->images()->delete();
+        });
+    }
 }
