@@ -63,6 +63,7 @@ Route::get('/info-contact', [InfoContactController::class, 'getInfoContact']); /
 //Private Routes
 Route::middleware(IsUserAuth::class)->group(function () {
     Route::controller(AuthController::class)->group(function () {
+        Route::post('refresh-token', [AuthController::class, 'refreshToken']);
         Route::post('logout', 'logout');
         Route::get('user', 'getUser');
     });

@@ -500,6 +500,59 @@
                 }
             }
         },
+        "/api/refresh-token": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Refrescar token JWT",
+                "description": "Genera un nuevo token JWT usando el token actual (incluso si ha expirado, siempre que esté dentro del tiempo de refresh permitido).",
+                "operationId": "b22c55bf0feb94d3a0d5bfaedcf45ea7",
+                "responses": {
+                    "200": {
+                        "description": "Token renovado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJh..."
+                                        },
+                                        "expires_in": {
+                                            "type": "integer",
+                                            "example": 60
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token no válido o ya expirado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Token no válido o ya expirado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/user": {
             "get": {
                 "tags": [
@@ -541,7 +594,7 @@
                 ]
             }
         },
-        "/send-email-password-change": {
+        "/api/send-email-password-change": {
             "post": {
                 "tags": [
                     "ChangePassword"
@@ -622,7 +675,7 @@
                 }
             }
         },
-        "/change-password": {
+        "/api/change-password": {
             "post": {
                 "tags": [
                     "ChangePassword"
