@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Controllers\AuthUsers\AuthController;
 use App\Http\Middleware\IsUserAuth;
@@ -60,12 +61,17 @@ Route::get('/policies', [PolicyController::class, 'getPolicy']); // Obtener poli
 //Info_Contact
 Route::get('/info-contact', [InfoContactController::class, 'getInfoContact']); // Obtener Info Contact
 
+// Customer (Endpoints Públicos)
+Route::get('customers', [CustomerController::class, 'getAllCustomers']); // Obtener todos los clientes
+Route::get('customers/{id}', [CustomerController::class, 'getCustomer']); // Obtener un cliente por ID
+Route::post('customers', [CustomerController::class, 'storeCustomer']);
 //Private Routes
 Route::middleware(IsUserAuth::class)->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::post('refresh-token', [AuthController::class, 'refreshToken']);
         Route::post('logout', 'logout');
         Route::get('user', 'getUser');
+        // Route::post('customers', [CustomerController::class, 'storeCustomer']);
     });
 
 
@@ -118,6 +124,10 @@ Route::middleware(IsUserAuth::class)->group(function () {
         
             //Info_Contact
             Route::put('/info-contact/{idInfoContact}', [InfoContactController::class, 'updateInfoContact']); // Actualizar Info Contact
+              
+            // Customer 
+            Route::put('customers/{id}', [CustomerController::class, 'update']);
+            Route::delete('customers/{id}', [CustomerController::class, 'destroy']);
         });
     });
 });
