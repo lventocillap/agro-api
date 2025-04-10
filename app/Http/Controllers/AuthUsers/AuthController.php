@@ -190,7 +190,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/send-email-password-change",
+     *     path="/api/send-code-email",
      *     summary="Envía un código de verificación para el cambio de contraseña",
      *     description="Genera un código de verificación que se enviará al correo electrónico del usuario para realizar el cambio de contraseña.",
      *     operationId="sendEmailPasswordChange",

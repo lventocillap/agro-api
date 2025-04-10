@@ -594,7 +594,7 @@
                 ]
             }
         },
-        "/api/send-email-password-change": {
+        "/api/send-code-email": {
             "post": {
                 "tags": [
                     "ChangePassword"
