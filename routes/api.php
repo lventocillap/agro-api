@@ -64,7 +64,7 @@ Route::get('/info-contact', [InfoContactController::class, 'getInfoContact']); /
 // Customer (Endpoints Públicos)
 Route::get('customers', [CustomerController::class, 'getAllCustomers']); // Obtener todos los clientes
 Route::get('customers/{id}', [CustomerController::class, 'getCustomer']); // Obtener un cliente por ID
-
+Route::post('customers', [CustomerController::class, 'storeCustomer']);
 //Private Routes
 Route::middleware(IsUserAuth::class)->group(function () {
     Route::controller(AuthController::class)->group(function () {
@@ -126,7 +126,6 @@ Route::middleware(IsUserAuth::class)->group(function () {
             Route::put('/info-contact/{idInfoContact}', [InfoContactController::class, 'updateInfoContact']); // Actualizar Info Contact
               
             // Customer 
-            Route::post('customers', [CustomerController::class, 'storeCustomer']);
             Route::put('customers/{id}', [CustomerController::class, 'update']);
             Route::delete('customers/{id}', [CustomerController::class, 'destroy']);
         });
