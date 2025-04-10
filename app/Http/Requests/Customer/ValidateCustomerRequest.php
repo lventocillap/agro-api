@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Testimonies;
+namespace App\Http\Requests\Customer;
 
 use Illuminate\Http\Request;
 
