@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Customer;
 
+use App\Exceptions\Customer\NotFoundCustomer;
 use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -51,7 +52,7 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
 
         if (!$customer) {
-            return response()->json(['error' => 'Customer not found'], 404);
+            throw new NotFoundCustomer;
         }
 
         return response()->json(['data' => $customer]);
@@ -88,7 +89,7 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
 
         if (!$customer) {
-            return response()->json(['error' => 'Customer not found'], 404);
+            throw new NotFoundCustomer;
         }
 
         $validated = $request->validate([
@@ -114,7 +115,7 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
 
         if (!$customer) {
-            return response()->json(['error' => 'Customer not found'], 404);
+            throw new NotFoundCustomer;
         }
 
         $customer->delete();
