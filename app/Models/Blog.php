@@ -11,7 +11,8 @@ class Blog extends Model
     protected $fillable = [
         'title',
         'description',
-        'category_id'
+        'category_id',
+        'date'
     ];
     protected $hidden = [
         'category_id'

@@ -61,10 +61,11 @@ class BlogController extends Controller
         $blog = Blog::create([
             'title' => $request->title,
             'description' => $request->description,
-            'category_id' => $request->category_id
+            'category_id' => $request->category_id,
+            'date' => now()
         ]);
 
-        $image = $this->saveImageBase64($request->image, 'blogs');
+        $image = $this->saveImage($request->image, 'blogs');
         $blog->image()->create([
             'url' => $image
         ]);
@@ -238,7 +239,7 @@ class BlogController extends Controller
         $limit = $request->query('limit');
         $category = $request->query('category');
         $title = $request->query('title');
-        $blogs = Blog::select('id', 'title', 'description', 'category_id')
+        $blogs = Blog::select('id', 'title', 'description', 'date', 'category_id')
         ->with([
             'category:id,name',
             'image:url,imageble_id'
@@ -308,8 +309,12 @@ class BlogController extends Controller
             'id',
             'title',
             'description',
+            'date',
             'category_id')
-        ->with(['category:id,name'])
+        ->with([
+            'category:id,name',
+            'image:id,imageble_id,url'
+            ])
         ->find($blogId);
         if(!$blog){
             throw new NotFoundBlog;
