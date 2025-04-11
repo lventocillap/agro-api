@@ -3041,6 +3041,426 @@
                 }
             }
         },
+        "/api/promotions": {
+            "get": {
+                "tags": [
+                    "Promotions"
+                ],
+                "summary": "Obtener todas las promociones",
+                "operationId": "23e966e66e0707f61f9c22ce43a89d83",
+                "responses": {
+                    "200": {
+                        "description": "Lista de promociones",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Título de la promoción"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Descripción de la promoción"
+                                                    },
+                                                    "image": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 10
+                                                            },
+                                                            "imageble_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "url": {
+                                                                "type": "string",
+                                                                "example": "promotions/image.jpg"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Promotions"
+                ],
+                "summary": "Registrar una nueva promoción",
+                "operationId": "bbe252c8e96131a81b7eac8617e42a9d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "image"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Título de la promoción"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Descripción de la promoción"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "base64",
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANS..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Promoción creada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Promocion creada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error de validación"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "title": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El título es requerido"
+                                                    }
+                                                },
+                                                "description": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "La descripción es requerida"
+                                                    }
+                                                },
+                                                "image": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "La imagen es requerida"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/promotions/{promotionId}": {
+            "get": {
+                "tags": [
+                    "Promotions"
+                ],
+                "summary": "Obtener una promoción por ID",
+                "operationId": "2c3b7262bbf55b9707059276a8edde01",
+                "parameters": [
+                    {
+                        "name": "promotionId",
+                        "in": "path",
+                        "description": "ID de la promoción",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Promoción encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Título de la promoción"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Descripción de la promoción"
+                                                },
+                                                "image": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 10
+                                                        },
+                                                        "imageble_id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "url": {
+                                                            "type": "string",
+                                                            "example": "promotions/image.jpg"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Promoción no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Promoción no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Promotions"
+                ],
+                "summary": "Actualizar una promoción existente",
+                "operationId": "b09ab0a76299f1e91fbde41428b330d8",
+                "parameters": [
+                    {
+                        "name": "promotionId",
+                        "in": "path",
+                        "description": "ID de la promoción a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "image"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Nuevo título de la promoción"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Nueva descripción de la promoción"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "base64",
+                                        "example": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Promoción actualizada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Se actualizo la promoción"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Promoción no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Promoción no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error de validación"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "title": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El título es requerido"
+                                                    }
+                                                },
+                                                "description": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "La descripción es requerida"
+                                                    }
+                                                },
+                                                "image": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "La imagen es requerida"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Promotions"
+                ],
+                "summary": "Eliminar una promoción",
+                "operationId": "326c88a62c8952fd7d960ec9755a3172",
+                "parameters": [
+                    {
+                        "name": "promotionId",
+                        "in": "path",
+                        "description": "ID de la promoción a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Promoción eliminada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Promocion eliminado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Promoción no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Promoción no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/services": {
             "get": {
                 "tags": [
@@ -4226,6 +4646,10 @@
         {
             "name": "Policies",
             "description": "Policies"
+        },
+        {
+            "name": "Promotions",
+            "description": "Promotions"
         },
         {
             "name": "Services",

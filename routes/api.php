@@ -17,6 +17,7 @@ use App\Http\Controllers\Policy\PolicyController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\InfoContact\InfoContactController;
 use App\Http\Controllers\Pdf\PdfController;
+use App\Http\Controllers\Promotion\PromotionController;
 use Illuminate\Support\Facades\Route;
 
 //Public Routes
@@ -65,6 +66,10 @@ Route::get('/info-contact', [InfoContactController::class, 'getInfoContact']); /
 Route::get('customers', [CustomerController::class, 'getAllCustomers']); // Obtener todos los clientes
 Route::get('customers/{id}', [CustomerController::class, 'getCustomer']); // Obtener un cliente por ID
 Route::post('customers', [CustomerController::class, 'storeCustomer']);
+
+//Promotion
+Route::get('promotions', [PromotionController::class, 'getAllPromotions']);
+Route::get('promotions/{promotionId}', [PromotionController::class, 'getPromotion']);
 //Private Routes
 Route::middleware(IsUserAuth::class)->group(function () {
     Route::controller(AuthController::class)->group(function () {
@@ -124,10 +129,15 @@ Route::middleware(IsUserAuth::class)->group(function () {
         
             //Info_Contact
             Route::put('/info-contact/{idInfoContact}', [InfoContactController::class, 'updateInfoContact']); // Actualizar Info Contact
-              
+
             // Customer 
             Route::put('customers/{id}', [CustomerController::class, 'update']);
             Route::delete('customers/{id}', [CustomerController::class, 'destroy']);
+
+            //Promotion
+            Route::post('promotions', [PromotionController::class, 'storePromotion']);
+            Route::put('promotions/{promotionId}', [PromotionController::class, 'updatePromotion']);
+            Route::delete('promotions/{promotionId}', [PromotionController::class, 'deletePromotion']);
         });
     });
 });
