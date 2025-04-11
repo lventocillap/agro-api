@@ -131,7 +131,7 @@ class PromotionController extends Controller
             'title' => $request->title,
             'description' => $request->description
         ]);
-        $promotion->image()->create([
+        $promotion->image()->update([
             'url' => $image
         ]);
         return new JsonResponse(['data' => 'Se actualizo la promoción']);
