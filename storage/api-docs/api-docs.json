@@ -2145,8 +2145,8 @@
                                 "properties": {
                                     "pdf": {
                                         "description": "Archivo PDF en formato Base64.",
-                                        "type": "string",
-                                        "format": "base64"
+                                        "type": "data:pdf/pdf;base64,iVBORw0KGgoAAAANS...",
+                                        "format": "string"
                                     }
                                 },
                                 "type": "object"
@@ -2734,45 +2734,40 @@
                                                 "properties": {
                                                     "id": {
                                                         "type": "integer",
-                                                        "example": 1
+                                                        "example": 2
                                                     },
                                                     "name": {
                                                         "type": "string",
-                                                        "example": "Tomate"
+                                                        "example": "Acidas"
                                                     },
                                                     "characteristics": {
                                                         "type": "string",
-                                                        "example": "Color rojo, tamaño mediano"
+                                                        "example": "AcidPulse pH es un regulador de pH diseñado..."
                                                     },
                                                     "benefits": {
                                                         "type": "array",
                                                         "items": {
                                                             "type": "string",
-                                                            "example": "Rico en vitaminas"
+                                                            "example": "Mejora la Absorción de Nutrientes"
                                                         }
                                                     },
                                                     "compatibility": {
                                                         "type": "string",
-                                                        "example": "Compatible con otros vegetales"
+                                                        "example": "Compatible con la mayoría de los fertilizantes..."
                                                     },
                                                     "stock": {
                                                         "type": "integer",
-                                                        "example": 50
+                                                        "example": 2
                                                     },
                                                     "price": {
-                                                        "type": "number",
-                                                        "format": "float",
-                                                        "example": 2.5
+                                                        "type": "string",
+                                                        "example": "10.00"
                                                     },
                                                     "status": {
-                                                        "type": "boolean",
-                                                        "example": true
-                                                    },
-                                                    "pdf_id": {
                                                         "type": "integer",
-                                                        "example": 5
+                                                        "example": 1
                                                     },
-                                                    "subcategories": {
+                                                    "categories": {
                                                         "type": "array",
                                                         "items": {
                                                             "properties": {
@@ -2782,7 +2777,23 @@
                                                                 },
                                                                 "name": {
                                                                     "type": "string",
-                                                                    "example": "Verduras"
+                                                                    "example": "Especialidades"
+                                                                },
+                                                                "sub_categories": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "integer",
+                                                                                "example": 1
+                                                                            },
+                                                                            "name": {
+                                                                                "type": "string",
+                                                                                "example": "Coadyuvante"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    }
                                                                 }
                                                             },
                                                             "type": "object"
@@ -2792,11 +2803,11 @@
                                                         "properties": {
                                                             "id": {
                                                                 "type": "integer",
-                                                                "example": 10
+                                                                "example": 2
                                                             },
                                                             "url": {
                                                                 "type": "string",
-                                                                "example": "https://example.com/document.pdf"
+                                                                "example": "http://127.0.0.1:8000/storage/products/fc0722ef-9a9a-40b1-b286-d5006145144e.pdf"
                                                             }
                                                         },
                                                         "type": "object"
@@ -2805,11 +2816,11 @@
                                                         "properties": {
                                                             "id": {
                                                                 "type": "integer",
-                                                                "example": 20
+                                                                "example": 2
                                                             },
                                                             "url": {
                                                                 "type": "string",
-                                                                "example": "https://example.com/image.jpg"
+                                                                "example": "http://127.0.0.1:8000/storage/products/fc0722ef-9a9a-40b1-b286-d5006145144e.png"
                                                             }
                                                         },
                                                         "type": "object"

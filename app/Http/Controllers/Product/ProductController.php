@@ -393,7 +393,6 @@ class ProductController extends Controller
             'prev_page' => $products->previousPageUrl()
         ]);
     }
-
     /**
      * @OA\Get(
      *     path="/api/products/{nameProduct}",
@@ -411,26 +410,29 @@ class ProductController extends Controller
      *         description="Detalles del producto",
      *         @OA\JsonContent(
      *             @OA\Property(property="data", type="array", @OA\Items(
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="name", type="string", example="Tomate"),
-     *                 @OA\Property(property="characteristics", type="string", example="Color rojo, tamaño mediano"),
-     *                 @OA\Property(property="benefits", type="array", @OA\Items(type="string", example="Rico en vitaminas")),
-     *                 @OA\Property(property="compatibility", type="string", example="Compatible con otros vegetales"),
-     *                 @OA\Property(property="stock", type="integer", example=50),
-     *                 @OA\Property(property="price", type="number", format="float", example=2.50),
-     *                 @OA\Property(property="status", type="boolean", example=true),
-     *                 @OA\Property(property="pdf_id", type="integer", example=5),
-     *                 @OA\Property(property="subcategories", type="array", @OA\Items(
+     *                 @OA\Property(property="id", type="integer", example=2),
+     *                 @OA\Property(property="name", type="string", example="Acidas"),
+     *                 @OA\Property(property="characteristics", type="string", example="AcidPulse pH es un regulador de pH diseñado..."),
+     *                 @OA\Property(property="benefits", type="array", @OA\Items(type="string", example="Mejora la Absorción de Nutrientes")),
+     *                 @OA\Property(property="compatibility", type="string", example="Compatible con la mayoría de los fertilizantes..."),
+     *                 @OA\Property(property="stock", type="integer", example=2),
+     *                 @OA\Property(property="price", type="string", example="10.00"),
+     *                 @OA\Property(property="status", type="integer", example=1),
+     *                 @OA\Property(property="categories", type="array", @OA\Items(
      *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property(property="name", type="string", example="Verduras")
+     *                     @OA\Property(property="name", type="string", example="Especialidades"),
+     *                     @OA\Property(property="sub_categories", type="array", @OA\Items(
+     *                         @OA\Property(property="id", type="integer", example=1),
+     *                         @OA\Property(property="name", type="string", example="Coadyuvante")
+     *                     ))
      *                 )),
      *                 @OA\Property(property="pdf", type="object",
-     *                     @OA\Property(property="id", type="integer", example=10),
-     *                     @OA\Property(property="url", type="string", example="https://example.com/document.pdf")
+     *                     @OA\Property(property="id", type="integer", example=2),
+     *                     @OA\Property(property="url", type="string", example="http://127.0.0.1:8000/storage/products/fc0722ef-9a9a-40b1-b286-d5006145144e.pdf")
      *                 ),
      *                 @OA\Property(property="image", type="object",
-     *                     @OA\Property(property="id", type="integer", example=20),
-     *                     @OA\Property(property="url", type="string", example="https://example.com/image.jpg")
+     *                     @OA\Property(property="id", type="integer", example=2),
+     *                     @OA\Property(property="url", type="string", example="http://127.0.0.1:8000/storage/products/fc0722ef-9a9a-40b1-b286-d5006145144e.png")
      *                 )
      *             ))
      *         )
@@ -458,7 +460,7 @@ class ProductController extends Controller
             'pdf_id'
         )
             ->with([
-                'subcategories:id,name',
+                'subCategories.category:id,name',
                 'pdf:id,url',
                 'image:id,imageble_id,url'
             ])
@@ -468,6 +470,33 @@ class ProductController extends Controller
                 $benefits = explode('益', $item->benefits);
                 $item->benefits = $benefits;
                 return $item;
+            })->map(function (Product $product) {
+                $grouped = [];
+
+                foreach ($product->subCategories as $sub) {
+                    $category = $sub->category;
+                    $catId = $category->id;
+
+                    if (!isset($grouped[$catId])) {
+                        $grouped[$catId] = [
+                            'id' => $catId,
+                            'name' => $category->name,
+                            'sub_categories' => [],
+                        ];
+                    }
+
+                    $grouped[$catId]['sub_categories'][] = [
+                        'id' => $sub->id,
+                        'name' => $sub->name,
+                    ];
+                }
+
+
+                $product->setAttribute('categories', array_values($grouped));
+
+                $product->unsetRelation('subCategories');
+
+                return $product;
             });
         return new JsonResponse(['data' => $product]);
     }

@@ -32,8 +32,8 @@ class PdfController extends Controller
  *             required={"pdf"},
  *             @OA\Property(
  *                 property="pdf",
- *                 type="string",
- *                 format="base64",
+ *                 type="data:pdf/pdf;base64,iVBORw0KGgoAAAANS...",
+ *                 format="string",
  *                 description="Archivo PDF en formato Base64."
  *             )
  *         )
