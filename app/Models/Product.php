@@ -17,7 +17,8 @@ class Product extends Model
         'price',
         'stock',
         'pdf_id',
-        'status'
+        'status',
+        'discount'
     ];
     protected $hidden = [
         'pdf_id',

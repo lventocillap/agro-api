@@ -2479,6 +2479,10 @@
                                                         "type": "integer",
                                                         "example": 10
                                                     },
+                                                    "discount": {
+                                                        "type": "integer",
+                                                        "example": 50
+                                                    },
                                                     "status": {
                                                         "type": "boolean",
                                                         "example": true
@@ -2576,7 +2580,7 @@
                 "tags": [
                     "Products"
                 ],
-                "summary": "Registrar un nuevo producto",
+                "summary": "Registrar un nuevo producto (el decuento es opcional)",
                 "operationId": "7751d790d3da23aecdbf8ffdee188dc2",
                 "requestBody": {
                     "required": true,
@@ -2612,7 +2616,7 @@
                                     },
                                     "compatibility": {
                                         "type": "string",
-                                        "example": "Compatible con cultivos de frutas"
+                                        "example": "Comvatible con cultivos de frutas"
                                     },
                                     "price": {
                                         "type": "number",
@@ -2622,6 +2626,10 @@
                                     "stock": {
                                         "type": "integer",
                                         "example": 100
+                                    },
+                                    "discount": {
+                                        "type": "integer",
+                                        "example": 50
                                     },
                                     "subcategory_id": {
                                         "type": "array",
@@ -2765,8 +2773,12 @@
                                                         "example": 2
                                                     },
                                                     "price": {
-                                                        "type": "string",
-                                                        "example": "10.00"
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    },
+                                                    "discount": {
+                                                        "type": "integer",
+                                                        "example": 50
                                                     },
                                                     "status": {
                                                         "type": "integer",
@@ -2867,7 +2879,7 @@
                 "tags": [
                     "Products"
                 ],
-                "summary": "Actualizar un producto",
+                "summary": "Actualizar un producto (el descuento es opcional)",
                 "operationId": "272ab5bf7d81a8a23e1f95bc8f5112ca",
                 "parameters": [
                     {
@@ -2924,6 +2936,10 @@
                                     "stock": {
                                         "type": "integer",
                                         "example": 100
+                                    },
+                                    "discount": {
+                                        "type": "integer",
+                                        "example": 50
                                     },
                                     "subcategory_id": {
                                         "type": "array",

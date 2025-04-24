@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('price');
             $table->integer('stock');
             $table->boolean('status')->default(true);
+            $table->integer('discount')->nullable();
             $table->foreignId('pdf_id')->constrained('pdfs');
             $table->timestamps();
         });

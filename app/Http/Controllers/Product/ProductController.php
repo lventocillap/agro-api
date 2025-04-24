@@ -31,7 +31,7 @@ class ProductController extends Controller
     /**
      * @OA\Post(
      *     path="/api/products",
-     *     summary="Registrar un nuevo producto",
+     *     summary="Registrar un nuevo producto (el decuento es opcional)",
      *     tags={"Products"},
      *     @OA\RequestBody(
      *         required=true,
@@ -44,10 +44,11 @@ class ProductController extends Controller
      *                 type="array",
      *                 @OA\Items(type="string", example="Aumenta la producción")
      *             ),
-     *             @OA\Property(property="compatibility", type="string", example="Compatible con cultivos de frutas"),
+     *             @OA\Property(property="compatibility", type="string", example="Comvatible con cultivos de frutas"),
      *             @OA\Property(property="price", type="number", format="float", example=49.99),
      *             @OA\Property(property="stock", type="integer", example=100),
-     *              @OA\Property(property="subcategory_id", type="array", @OA\Items(type="integer"), example={1,2}),
+     *             @OA\Property(property="discount", type="integer", example=50),
+     *             @OA\Property(property="subcategory_id", type="array", @OA\Items(type="integer"), example={1,2}),
      *             @OA\Property(property="image", type="string", format="binary", description="Imagen en formato base64")
      *         )
      *     ),
@@ -103,6 +104,7 @@ class ProductController extends Controller
                 'price' => $request->price,
                 'stock' => $request->stock,
                 'pdf_id' => $pdfId,
+                'discount' => $request->discount
             ])->id;
 
             $product = Product::find($productId);
@@ -119,7 +121,7 @@ class ProductController extends Controller
     /**
      * @OA\Put(
      *     path="/api/products/{nameProduct}",
-     *     summary="Actualizar un producto",
+     *     summary="Actualizar un producto (el descuento es opcional)",
      *     tags={"Products"},
      *     @OA\Parameter(
      *         name="nameProduct",
@@ -142,6 +144,7 @@ class ProductController extends Controller
      *             @OA\Property(property="compatibility", type="string", example="Compatible con cultivos de frutas"),
      *             @OA\Property(property="price", type="number", format="float", example=49.99),
      *             @OA\Property(property="stock", type="integer", example=100),
+     *             @OA\Property(property="discount", type="integer", example=50),
      *             @OA\Property(property="subcategory_id", type="array", @OA\Items(type="integer"), example={1,2}),
      *             @OA\Property(property="image", type="string", format="binary", description="Imagen en formato base64")
      *         )
@@ -201,7 +204,8 @@ class ProductController extends Controller
             'compatibility' => $request->compatibility,
             'price' => $request->price,
             'stock' => $request->stock,
-            'status' => $status
+            'status' => $status,
+            'discount' => $request->discount
         ]);
         $image = $this->saveImage($request->image, 'products');
         $this->deleteImage($product->image->url);
@@ -300,6 +304,7 @@ class ProductController extends Controller
      *                 @OA\Property(property="name", type="string", example="Tomate"),
      *                 @OA\Property(property="price", type="number", format="float", example=2.50),
      *                 @OA\Property(property="stock", type="integer", example=10),
+     *                 @OA\Property(property="discount", type="integer", example=50),
      *                 @OA\Property(property="status", type="boolean", example=true),
      *                 @OA\Property(property="created", type="date", example="2025-04-24 12:42:31"),
      *                 @OA\Property(property="categories", type="array", @OA\Items(
@@ -332,7 +337,7 @@ class ProductController extends Controller
         $limit = $request->query('limit');
 
         $user = auth('api')->user();
-        $products = Product::select('id', 'name', 'price', 'stock', 'status', 'created_at')
+        $products = Product::select('id', 'name', 'price', 'stock', 'status', 'discount', 'created_at')
             ->with([
                 'subCategories.category:id,name',
                 'image:id,imageble_id,url',
@@ -419,7 +424,8 @@ class ProductController extends Controller
      *                 @OA\Property(property="benefits", type="array", @OA\Items(type="string", example="Mejora la Absorción de Nutrientes")),
      *                 @OA\Property(property="compatibility", type="string", example="Compatible con la mayoría de los fertilizantes..."),
      *                 @OA\Property(property="stock", type="integer", example=2),
-     *                 @OA\Property(property="price", type="string", example="10.00"),
+     *                 @OA\Property(property="price", type="integer", example=10),
+     *                 @OA\Property(property="discount", type="integer", example=50),
      *                 @OA\Property(property="status", type="integer", example=1),
      *                 @OA\Property(property="created", type="date", example="2025-04-24 12:42:31"),
      *                 @OA\Property(property="categories", type="array", @OA\Items(
@@ -461,6 +467,7 @@ class ProductController extends Controller
             'stock',
             'price',
             'status',
+            'discount',
             'pdf_id',
             'created_at',
         )
