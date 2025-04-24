@@ -2483,6 +2483,11 @@
                                                         "type": "boolean",
                                                         "example": true
                                                     },
+                                                    "created": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2025-04-24 12:42:31"
+                                                    },
                                                     "categories": {
                                                         "type": "array",
                                                         "items": {
@@ -2766,6 +2771,11 @@
                                                     "status": {
                                                         "type": "integer",
                                                         "example": 1
+                                                    },
+                                                    "created": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2025-04-24 12:42:31"
                                                     },
                                                     "categories": {
                                                         "type": "array",

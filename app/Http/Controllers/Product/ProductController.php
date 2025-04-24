@@ -301,6 +301,7 @@ class ProductController extends Controller
      *                 @OA\Property(property="price", type="number", format="float", example=2.50),
      *                 @OA\Property(property="stock", type="integer", example=10),
      *                 @OA\Property(property="status", type="boolean", example=true),
+     *                 @OA\Property(property="created", type="date", example="2025-04-24 12:42:31"),
      *                 @OA\Property(property="categories", type="array", @OA\Items(
      *                     @OA\Property(property="id", type="integer", example=1),
      *                     @OA\Property(property="name", type="string", example="Alimentos"),
@@ -375,14 +376,13 @@ class ProductController extends Controller
                     'name' => $sub->name,
                 ];
             }
+            
+            $product->setAttribute('created', $product->created_at->format('Y-m-d H:i:s'));
 
             // Agregamos la propiedad virtual 'categories'
             $product->setAttribute('categories', array_values($grouped));
-
             // Opcional: eliminar la lista plana de sub_categories
             $product->unsetRelation('subCategories');
-
-            $product->setAttribute('created', $product->created_at->format('Y-m-d H:i:s'));
 
             return $product;
         });
@@ -421,6 +421,7 @@ class ProductController extends Controller
      *                 @OA\Property(property="stock", type="integer", example=2),
      *                 @OA\Property(property="price", type="string", example="10.00"),
      *                 @OA\Property(property="status", type="integer", example=1),
+     *                 @OA\Property(property="created", type="date", example="2025-04-24 12:42:31"),
      *                 @OA\Property(property="categories", type="array", @OA\Items(
      *                     @OA\Property(property="id", type="integer", example=1),
      *                     @OA\Property(property="name", type="string", example="Especialidades"),
@@ -461,7 +462,7 @@ class ProductController extends Controller
             'price',
             'status',
             'pdf_id',
-            'created_at'
+            'created_at',
         )
             ->with([
                 'subCategories.category:id,name',
@@ -495,10 +496,11 @@ class ProductController extends Controller
                     ];
                 }
 
+                $product->setAttribute('created', $product->created_at->format('Y-m-d H:i:s'));
 
                 $product->setAttribute('categories', array_values($grouped));
-
                 $product->unsetRelation('subCategories');
+
 
                 return $product;
             });
