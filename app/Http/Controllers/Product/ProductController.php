@@ -331,7 +331,7 @@ class ProductController extends Controller
         $limit = $request->query('limit');
 
         $user = auth('api')->user();
-        $products = Product::select('id', 'name', 'price', 'stock', 'status')
+        $products = Product::select('id', 'name', 'price', 'stock', 'status', 'created_at')
             ->with([
                 'subCategories.category:id,name',
                 'image:id,imageble_id,url',
@@ -352,6 +352,7 @@ class ProductController extends Controller
             ->when(is_null($user), function ($query) {
                 $query->where('status', true);
             })
+            ->orderByDesc('id')
             ->paginate($limit);
 
         $products->getCollection()->transform(function (Product $product) {
@@ -380,6 +381,8 @@ class ProductController extends Controller
 
             // Opcional: eliminar la lista plana de sub_categories
             $product->unsetRelation('subCategories');
+
+            $product->setAttribute('created', $product->created_at->format('Y-m-d H:i:s'));
 
             return $product;
         });
@@ -457,7 +460,8 @@ class ProductController extends Controller
             'stock',
             'price',
             'status',
-            'pdf_id'
+            'pdf_id',
+            'created_at'
         )
             ->with([
                 'subCategories.category:id,name',

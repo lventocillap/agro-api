@@ -20,7 +20,8 @@ class Product extends Model
         'status'
     ];
     protected $hidden = [
-        'pdf_id'
+        'pdf_id',
+        'created_at'
     ];
 
     public function pdf(): BelongsTo
