@@ -465,7 +465,7 @@ class ProductController extends Controller
             'created_at',
         )
             ->with([
-                'subCategories.category:id,name',
+                'subcategories:id,name',
                 'pdf:id,url',
                 'image:id,imageble_id,url'
             ])
@@ -474,35 +474,10 @@ class ProductController extends Controller
             ->map(function (Product $item) {
                 $benefits = explode('益', $item->benefits);
                 $item->benefits = $benefits;
+
+                $item->setAttribute('created', $item->created_at->format('Y-m-d H:i:s'));
+
                 return $item;
-            })->map(function (Product $product) {
-                $grouped = [];
-
-                foreach ($product->subCategories as $sub) {
-                    $category = $sub->category;
-                    $catId = $category->id;
-
-                    if (!isset($grouped[$catId])) {
-                        $grouped[$catId] = [
-                            'id' => $catId,
-                            'name' => $category->name,
-                            'sub_categories' => [],
-                        ];
-                    }
-
-                    $grouped[$catId]['sub_categories'][] = [
-                        'id' => $sub->id,
-                        'name' => $sub->name,
-                    ];
-                }
-
-                $product->setAttribute('created', $product->created_at->format('Y-m-d H:i:s'));
-
-                $product->setAttribute('categories', array_values($grouped));
-                $product->unsetRelation('subCategories');
-
-
-                return $product;
             });
         return new JsonResponse(['data' => $product]);
     }
