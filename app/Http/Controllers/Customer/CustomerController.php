@@ -211,6 +211,7 @@ class CustomerController extends Controller
             'cellphone' => 'required|string|max:9',
             'disctric' => 'required|string|max:50',
             'email'  => 'required|email|unique:customers,email',
+            'active' => 'required|boolean'
         ]);
 
         $customer = Customer::create($validated);
