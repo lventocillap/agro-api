@@ -1637,6 +1637,18 @@
                                                     "id": {
                                                         "type": "integer"
                                                     },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "lastname": {
+                                                        "type": "string"
+                                                    },
+                                                    "cellphone": {
+                                                        "type": "string"
+                                                    },
+                                                    "disctric": {
+                                                        "type": "string"
+                                                    },
                                                     "email": {
                                                         "type": "string"
                                                     },
@@ -1689,6 +1701,18 @@
                                     "active"
                                 ],
                                 "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "lastname": {
+                                        "type": "string"
+                                    },
+                                    "cellphone": {
+                                        "type": "string"
+                                    },
+                                    "disctric": {
+                                        "type": "string"
+                                    },
                                     "email": {
                                         "type": "string",
                                         "format": "email",
@@ -1720,6 +1744,18 @@
                                                 "id": {
                                                     "type": "integer",
                                                     "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "lastname": {
+                                                    "type": "string"
+                                                },
+                                                "cellphone": {
+                                                    "type": "string"
+                                                },
+                                                "disctric": {
+                                                    "type": "string"
                                                 },
                                                 "email": {
                                                     "type": "string",
@@ -1785,6 +1821,18 @@
                                                 "id": {
                                                     "type": "integer"
                                                 },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "lastname": {
+                                                    "type": "string"
+                                                },
+                                                "cellphone": {
+                                                    "type": "string"
+                                                },
+                                                "disctric": {
+                                                    "type": "string"
+                                                },
                                                 "email": {
                                                     "type": "string"
                                                 },
@@ -1834,6 +1882,18 @@
                                     "active"
                                 ],
                                 "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "lastname": {
+                                        "type": "string"
+                                    },
+                                    "cellphone": {
+                                        "type": "string"
+                                    },
+                                    "disctric": {
+                                        "type": "string"
+                                    },
                                     "email": {
                                         "type": "string",
                                         "format": "email",
@@ -1865,6 +1925,18 @@
                                                 "id": {
                                                     "type": "integer",
                                                     "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "lastname": {
+                                                    "type": "string"
+                                                },
+                                                "cellphone": {
+                                                    "type": "string"
+                                                },
+                                                "disctric": {
+                                                    "type": "string"
                                                 },
                                                 "email": {
                                                     "type": "string",

@@ -46,6 +46,10 @@ class CustomerController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="data", type="array", @OA\Items(
      *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="lastname", type="string"),
+     *                 @OA\Property(property="cellphone", type="string"),
+     *                 @OA\Property(property="disctric", type="string"),
      *                 @OA\Property(property="email", type="string"),
      *                 @OA\Property(property="active", type="boolean")
      *             )),
@@ -64,7 +68,15 @@ class CustomerController extends Controller
         $active = $request->query('active');
         $limit = $request->query('limit', 10);
 
-        $customers = Customer::select('id', 'email', 'active')
+        $customers = Customer::select(
+            'id',
+            'name',
+            'lastname',
+            'cellphone',
+            'disctric',
+            'email',
+            'active'
+        )
             ->when(
                 $nameCustomer,
                 fn($query) =>
@@ -111,6 +123,10 @@ class CustomerController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="data", type="object",
      *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="lastname", type="string"),
+     *                 @OA\Property(property="cellphone", type="string"),
+     *                 @OA\Property(property="disctric", type="string"),
      *                 @OA\Property(property="email", type="string"),
      *                 @OA\Property(property="active", type="boolean")
      *             )
@@ -125,7 +141,16 @@ class CustomerController extends Controller
      */
     public function getCustomer(int $id): JsonResponse
     {
-        $customer = Customer::find($id);
+        $customer = Customer::select(
+            'id',
+            'name',
+            'lastname',
+            'cellphone',
+            'disctric',
+            'email',
+            'active'
+        )
+            ->find($id);
         if (!$customer) {
             throw new NotFoundCustomer;
         }
@@ -144,6 +169,10 @@ class CustomerController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             required={"email", "active"},
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="lastname", type="string"),
+     *             @OA\Property(property="cellphone", type="string"),
+     *             @OA\Property(property="disctric", type="string"),
      *             @OA\Property(property="email", type="string", format="email", example="cliente@example.com"),
      *             @OA\Property(property="active", type="boolean", example=true)
      *         )
@@ -156,6 +185,10 @@ class CustomerController extends Controller
      *             @OA\Property(property="message", type="string", example="Customer created successfully"),
      *             @OA\Property(property="data", type="object",
      *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="lastname", type="string"),
+     *                 @OA\Property(property="cellphone", type="string"),
+     *                 @OA\Property(property="disctric", type="string"),
      *                 @OA\Property(property="email", type="string", format="email", example="cliente@example.com"),
      *                 @OA\Property(property="active", type="boolean", example=true),
      *                 @OA\Property(property="created_at", type="string", format="date-time"),
@@ -173,8 +206,11 @@ class CustomerController extends Controller
     public function storeCustomer(Request $request): JsonResponse
     {
         $validated = $request->validate([
+            'name' => 'required|string',
+            'lastname' => 'required|string',
+            'cellphone' => 'required|string|max:9',
+            'disctric' => 'required|string|max:50',
             'email'  => 'required|email|unique:customers,email',
-            'active' => 'required|boolean'
         ]);
 
         $customer = Customer::create($validated);
@@ -205,6 +241,10 @@ class CustomerController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             required={"email", "active"},
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="lastname", type="string"),
+     *             @OA\Property(property="cellphone", type="string"),
+     *             @OA\Property(property="disctric", type="string"),
      *             @OA\Property(property="email", type="string", format="email", example="cliente@nuevo.com"),
      *             @OA\Property(property="active", type="boolean", example=false)
      *         )
@@ -217,6 +257,10 @@ class CustomerController extends Controller
      *             @OA\Property(property="message", type="string", example="Customer updated successfully"),
      *             @OA\Property(property="data", type="object",
      *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="lastname", type="string"),
+     *                 @OA\Property(property="cellphone", type="string"),
+     *                 @OA\Property(property="disctric", type="string"),
      *                 @OA\Property(property="email", type="string", example="cliente@nuevo.com"),
      *                 @OA\Property(property="active", type="boolean", example=false),
      *                 @OA\Property(property="created_at", type="string", format="date-time"),
@@ -245,6 +289,10 @@ class CustomerController extends Controller
         }
 
         $validated = $request->validate([
+            'name' => 'required|string',
+            'lastname' => 'required|string',
+            'cellphone' => 'required|string|max:9',
+            'disctric' => 'required|string|max:50',
             'email'  => 'required|email|unique:customers,email,' . $id,
             'active' => 'required|boolean'
         ]);
