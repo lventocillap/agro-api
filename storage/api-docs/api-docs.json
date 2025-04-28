@@ -2449,6 +2449,16 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "discount",
+                        "in": "query",
+                        "description": "Filtrar si tiene promociones.",
+                        "required": false,
+                        "schema": {
+                            "type": "bool",
+                            "default": true
+                        }
                     }
                 ],
                 "responses": {

@@ -295,6 +295,13 @@ class ProductController extends Controller
      *         description="Filtrar productos por categoria.",
      *         @OA\Schema(type="string")
      *     ),
+     *     @OA\Parameter(
+     *         name="discount",
+     *         in="query",
+     *         required=false,
+     *         description="Filtrar si tiene promociones.",
+     *         @OA\Schema(type="bool", default=true)
+     *     ),
      *      @OA\Response(
      *         response=200,
      *         description="Lista de productos paginada.",
@@ -335,7 +342,7 @@ class ProductController extends Controller
         $subcategory = $request->query('subcategory');
         $category = $request->query('category');
         $limit = $request->query('limit');
-
+        $discount = $request->query('discount');
         $user = auth('api')->user();
         $products = Product::select('id', 'name', 'price', 'stock', 'status', 'discount', 'created_at')
             ->with([
@@ -357,6 +364,9 @@ class ProductController extends Controller
             })
             ->when(is_null($user), function ($query) {
                 $query->where('status', true);
+            })
+            ->when($discount, function ($query) {
+                $query->where('discount', '>', 0);
             })
             ->orderByDesc('id')
             ->paginate($limit);
@@ -381,7 +391,7 @@ class ProductController extends Controller
                     'name' => $sub->name,
                 ];
             }
-            
+
             $product->setAttribute('created', $product->created_at->format('Y-m-d H:i:s'));
 
             // Agregamos la propiedad virtual 'categories'
