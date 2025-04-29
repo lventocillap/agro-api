@@ -1654,6 +1654,9 @@
                                                     },
                                                     "active": {
                                                         "type": "boolean"
+                                                    },
+                                                    "message": {
+                                                        "type": "string"
                                                     }
                                                 },
                                                 "type": "object"
@@ -1721,6 +1724,10 @@
                                     "active": {
                                         "type": "boolean",
                                         "example": true
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Mensaje de prueba"
                                     }
                                 },
                                 "type": "object"
@@ -1765,6 +1772,10 @@
                                                 "active": {
                                                     "type": "boolean",
                                                     "example": true
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Mensaje de prueba"
                                                 },
                                                 "created_at": {
                                                     "type": "string",
@@ -1838,6 +1849,9 @@
                                                 },
                                                 "active": {
                                                     "type": "boolean"
+                                                },
+                                                "message": {
+                                                    "type": "string"
                                                 }
                                             },
                                             "type": "object"
@@ -1902,6 +1916,10 @@
                                     "active": {
                                         "type": "boolean",
                                         "example": false
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Mensaje de prueba"
                                     }
                                 },
                                 "type": "object"
@@ -1945,6 +1963,10 @@
                                                 "active": {
                                                     "type": "boolean",
                                                     "example": false
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Mensaje de prueba"
                                                 },
                                                 "created_at": {
                                                     "type": "string",

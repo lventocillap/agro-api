@@ -51,7 +51,8 @@ class CustomerController extends Controller
      *                 @OA\Property(property="cellphone", type="string"),
      *                 @OA\Property(property="disctric", type="string"),
      *                 @OA\Property(property="email", type="string"),
-     *                 @OA\Property(property="active", type="boolean")
+     *                 @OA\Property(property="active", type="boolean"),
+     *                 @OA\Property(property="message", type="string")
      *             )),
      *             @OA\Property(property="current_page", type="integer"),
      *             @OA\Property(property="total", type="integer"),
@@ -75,7 +76,8 @@ class CustomerController extends Controller
             'cellphone',
             'disctric',
             'email',
-            'active'
+            'active',
+            'message'
         )
             ->when(
                 $nameCustomer,
@@ -128,7 +130,8 @@ class CustomerController extends Controller
      *                 @OA\Property(property="cellphone", type="string"),
      *                 @OA\Property(property="disctric", type="string"),
      *                 @OA\Property(property="email", type="string"),
-     *                 @OA\Property(property="active", type="boolean")
+     *                 @OA\Property(property="active", type="boolean"),
+     *                 @OA\Property(property="message", type="string")
      *             )
      *         )
      *     ),
@@ -148,7 +151,8 @@ class CustomerController extends Controller
             'cellphone',
             'disctric',
             'email',
-            'active'
+            'active',
+            'message'
         )
             ->find($id);
         if (!$customer) {
@@ -174,7 +178,8 @@ class CustomerController extends Controller
      *             @OA\Property(property="cellphone", type="string"),
      *             @OA\Property(property="disctric", type="string"),
      *             @OA\Property(property="email", type="string", format="email", example="cliente@example.com"),
-     *             @OA\Property(property="active", type="boolean", example=true)
+     *             @OA\Property(property="active", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Mensaje de prueba")
      *         )
      *     ),
      *
@@ -191,6 +196,7 @@ class CustomerController extends Controller
      *                 @OA\Property(property="disctric", type="string"),
      *                 @OA\Property(property="email", type="string", format="email", example="cliente@example.com"),
      *                 @OA\Property(property="active", type="boolean", example=true),
+     *                 @OA\Property(property="message", type="string", example="Mensaje de prueba"),
      *                 @OA\Property(property="created_at", type="string", format="date-time"),
      *                 @OA\Property(property="updated_at", type="string", format="date-time")
      *             )
@@ -248,7 +254,8 @@ class CustomerController extends Controller
      *             @OA\Property(property="cellphone", type="string"),
      *             @OA\Property(property="disctric", type="string"),
      *             @OA\Property(property="email", type="string", format="email", example="cliente@nuevo.com"),
-     *             @OA\Property(property="active", type="boolean", example=false)
+     *             @OA\Property(property="active", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Mensaje de prueba"),
      *         )
      *     ),
      *
@@ -265,6 +272,7 @@ class CustomerController extends Controller
      *                 @OA\Property(property="disctric", type="string"),
      *                 @OA\Property(property="email", type="string", example="cliente@nuevo.com"),
      *                 @OA\Property(property="active", type="boolean", example=false),
+     *                 @OA\Property(property="message", type="string", example="Mensaje de prueba"),
      *                 @OA\Property(property="created_at", type="string", format="date-time"),
      *                 @OA\Property(property="updated_at", type="string", format="date-time")
      *             )
