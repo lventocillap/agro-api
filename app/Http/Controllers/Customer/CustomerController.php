@@ -211,7 +211,8 @@ class CustomerController extends Controller
             'cellphone' => 'required|string|max:9',
             'disctric' => 'required|string|max:50',
             'email'  => 'required|email|unique:customers,email',
-            'active' => 'required|boolean'
+            'active' => 'required|boolean',
+            'message' => 'required|string'
         ]);
 
         $customer = Customer::create($validated);
@@ -295,7 +296,8 @@ class CustomerController extends Controller
             'cellphone' => 'required|string|max:9',
             'disctric' => 'required|string|max:50',
             'email'  => 'required|email|unique:customers,email,' . $id,
-            'active' => 'required|boolean'
+            'active' => 'required|boolean',
+            'message' => 'required|string'
         ]);
 
         $customer->update($validated);

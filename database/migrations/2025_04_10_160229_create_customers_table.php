@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('disctric');
             $table->string("email",320)->nullable(false);
             $table->boolean("active")->default(true);
+            $table->string('message');
             $table->timestamps();
         });
     }

@@ -16,6 +16,7 @@ class Customer extends Model
         'disctric',
         'email', 
         'active',
+        'message'
     ];
     protected $hidden = [
         'created_at',
