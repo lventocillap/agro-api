@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Exceptions\Image\NotFoundImage;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -16,6 +17,7 @@ use App\Exceptions\Product\ProductExists;
 use App\Exceptions\Product\NotFoundProduct;
 use App\Http\utils\Product\FindProductExists;
 use App\Http\Requests\Product\ValidateProductRequest;
+use App\Models\Image;
 
 class ProductController extends Controller
 {
@@ -497,5 +499,122 @@ class ProductController extends Controller
                 return $item;
             });
         return new JsonResponse(['data' => $product]);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/products/{productId}/image",
+     *     summary="Subir imagen de un producto en Base64",
+     *     description="Guarda una imagen codificada en Base64 para un producto específico.",
+     *     operationId="storeImageProduct",
+     *     tags={"Products"},
+     *     @OA\Parameter(
+     *         name="productId",
+     *         in="path",
+     *         description="ID del producto",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Imagen codificada en Base64",
+     *         @OA\JsonContent(
+     *             required={"image"},
+     *             @OA\Property(
+     *                 property="image",
+     *                 type="string",
+     *                 format="byte",
+     *                 example="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Imagen guardada correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Tomate"),
+     *                 @OA\Property(property="description", type="string", example="Producto agrícola fresco"),
+     *                 @OA\Property(property="price", type="number", format="float", example=3.50),
+     *                 @OA\Property(
+     *                     property="image",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         @OA\Property(property="id", type="integer", example=10),
+     *                         @OA\Property(property="url", type="string", example="/uploads/products/tomate.jpg")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Producto no encontrado"
+     *     )
+     * )
+     */
+
+    public function storeImageProdcut(Request $request, int $productId): JsonResponse
+    {
+        $product = Product::find($productId);
+        if (!$product) {
+            throw new NotFoundProduct;
+        }
+        $image = $this->saveImage($request->image, 'products');
+        $product->image()->create([
+            'url' => $image
+        ]);
+        return new JsonResponse([
+            'data' => $product->load('image')
+        ]);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/products/image/{imageId}",
+     *     summary="Eliminar imagen de un producto",
+     *     description="Elimina una imagen del producto por su ID y borra el archivo del servidor.",
+     *     operationId="deleteImageProduct",
+     *     tags={"Products"},
+     *     @OA\Parameter(
+     *         name="imageId",
+     *         in="path",
+     *         description="ID de la imagen a eliminar",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Imagen eliminada correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="string",
+     *                 example="Se elimino la imagen"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Imagen no encontrada"
+     *     )
+     * )
+     */
+
+    public function deleteImageProduct(int $imageId): JsonResponse
+    {
+        $image = Image::find($imageId);
+        if (!$image) {
+            throw new NotFoundImage;
+        }
+        $this->deleteImage($image->url);
+        $image->delete();
+        return new JsonResponse([
+            'data' => 'Se elimino la imagen'
+        ]);
     }
 }

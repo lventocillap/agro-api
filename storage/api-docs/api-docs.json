@@ -3182,6 +3182,145 @@
                 }
             }
         },
+        "/products/{productId}/image": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Subir imagen de un producto en Base64",
+                "description": "Guarda una imagen codificada en Base64 para un producto específico.",
+                "operationId": "storeImageProduct",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "ID del producto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Imagen codificada en Base64",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "image"
+                                ],
+                                "properties": {
+                                    "image": {
+                                        "type": "string",
+                                        "format": "byte",
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Imagen guardada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Tomate"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Producto agrícola fresco"
+                                                },
+                                                "price": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 3.5
+                                                },
+                                                "image": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 10
+                                                            },
+                                                            "url": {
+                                                                "type": "string",
+                                                                "example": "/uploads/products/tomate.jpg"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    }
+                }
+            }
+        },
+        "/products/image/{imageId}": {
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Eliminar imagen de un producto",
+                "description": "Elimina una imagen del producto por su ID y borra el archivo del servidor.",
+                "operationId": "deleteImageProduct",
+                "parameters": [
+                    {
+                        "name": "imageId",
+                        "in": "path",
+                        "description": "ID de la imagen a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Imagen eliminada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Se elimino la imagen"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Imagen no encontrada"
+                    }
+                }
+            }
+        },
         "/api/promotions": {
             "get": {
                 "tags": [

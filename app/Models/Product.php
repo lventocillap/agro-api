@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Product extends Model
@@ -30,9 +31,9 @@ class Product extends Model
         return $this->belongsTo(Pdf::class, 'pdf_id');
     }
 
-    public function image(): MorphOne
+    public function image(): MorphMany
     {
-        return $this->morphOne(Image::class, 'imageble');
+        return $this->morphMany(Image::class, 'imageble');
     }
 
     public function subCategories(): BelongsToMany

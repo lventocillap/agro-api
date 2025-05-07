@@ -113,6 +113,8 @@ Route::middleware(IsUserAuth::class)->group(function () {
             Route::put('products/{nameProduct}', [ProductController::class, 'updateProduct']); // Actualizar producto
             Route::delete('products/{nameProduct}', [ProductController::class, 'deleteProduct']); // Eliminar producto
             Route::put('products/{nameProduct}/pdf', [PdfController::class, 'pdfUpdateProduct']); //Guarda pdf en el producto
+            Route::post('products/{productId}/image', [ProductController::class, 'storeImageProdcut']);
+            Route::delete('products/image/{imageId}', [ProductController::class, 'deleteImageProduct']);
         
             //Service
             Route::post('/services', [ServiceController::class, 'createService']);
