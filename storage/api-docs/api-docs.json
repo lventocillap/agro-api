@@ -2550,7 +2550,7 @@
                         "description": "Filtrar si tiene promociones.",
                         "required": false,
                         "schema": {
-                            "type": "bool",
+                            "type": "boolean",
                             "default": true
                         }
                     }
@@ -2593,7 +2593,7 @@
                                                     },
                                                     "created": {
                                                         "type": "string",
-                                                        "format": "date",
+                                                        "format": "date-time",
                                                         "example": "2025-04-24 12:42:31"
                                                     },
                                                     "categories": {
@@ -2628,18 +2628,21 @@
                                                             "type": "object"
                                                         }
                                                     },
-                                                    "image": {
-                                                        "properties": {
-                                                            "id": {
-                                                                "type": "integer",
-                                                                "example": 1
+                                                    "images": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "url": {
+                                                                    "type": "string",
+                                                                    "example": "https://example.com/image.jpg"
+                                                                }
                                                             },
-                                                            "url": {
-                                                                "type": "string",
-                                                                "example": "https://example.com/image.jpg"
-                                                            }
-                                                        },
-                                                        "type": "object"
+                                                            "type": "object"
+                                                        }
                                                     }
                                                 },
                                                 "type": "object"
@@ -2890,7 +2893,7 @@
                                                     },
                                                     "created": {
                                                         "type": "string",
-                                                        "format": "date",
+                                                        "format": "date-time",
                                                         "example": "2025-04-24 12:42:31"
                                                     },
                                                     "categories": {
@@ -2938,18 +2941,21 @@
                                                         },
                                                         "type": "object"
                                                     },
-                                                    "image": {
-                                                        "properties": {
-                                                            "id": {
-                                                                "type": "integer",
-                                                                "example": 2
+                                                    "images": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 2
+                                                                },
+                                                                "url": {
+                                                                    "type": "string",
+                                                                    "example": "http://127.0.0.1:8000/storage/products/fc0722ef-9a9a-40b1-b286-d5006145144e.png"
+                                                                }
                                                             },
-                                                            "url": {
-                                                                "type": "string",
-                                                                "example": "http://127.0.0.1:8000/storage/products/fc0722ef-9a9a-40b1-b286-d5006145144e.png"
-                                                            }
-                                                        },
-                                                        "type": "object"
+                                                            "type": "object"
+                                                        }
                                                     }
                                                 },
                                                 "type": "object"

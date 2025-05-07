@@ -302,9 +302,9 @@ class ProductController extends Controller
      *         in="query",
      *         required=false,
      *         description="Filtrar si tiene promociones.",
-     *         @OA\Schema(type="bool", default=true)
+     *         @OA\Schema(type="boolean", default=true)
      *     ),
-     *      @OA\Response(
+     *     @OA\Response(
      *         response=200,
      *         description="Lista de productos paginada.",
      *         @OA\JsonContent(
@@ -315,7 +315,7 @@ class ProductController extends Controller
      *                 @OA\Property(property="stock", type="integer", example=10),
      *                 @OA\Property(property="discount", type="integer", example=50),
      *                 @OA\Property(property="status", type="boolean", example=true),
-     *                 @OA\Property(property="created", type="date", example="2025-04-24 12:42:31"),
+     *                 @OA\Property(property="created", type="string", format="date-time", example="2025-04-24 12:42:31"),
      *                 @OA\Property(property="categories", type="array", @OA\Items(
      *                     @OA\Property(property="id", type="integer", example=1),
      *                     @OA\Property(property="name", type="string", example="Alimentos"),
@@ -324,10 +324,10 @@ class ProductController extends Controller
      *                         @OA\Property(property="name", type="string", example="Verduras")
      *                     ))
      *                 )),
-     *                 @OA\Property(property="image", type="object",
+     *                 @OA\Property(property="images", type="array", @OA\Items(
      *                     @OA\Property(property="id", type="integer", example=1),
      *                     @OA\Property(property="url", type="string", example="https://example.com/image.jpg")
-     *                 )
+     *                 ))
      *             )),
      *             @OA\Property(property="current_page", type="integer", example=1),
      *             @OA\Property(property="total", type="integer", example=100),
@@ -439,7 +439,7 @@ class ProductController extends Controller
      *                 @OA\Property(property="price", type="integer", example=10),
      *                 @OA\Property(property="discount", type="integer", example=50),
      *                 @OA\Property(property="status", type="integer", example=1),
-     *                 @OA\Property(property="created", type="date", example="2025-04-24 12:42:31"),
+     *                 @OA\Property(property="created", type="string", format="date-time", example="2025-04-24 12:42:31"),
      *                 @OA\Property(property="categories", type="array", @OA\Items(
      *                     @OA\Property(property="id", type="integer", example=1),
      *                     @OA\Property(property="name", type="string", example="Especialidades"),
@@ -452,10 +452,10 @@ class ProductController extends Controller
      *                     @OA\Property(property="id", type="integer", example=2),
      *                     @OA\Property(property="url", type="string", example="http://127.0.0.1:8000/storage/products/fc0722ef-9a9a-40b1-b286-d5006145144e.pdf")
      *                 ),
-     *                 @OA\Property(property="image", type="object",
+     *                 @OA\Property(property="images", type="array", @OA\Items(
      *                     @OA\Property(property="id", type="integer", example=2),
      *                     @OA\Property(property="url", type="string", example="http://127.0.0.1:8000/storage/products/fc0722ef-9a9a-40b1-b286-d5006145144e.png")
-     *                 )
+     *                 ))
      *             ))
      *         )
      *     ),
