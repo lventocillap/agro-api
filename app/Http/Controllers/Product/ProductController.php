@@ -148,7 +148,6 @@ class ProductController extends Controller
      *             @OA\Property(property="stock", type="integer", example=100),
      *             @OA\Property(property="discount", type="integer", example=50),
      *             @OA\Property(property="subcategory_id", type="array", @OA\Items(type="integer"), example={1,2}),
-     *             @OA\Property(property="image", type="string", format="binary", description="Imagen en formato base64")
      *         )
      *     ),
      *     @OA\Response(
@@ -209,12 +208,12 @@ class ProductController extends Controller
             'status' => $status,
             'discount' => $request->discount
         ]);
-        $image = $this->saveImage($request->image, 'products');
-        $this->deleteImage($product->image->url);
+        // $image = $this->saveImage($request->image, 'products');
+        // $this->deleteImage($product->image->url);
         $product->subCategories()->sync($request->subcategory_id);
-        $product->image()->update([
-            'url' => $image
-        ]);
+        // $product->image()->update([
+        //     'url' => $image
+        // ]);
         return new JsonResponse(['data' => 'Registro actualizado']);
     }
 

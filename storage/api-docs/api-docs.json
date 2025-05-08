@@ -3060,11 +3060,6 @@
                                             1,
                                             2
                                         ]
-                                    },
-                                    "image": {
-                                        "description": "Imagen en formato base64",
-                                        "type": "string",
-                                        "format": "binary"
                                     }
                                 },
                                 "type": "object"
