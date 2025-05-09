@@ -20,7 +20,7 @@ trait ValidateProductRequest
             'delete_images' => 'sometimes|array',
             'delete_images.*' => 'integer',
             'images'      => 'sometimes|array',
-            'images.*'    => 'image|mimes:jpg,jpeg,png,gif|max:2048',
+            'images.*'    => 'image|mimes:jpg,jpeg,png,gif,webp|max:5048',
             'discount' => 'integer|nullable'
         ],);
     }
