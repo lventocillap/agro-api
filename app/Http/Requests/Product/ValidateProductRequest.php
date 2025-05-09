@@ -12,14 +12,15 @@ trait ValidateProductRequest
     {
         $request->validate([
             'name' => 'required|string|unique:products,name|max:256',
-            'characteristics' => 'required|string|max:10000',
             'benefits' => 'required|array',
             'compatibility' => 'required|string|max:10000',
             'price' => 'required|numeric|min:1|max:999999.99',
             'stock' => 'required|integer|min:0|max:10000',
-            'subcategory_id' => 'required|array',
-            'subcategory_id.*' => 'integer|exists:subcategories,id',
-            'image' => 'string|nullable',
+            'subcategory_id' => 'integer|required',
+            'delete_images' => 'sometimes|array',
+            'delete_images.*' => 'integer',
+            'images'      => 'sometimes|array',
+            'images.*'    => 'image|mimes:jpg,jpeg,png,gif|max:2048',
             'discount' => 'integer|nullable'
         ],);
     }

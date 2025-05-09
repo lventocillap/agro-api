@@ -18,6 +18,7 @@ use App\Exceptions\Product\NotFoundProduct;
 use App\Http\utils\Product\FindProductExists;
 use App\Http\Requests\Product\ValidateProductRequest;
 use App\Models\Image;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -112,10 +113,20 @@ class ProductController extends Controller
             $product = Product::find($productId);
             $product->subCategories()->attach($request->subcategory_id);
 
-            $image = $this->saveImageBase64($request->image, 'products');
-            $product->image()->create([
-                'url' => $image
-            ]);
+            // $image = $this->saveImageBase64($request->image, 'products');
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $path = $image->store('products', 'public');
+                    
+                    $product->image()->create([
+                        'url' => Storage::url($path)
+                    ]);
+                }
+            }
+
+            // $product->image()->create([
+            //     'url' => $image
+            // ]);
         });
         return new JsonResponse(['data' => 'Producto registrado']);
     }
@@ -208,12 +219,31 @@ class ProductController extends Controller
             'status' => $status,
             'discount' => $request->discount
         ]);
-        // $image = $this->saveImage($request->image, 'products');
-        // $this->deleteImage($product->image->url);
+
+        if ($request->filled('delete_images')) {
+            $idsToDelete = $request-> delete_images;
+            $product->image()
+                 ->whereIn('id', $idsToDelete)
+                 ->get()
+                 ->each(function($img){
+                     $this->deleteImageForUrl($img -> url);
+                     $img->delete();
+                 });
+        }
+
+        if ($request->hasFile('images')) {
+            // $product->image()->delete();
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('products', 'public');
+                
+                $product->image()->create([
+                    'url' => Storage::url($path)
+                ]);
+            }
+        }
+        
         $product->subCategories()->sync($request->subcategory_id);
-        // $product->image()->update([
-        //     'url' => $image
-        // ]);
+
         return new JsonResponse(['data' => 'Registro actualizado']);
     }
 
@@ -247,16 +277,26 @@ class ProductController extends Controller
      */
     public function deleteProduct(string $nameProduct): JsonResponse
     {
-        $product = Product::where('name', $nameProduct)->first();
-        if (!$product) {
-            throw new NotFoundProduct;
+        $product = Product::with('image')
+                      ->where('name', $nameProduct)
+                      ->firstOrFail();
+
+        // Borrar imágenes en disco y BD
+        foreach ($product->image as $img) {
+            $this->deleteImageForUrl($img->url);
+            $img->delete();
         }
-        $this->deleteImage($product->image->url);
-        $this->deletePDF($product->pdf->url);
+        // Borrar producto
         $product->delete();
-        $product->image()->delete();
-        $product->pdf()->delete();
-        return new JsonResponse(['data' => 'Producto eliminado']);
+
+        // Borrar PDF
+        if ($product->pdf) {
+            $this->deletePDF($product->pdf->url);
+            $product->pdf()->delete();
+        }
+
+
+        return response()->json(['data' => 'Producto eliminado']);
     }
 
     /**
