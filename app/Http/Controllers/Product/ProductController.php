@@ -119,7 +119,7 @@ class ProductController extends Controller
                     $path = $image->store('products', 'public');
                     
                     $product->image()->create([
-                        'url' => asset(Storage::url($path))
+                        'url' => Storage::disk('public')->url($path)
                     ]);
                 }
             }
