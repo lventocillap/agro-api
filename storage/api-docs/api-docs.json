@@ -2749,6 +2749,10 @@
                                         "description": "Imagen en formato base64",
                                         "type": "string",
                                         "format": "binary"
+                                    },
+                                    "use_case": {
+                                        "type": "string",
+                                        "example": "Caso de Uso"
                                     }
                                 },
                                 "type": "object"
@@ -3057,6 +3061,10 @@
                                             1,
                                             2
                                         ]
+                                    },
+                                    "use_case": {
+                                        "type": "string",
+                                        "example": "Caso de Uso"
                                     }
                                 },
                                 "type": "object"

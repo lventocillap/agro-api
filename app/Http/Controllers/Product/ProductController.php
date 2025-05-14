@@ -52,7 +52,8 @@ class ProductController extends Controller
      *             @OA\Property(property="stock", type="integer", example=100),
      *             @OA\Property(property="discount", type="integer", example=50),
      *             @OA\Property(property="subcategory_id", type="array", @OA\Items(type="integer"), example={1,2}),
-     *             @OA\Property(property="image", type="string", format="binary", description="Imagen en formato base64")
+     *             @OA\Property(property="image", type="string", format="binary", description="Imagen en formato base64"),
+     *             @OA\Property(property="use_case", type="string", example="Caso de Uso")
      *         )
      *     ),
      *     @OA\Response(
@@ -107,7 +108,8 @@ class ProductController extends Controller
                 'price' => $request->price,
                 'stock' => $request->stock,
                 'pdf_id' => $pdfId,
-                'discount' => $request->discount
+                'discount' => $request->discount,
+                'use_case' => $request->use_case
             ])->id;
 
             $product = Product::find($productId);
@@ -159,6 +161,7 @@ class ProductController extends Controller
      *             @OA\Property(property="stock", type="integer", example=100),
      *             @OA\Property(property="discount", type="integer", example=50),
      *             @OA\Property(property="subcategory_id", type="array", @OA\Items(type="integer"), example={1,2}),
+     *             @OA\Property(property="use_case", type="string", example="Caso de Uso"),
      *         )
      *     ),
      *     @OA\Response(
@@ -217,7 +220,8 @@ class ProductController extends Controller
             'price' => $request->price,
             'stock' => $request->stock,
             'status' => $status,
-            'discount' => $request->discount
+            'discount' => $request->discount,
+            'use_case' => $request->use_case
         ]);
 
         if ($request->filled('delete_images')) {
@@ -385,7 +389,7 @@ class ProductController extends Controller
         $limit = $request->query('limit');
         $discount = $request->query('discount');
         $user = auth('api')->user();
-        $products = Product::select('id', 'name', 'price', 'stock', 'status', 'discount', 'created_at')
+        $products = Product::select('id', 'name', 'price', 'stock', 'status', 'use_case','discount', 'created_at')
             ->with([
                 'subCategories.category:id,name',
                 'image:id,imageble_id,url',

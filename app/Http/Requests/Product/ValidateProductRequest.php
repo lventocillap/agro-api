@@ -21,7 +21,8 @@ trait ValidateProductRequest
             'delete_images.*' => 'integer',
             'images'      => 'sometimes|array',
             'images.*'    => 'image|mimes:jpg,jpeg,png,gif,webp|max:5048',
-            'discount' => 'integer|nullable'
+            'discount' => 'integer|nullable',
+            'use_case' => 'string|nullable'
         ],);
     }
 }
