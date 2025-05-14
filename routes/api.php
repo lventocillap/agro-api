@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\Question\QuestionController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Controllers\AuthUsers\AuthController;
 use App\Http\Middleware\IsUserAuth;
@@ -70,6 +71,10 @@ Route::post('customers', [CustomerController::class, 'storeCustomer']);
 //Promotion
 Route::get('promotions', [PromotionController::class, 'getAllPromotions']);
 Route::get('promotions/{promotionId}', [PromotionController::class, 'getPromotion']);
+
+Route::get('/questions', [QuestionController::class, 'getAll']);
+Route::get('/questions/{id}', [QuestionController::class, 'getById']);
+
 //Private Routes
 Route::middleware(IsUserAuth::class)->group(function () {
     Route::controller(AuthController::class)->group(function () {
@@ -140,6 +145,11 @@ Route::middleware(IsUserAuth::class)->group(function () {
             Route::post('promotions', [PromotionController::class, 'storePromotion']);
             Route::put('promotions/{promotionId}', [PromotionController::class, 'updatePromotion']);
             Route::delete('promotions/{promotionId}', [PromotionController::class, 'deletePromotion']);
+
+            //Question
+            Route::post('/questions', [QuestionController::class, 'store']);
+            Route::put('/questions/{id}', [QuestionController::class, 'update']);
+            Route::delete('/questions/{id}', [QuestionController::class, 'delete']);
         });
     });
 });

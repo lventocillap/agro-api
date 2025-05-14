@@ -12,144 +12,9 @@
         {
             "url": "http://localhost:8000/",
             "description": "API Server"
-        },
-        {
-            "url": "/api"
         }
     ],
     "paths": {
-        "/api/about-us-home": {
-            "get": {
-                "tags": [
-                    "AboutUsHome"
-                ],
-                "summary": "Obtener datos de About Us Home",
-                "operationId": "2b478e6543375386fa586110bd60851d",
-                "responses": {
-                    "200": {
-                        "description": "Datos obtenidos correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/about-us-home/{idAboutUsHome}": {
-            "put": {
-                "tags": [
-                    "AboutUsHome"
-                ],
-                "summary": "Actualizar los datos de About Us Home",
-                "operationId": "8381da444bf84f352799587cd1e7b1c4",
-                "parameters": [
-                    {
-                        "name": "idAboutUsHome",
-                        "in": "path",
-                        "description": "ID de About Us Home",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "text_section_one",
-                                    "text_section_two"
-                                ],
-                                "properties": {
-                                    "text_section_one": {
-                                        "type": "string",
-                                        "example": "Nuestra misión es..."
-                                    },
-                                    "text_section_two": {
-                                        "type": "string",
-                                        "example": "Nuestro compromiso es..."
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Información actualizada correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Información actualizada correctamente"
-                                        },
-                                        "data": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "No se enviaron datos válidos para actualizar"
-                    },
-                    "422": {
-                        "description": "Error de validación"
-                    }
-                }
-            }
-        },
-        "/api/about-us-home/image": {
-            "post": {
-                "tags": [
-                    "AboutUsHome"
-                ],
-                "summary": "Actualizar la imagen de About Us Home",
-                "operationId": "31af6878edebf1e1e41ce0e794ebea46",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "image"
-                                ],
-                                "properties": {
-                                    "image": {
-                                        "type": "string",
-                                        "format": "base64",
-                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANS..."
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Imagen actualizada con éxito",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Error al actualizar la imagen"
-                    }
-                }
-            }
-        },
         "/api/about-us": {
             "get": {
                 "tags": [
@@ -398,6 +263,138 @@
                     },
                     "422": {
                         "description": "El valor no existe en la lista"
+                    }
+                }
+            }
+        },
+        "/api/about-us-home": {
+            "get": {
+                "tags": [
+                    "AboutUsHome"
+                ],
+                "summary": "Obtener datos de About Us Home",
+                "operationId": "2b478e6543375386fa586110bd60851d",
+                "responses": {
+                    "200": {
+                        "description": "Datos obtenidos correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/about-us-home/{idAboutUsHome}": {
+            "put": {
+                "tags": [
+                    "AboutUsHome"
+                ],
+                "summary": "Actualizar los datos de About Us Home",
+                "operationId": "8381da444bf84f352799587cd1e7b1c4",
+                "parameters": [
+                    {
+                        "name": "idAboutUsHome",
+                        "in": "path",
+                        "description": "ID de About Us Home",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "text_section_one",
+                                    "text_section_two"
+                                ],
+                                "properties": {
+                                    "text_section_one": {
+                                        "type": "string",
+                                        "example": "Nuestra misión es..."
+                                    },
+                                    "text_section_two": {
+                                        "type": "string",
+                                        "example": "Nuestro compromiso es..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Información actualizada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Información actualizada correctamente"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No se enviaron datos válidos para actualizar"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/api/about-us-home/image": {
+            "post": {
+                "tags": [
+                    "AboutUsHome"
+                ],
+                "summary": "Actualizar la imagen de About Us Home",
+                "operationId": "31af6878edebf1e1e41ce0e794ebea46",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "image"
+                                ],
+                                "properties": {
+                                    "image": {
+                                        "type": "string",
+                                        "format": "base64",
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANS..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Imagen actualizada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al actualizar la imagen"
                     }
                 }
             }
@@ -3742,6 +3739,200 @@
                 }
             }
         },
+        "/api/questions": {
+            "get": {
+                "tags": [
+                    "Questions"
+                ],
+                "summary": "Obtener las Questions",
+                "operationId": "db31621170c1dbe374e193cdb6dafead",
+                "responses": {
+                    "200": {
+                        "description": "Questions obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Question not exists"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Questions"
+                ],
+                "summary": "Crear una nueva pregunta",
+                "operationId": "d8ccad4f22f52ed9858bc3e3e8a54151",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "question",
+                                    "answer"
+                                ],
+                                "properties": {
+                                    "question": {
+                                        "type": "string"
+                                    },
+                                    "answer": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pregunta creada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/questions/{id}": {
+            "get": {
+                "tags": [
+                    "Questions"
+                ],
+                "summary": "Obtener una pregunta por ID",
+                "operationId": "ea23ed0239ec599a45e6fd02f5e08a49",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la pregunta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pregunta encontrada"
+                    },
+                    "404": {
+                        "description": "Pregunta no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Questions"
+                ],
+                "summary": "Actualizar una pregunta existente",
+                "operationId": "79e7bb9fd3d590280642b00b67b98174",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la pregunta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "question",
+                                    "answer"
+                                ],
+                                "properties": {
+                                    "question": {
+                                        "type": "string"
+                                    },
+                                    "answer": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pregunta actualizada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pregunta no encontrada"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Questions"
+                ],
+                "summary": "Eliminar una pregunta",
+                "operationId": "f3857eb887f7851e889aabdd100c6de2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la pregunta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pregunta eliminada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pregunta no encontrada"
+                    }
+                }
+            }
+        },
         "/api/services": {
             "get": {
                 "tags": [
@@ -4889,12 +5080,12 @@
     },
     "tags": [
         {
-            "name": "AboutUsHome",
-            "description": "Endpoints para gestionar la sección About Us en la página de inicio"
-        },
-        {
             "name": "AboutUs",
             "description": "Endpoints para gestionar la información de About Us"
+        },
+        {
+            "name": "AboutUsHome",
+            "description": "Endpoints para gestionar la sección About Us en la página de inicio"
         },
         {
             "name": "Authentication",
@@ -4931,6 +5122,10 @@
         {
             "name": "Promotions",
             "description": "Promotions"
+        },
+        {
+            "name": "Questions",
+            "description": "Questions"
         },
         {
             "name": "Services",
