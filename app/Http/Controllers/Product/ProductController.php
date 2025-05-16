@@ -524,6 +524,7 @@ class ProductController extends Controller
             'status',
             'discount',
             'pdf_id',
+            'use_case',
             'created_at',
         )
             ->with([
